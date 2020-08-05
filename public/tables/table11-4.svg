@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="335.797" height="311.797" viewBox="0 0 335.797 311.797">
+  <g id="Group_102" data-name="Group 102" transform="translate(-224.105 -1510.891)">
+    <g id="Group_99" data-name="Group 99" transform="translate(92)">
+      <circle id="Ellipse_4" data-name="Ellipse 4" cx="59" cy="59" r="59" transform="translate(240 1609)" fill="#7a7a7a"/>
+      <g id="Group_96" data-name="Group 96" transform="translate(47.367 1462.96)">
+        <g id="Group_80" data-name="Group 80" transform="matrix(0.809, 0.588, -0.588, 0.809, 236.062, 0)">
+          <path id="Path_46" data-name="Path 46" d="M0,0H54.1V51.8a10,10,0,0,1-10,10H10a10,10,0,0,1-10-10Z" transform="matrix(0.809, -0.588, 0.588, 0.809, 30.928, 61.496)" fill="#d7dbe2"/>
+          <g id="Group_57" data-name="Group 57" transform="matrix(0.809, -0.588, 0.588, 0.809, 0, 59.246)">
+            <rect id="Rectangle_167" data-name="Rectangle 167" width="23.799" height="79.797" fill="#7a7a7a"/>
+            <rect id="Rectangle_168" data-name="Rectangle 168" width="23.799" height="79.797" transform="translate(76.997 0)" fill="#7a7a7a"/>
+            <rect id="Rectangle_169" data-name="Rectangle 169" width="23.799" height="79.797" transform="translate(90.296 0) rotate(90)" fill="#7a7a7a"/>
+          </g>
+        </g>
+      </g>
+      <g id="Group_97" data-name="Group 97" transform="translate(210.66 1694.96)">
+        <g id="Group_80-2" data-name="Group 80" transform="matrix(0.809, -0.588, 0.588, 0.809, 0, 75.501)">
+          <path id="Rectangle_176" data-name="Rectangle 176" d="M10,0H44.1a10,10,0,0,1,10,10V61.8a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V10A10,10,0,0,1,10,0Z" transform="matrix(0.809, 0.588, -0.588, 0.809, 67.252, 12.312)" fill="#d7dbe2"/>
+          <g id="Group_57-2" data-name="Group 57" transform="matrix(0.809, 0.588, -0.588, 0.809, 46.903, 0)">
+            <rect id="Rectangle_167-2" data-name="Rectangle 167" width="23.799" height="79.797" transform="translate(0 0)" fill="#7a7a7a"/>
+            <rect id="Rectangle_168-2" data-name="Rectangle 168" width="23.799" height="79.797" transform="translate(76.997 0)" fill="#7a7a7a"/>
+            <rect id="Rectangle_169-2" data-name="Rectangle 169" width="23.799" height="79.797" transform="translate(10.5 79.797) rotate(-90)" fill="#7a7a7a"/>
+          </g>
+        </g>
+      </g>
+    </g>
+    <g id="Group_100" data-name="Group 100" transform="matrix(-0.588, 0.809, -0.809, -0.588, 607.833, 1651.216)">
+      <path id="Path_46-2" data-name="Path 46" d="M0,0H54.1V51.8a10,10,0,0,1-10,10H10a10,10,0,0,1-10-10Z" transform="matrix(0.809, -0.588, 0.588, 0.809, 30.928, 61.496)" fill="#d7dbe2"/>
+      <g id="Group_57-3" data-name="Group 57" transform="matrix(0.809, -0.588, 0.588, 0.809, 0, 59.246)">
+        <rect id="Rectangle_167-3" data-name="Rectangle 167" width="23.799" height="79.797" fill="#7a7a7a"/>
+        <rect id="Rectangle_168-3" data-name="Rectangle 168" width="23.799" height="79.797" transform="translate(76.997 0)" fill="#7a7a7a"/>
+        <rect id="Rectangle_169-3" data-name="Rectangle 169" width="23.799" height="79.797" transform="translate(90.296 0) rotate(90)" fill="#7a7a7a"/>
+      </g>
+    </g>
+    <g id="Group_103" data-name="Group 103" transform="matrix(0.588, 0.809, -0.809, 0.588, 276.333, 1578.446)">
+      <path id="Path_46-3" data-name="Path 46" d="M0,61.8H54.1V10a10,10,0,0,0-10-10H10A10,10,0,0,0,0,10Z" transform="matrix(0.809, 0.588, -0.588, 0.809, 67.252, 12.312)" fill="#d7dbe2"/>
+      <g id="Group_57-4" data-name="Group 57" transform="matrix(0.809, 0.588, -0.588, 0.809, 46.903, 0)">
+        <rect id="Rectangle_167-4" data-name="Rectangle 167" width="23.799" height="79.797" transform="translate(0 0)" fill="#7a7a7a"/>
+        <rect id="Rectangle_168-4" data-name="Rectangle 168" width="23.799" height="79.797" transform="translate(76.997 0)" fill="#7a7a7a"/>
+        <rect id="Rectangle_169-4" data-name="Rectangle 169" width="23.799" height="79.797" transform="translate(10.5 79.797) rotate(-90)" fill="#7a7a7a"/>
+      </g>
+    </g>
+  </g>
+</svg>
