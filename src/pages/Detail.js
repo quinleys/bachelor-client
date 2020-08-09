@@ -514,27 +514,27 @@ class Detail extends Component {
                                     <div className="col px-0">5 <Trans i18nKey='stars'></Trans> </div>
                                     <div className="col float-right px-0"> <strong className="floatright"><Trans i18nKey='total'></Trans>: {item.fivestar}  </strong></div>
                                     </div>
-                                    <CustomizedProgressBars  variant="determinate" value={ (item.fivestar /  item.totalrating ) * 100}/>
+                                    <CustomizedProgressBars  variant="determinate" value={ item.fivestar !== 0 ? (item.fivestar /  item.totalrating ) * 100 : 0}/>
                                     <div className="row mt-3 mb-1 justify-content-end">
                                     <div className="col px-0">4 <Trans i18nKey='stars'></Trans> </div>
                                     <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: { item.fourstar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate"  value={ (item.fourstar /  item.totalrating ) * 100}/>
+                                    <CustomizedProgressBars variant="determinate"  value={  item.fourstar !== 0 ? (item.fourstar /  item.totalrating ) * 100 : 0}/>
                                     <div className="row mt-3 mb-1 justify-content-end">
                                     <div className="col px-0">3 <Trans i18nKey='stars'></Trans> </div>
                                     <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: {item.threestar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={ (item.threestar /  item.totalrating ) * 100}/>
+                                    <CustomizedProgressBars variant="determinate" value={ item.threestar !== 0 ? (item.threestar /  item.totalrating ) * 100 : 0}/>
                                     <div className="row mt-3 mb-1  justify-content-end">
                                     <div className="col px-0">2 <Trans i18nKey='stars'></Trans> </div>
                                     <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: {item.twostar }</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={ (item.twostar /  item.totalrating ) * 100}/>
+                                    <CustomizedProgressBars variant="determinate" value={  item.twostar !== 0 ? (item.twostar /  item.totalrating ) * 100 : 0}/>
                                     <div className="row mt-3 mb-1  justify-content-end">
                                     <div className="col px-0">1 <Trans i18nKey='stars'></Trans> </div>
                                     <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans> : {item.onestar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={ (item.onestar /  item.totalrating ) * 100}/>
+                                    <CustomizedProgressBars variant="determinate" value={ item.onestar !== 0 ? (item.onestar /  item.totalrating ) * 100 : 0}/>
                              
                                     </div>
                                    <div className="col-12">
