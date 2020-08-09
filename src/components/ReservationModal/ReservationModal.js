@@ -432,27 +432,33 @@ checkProblems = () => {
     }else{ 
       if(!this.props.room.loading && !this.props.reservation.loadingReservation && this.props.room.rooms.length > 0 )
       {
+        let vrijTafels = 0;
         this.props.room.rooms.map((m,i) => {
         
           if(this.props.reservation.tablereservations.rooms[i].freetables.length !== 0){
-         
+           vrijTafels = 1
             let length = parseInt(this.props.reservation.tablereservations.rooms[i].freetables.length,10)
+            console.log(length, 'legnth')
+            console.log(this.props.reservation.tablereservations.rooms)
             this.setState(prevState =>{
               return{
                    ...prevState,
-                   freetables : prevState.freetables + length ,
+                   freetables :  length ,
                    errormsg: '',
                    gevondenTest: prevState.gevonden +  {"key" : 1, "kamer" : m.title , "amount" :this.props.reservation.tablereservations.rooms[i].freetables.length  },
-                   gevonden: prevState.gevonden + 'Er zijn ' + this.props.reservation.tablereservations.rooms[i].freetables.length + " tafel(s) vrij in kamer  '" + m.title + "'. Ga verder indien u een tafel wilt kiezen. ",
+                   gevonden: prevState.gevonden + 'Er zijn ' + length + " tafel(s) vrij in kamer  '" + m.title + "'. Ga verder indien u een tafel wilt kiezen. ",
               }
+           }, function(){
+             return
            })
           }else{
-            if( !this.state.freetables > 0  ){
+            console.log(this.state.freetables , vrijTafels)
+            if( !this.state.freetables > 0  && !vrijTafels > 0  ){
               this.setState(prevState =>{
                 return {
                 ...prevState,
                 errormsg: prevState.errormsg + "Er zijn geen tafels vrij voor " + this.state.persons + " personen " + 'om ' + this.state.time + ' op ' + this.state.date + " in kamer '" + m.title + "'.",
-                freetables: prevState.freetables + 0 ,
+               
               }},  function () {
                 return;
               })
