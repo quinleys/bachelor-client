@@ -204,7 +204,6 @@ class ReservationModal extends Component {
         
     }
     componentWillUnmount(){
-      console.log('unmount')
       this.setState({
         modal: false,
         current: 0,
@@ -242,7 +241,6 @@ class ReservationModal extends Component {
     }
 
     resetSession = () => {
-      console.log('reset')
       this.setState({
         modal: false,
         current: 0,
@@ -262,7 +260,7 @@ class ReservationModal extends Component {
         tafel: 1,
         resetting: false,
         msg: '',
-        item: [],
+        item: this.props.item,
         selectedTable: [],
         selectedTableByUser: null,
         activeStep: 0,
@@ -275,8 +273,8 @@ class ReservationModal extends Component {
           resetting: false
         })
       })
-      this.props.deleteReservationTable();
-      this.props.deleteGetRooms(); 
+/*       this.props.deleteReservationTable();
+      this.props.deleteGetRooms();  */
     }
     toggle = () => {
         
@@ -407,13 +405,14 @@ class ReservationModal extends Component {
 
 checkProblems = () => {
 
-
-
+console.log('checking')
+  let vrijTafels = 0;
 
   if(this.state.prevState !== this.props.reservation.tablereservations){
-
+  console.log( this.props.reservation.tablereservations)
   if(this.props.reservation.tablereservations[0])
   {
+    console.log( 'stap 1')
     if(this.props.reservation.tablereservations[0] == 'closed')
     {
       if(this.props.reservation.tablereservations[1] !== 'nothing found' ){
@@ -430,34 +429,37 @@ checkProblems = () => {
       }
       
     }else{ 
+      console.log( !this.props.room.loading , !this.props.reservation.loadingReservation , this.props.room.rooms.length > 0)
       if(!this.props.room.loading && !this.props.reservation.loadingReservation && this.props.room.rooms.length > 0 )
       {
-        let vrijTafels = 0;
+       
         this.props.room.rooms.map((m,i) => {
         
           if(this.props.reservation.tablereservations.rooms[i].freetables.length !== 0){
-           vrijTafels = 1
+          
             let length = parseInt(this.props.reservation.tablereservations.rooms[i].freetables.length,10)
-            console.log(length, 'legnth')
-            console.log(this.props.reservation.tablereservations.rooms)
+            vrijTafels = vrijTafels + length
+            
+            console.log('tafels vrij')
             this.setState(prevState =>{
               return{
                    ...prevState,
-                   freetables :  length ,
+                   freetables : prevState.freetables +  length ,
                    errormsg: '',
                    gevondenTest: prevState.gevonden +  {"key" : 1, "kamer" : m.title , "amount" :this.props.reservation.tablereservations.rooms[i].freetables.length  },
-                   gevonden: prevState.gevonden + 'Er zijn ' + length + " tafel(s) vrij in kamer  '" + m.title + "'. Ga verder indien u een tafel wilt kiezen. ",
+                   gevonden: 'Er zijn ' + vrijTafels  + " tafel(s) vrij. Ga verder indien u een tafel wilt kiezen. ",
               }
            }, function(){
+            console.log(this.state.gevonden)
              return
            })
           }else{
-            console.log(this.state.freetables , vrijTafels)
-            if( !this.state.freetables > 0  && !vrijTafels > 0  ){
+            if( !this.state.freetables > 0 && !vrijTafels > 0  ){
+              console.log('geen tafels vrij')
               this.setState(prevState =>{
                 return {
                 ...prevState,
-                errormsg: prevState.errormsg + "Er zijn geen tafels vrij voor " + this.state.persons + " personen " + 'om ' + this.state.time + ' op ' + this.state.date + " in kamer '" + m.title + "'.",
+                errormsg: prevState.errormsg + "Er zijn geen tafels vrij voor " + this.state.persons + " personen " + 'om ' + this.state.time + ' op ' + this.state.date + /* " in kamer '" + m.title + */ ".",
                
               }},  function () {
                 return;
@@ -597,8 +599,8 @@ calcScale = () => {
                        <div>
                     
                          { this.state.errormsg && this.state.errormsg !== '' ? ( <Alert severity="error"> {this.state.errormsg} </Alert> ): null }
-                         { this.state.gevonden ? ( <Alert severity="success" > {this.state.gevonden} </Alert> )  : null }
-                      { this.state.item && !this.state.resetting && tablereservations && tablereservations[0] && !this.props.reservation.loading && this.state.drawer && this.state.formSubmitted ? this.checkProblems() : null  } 
+                         { this.state.gevonden  !== '' ? ( <Alert severity="success" > {this.state.gevonden} </Alert> )  : null }
+                      { this.state.item && !this.state.resetting && tablereservations && tablereservations[0] && !this.props.reservation.loading && this.state.drawer && this.state.formSubmitted /* && !this.props.room.loading */ ? this.checkProblems() : null  } 
                       
                         <Form onSubmit={this.onSubmit}>
                             <FormGroup>
