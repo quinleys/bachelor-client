@@ -121,7 +121,7 @@ class Dashboard extends Component {
                         <div className="row mb-3">
                             <div className="col-md-4">
                                 <Card className="dashboardcard homecard">
-                                    <h5>Daily sales</h5>
+                                    <h5>Reservaties voor vandaag</h5>
                                     <div className="row">
                                         <div className="col-8">
                                         {item.daily ? 
@@ -141,7 +141,7 @@ class Dashboard extends Component {
                             </div>
                             <div className="col-md-4">
                                 <Card className="dashboardcard homecard">
-                                    <h5>Weekly sales</h5>
+                                    <h5>Reservaties voor deze week</h5>
                                     <div className="row">
                                         <div className="col-8">
                                         {item.weekly ? 
@@ -160,26 +160,34 @@ class Dashboard extends Component {
                                     : null }
                                 </Card>
                             </div>
-                           
+                           {console.log(item.yearly)}
                             <div className="col-md-4">
                                 <Card className="dashboardcard homecard">
-                                    <h5>Yearly sales</h5>
-                                    <div className="row">
-                                        <div className="col-8">
-                                        {item.yearly ? 
-                                            <h1>{item.yearly.year}</h1> : null }
+                                    <h5>Reservaties voor dit jaar</h5>
+                                 
+                                        {item.yearly && item.yearly >= 0  ? 
+                                           <div className="row">
+                                           <div className="col-8">
+                                            <h1>{item.yearly}</h1> 
                                         </div>
                                         <div className="col">
                                        <div className="floatright"> +{item.yearly} <ArrowUpwardIcon /> </div>
                                         
                                         </div>
                                     </div>
-                                    { item.daily ? 
+                                    :  <div className="row">
+                                    <div className="col-8">
+                                     <p>Geen reservaties</p> 
+                                 </div>
+                               
+                             </div> }
+                                    { item.yearly ? 
                                     <CustomizedProgressBars variant="determinate" value={100}/>
                                     : null }
                                 </Card>
                             </div>
                       </div>
+                      {console.log(reservations)}
                       <div className="row">
                           <div className="col-md-8">
                             <Card className="dashboardcard homecard"> 
@@ -199,7 +207,7 @@ class Dashboard extends Component {
                                     </div>
                                     : null }
                                     <List >
-                                        { reservations && reservations.data ? reservations.data.map((m,i) => {
+                                        { reservations && reservations.data && reservations.data.length > 0 ? reservations.data.map((m,i) => {
                                             return(
                                             <div>
                                                 <ListItem alignItems="flex-start">
@@ -264,22 +272,22 @@ class Dashboard extends Component {
                                     <div className="col px-0">4 sterren</div>
                                     <div className="col float-right px-0">  <strong className="floatright">totaal: {item.fourstar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate"  value={item.fivestar > 0 ? (item.fourstar / item.totalrating)*100 : 0}/>
+                                    <CustomizedProgressBars variant="determinate"  value={item.fourstar > 0 ? (item.fourstar / item.totalrating )*100 : 0}/>
                                     <div className="row mt-3 mb-1 justify-content-end">
                                     <div className="col px-0">3 sterren</div>
                                     <div className="col float-right px-0">  <strong className="floatright">totaal: {item.threestar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={item.fivestar > 0 ? (item.threestar / item.totalrating)*100 : 0}/>
+                                    <CustomizedProgressBars variant="determinate" value={item.threestar > 0 ? (item.threestar / item.totalrating)*100 : 0}/>
                                     <div className="row mt-3 mb-1  justify-content-end">
                                     <div className="col px-0">2 sterren</div>
                                     <div className="col float-right px-0">  <strong className="floatright">totaal: {item.twostar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={item.fivestar > 0 ? (item.twostar / item.totalrating)*100 : 0}/>
+                                    <CustomizedProgressBars variant="determinate" value={item.twostar > 0 ? (item.twostar / item.totalrating)*100 : 0}/>
                                     <div className="row mt-3 mb-1  justify-content-end">
                                     <div className="col px-0">1 sterren</div>
                                     <div className="col float-right px-0">  <strong className="floatright">totaal: {item.onestar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={item.fivestar > 0 ? (item.onestar / item.totalrating)*100 : 0}/>
+                                    <CustomizedProgressBars variant="determinate" value={item.onestar > 0 ? (item.onestar / item.totalrating)*100 : 0}/>
                                 </Card>
                           </div>
                       </div>

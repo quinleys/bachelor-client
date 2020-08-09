@@ -43,7 +43,7 @@ export const getRecentReservations = (id,url ) => (dispatch) => {
     }else{
         newurl = '?[page]=1'
     }
-    axios.get("http://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + '/reservations'  + newurl ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + '/reservations'  + newurl ,  {  headers: { Authorization: "Bearer " + localStorage.getItem('token')} })
     .then(res => {
         dispatch({
             type: GET_RECENT_RESERVATIONS,

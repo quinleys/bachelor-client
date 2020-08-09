@@ -133,6 +133,19 @@ class Detail extends Component {
         }
         this.props.addRating(newComment);
 
+        this.props.item.item.totalrating ++ ;
+        if(this.state.rating == 1){
+            this.props.item.item.onestar ++ ;
+        }else if(this.state.rating == 2){
+            this.props.item.item.twostar ++;
+        }else if(this.state.rating == 3){
+            this.props.item.item.threestar ++;
+        }else if(this.state.rating == 4){
+            this.props.item.item.fourstar ++;
+        }else if(this.state.rating == 5){
+            this.props.item.item.fivestar ++;
+        }
+      
         })
         
     }
@@ -478,7 +491,7 @@ class Detail extends Component {
                             > */}
                          
                             
-                                <div className='row'> <div> <Trans i18nKey="rating"></Trans> ( {item.totalrating} ) </div> <div className="col"> <Rating className="floatright" name="rating" fontSize={"inherit"} defaultValue={item.average_rating}readOnly />  </div> </div>
+                                <div className='row'> <div> <Trans i18nKey="rating"></Trans> ( {this.state.rating ? item.totalrating  : item.totalrating } ) </div> <div className="col"> <Rating className="floatright" name="rating" fontSize={"inherit"} precision={0.5}  defaultValue={this.state.rating ? item.average_rating > 0 ? item.average_rating : this.state.rating : item.average_rating }readOnly />  </div> </div>
                   
                            
                            
@@ -496,33 +509,33 @@ class Detail extends Component {
                     <List >
                    <div className="col-12">
                     <h6> <Trans i18nKey="amountratings"></Trans> {item.totalrating}</h6>
-                                 
+                                
                                     <div className="row mt-3 mb-1 justify-content-end">
                                     <div className="col px-0">5 <Trans i18nKey='stars'></Trans> </div>
-                                    <div className="col float-right px-0"> <strong className="floatright"><Trans i18nKey='total'></Trans>: {this.state.rating && this.state.rating == 5 ? item.fivestar + 1 : item.fivestar}  </strong></div>
+                                    <div className="col float-right px-0"> <strong className="floatright"><Trans i18nKey='total'></Trans>: {item.fivestar}  </strong></div>
                                     </div>
-                                    <CustomizedProgressBars  variant="determinate" value={this.state.rating && this.state.rating == 5 ? item.fivestar !== 0 ? (item.fivestar + 1/ item.totalrating + 1)*100 : (1/ item.totalrating + 1)*100: item.fivestar !== 0 ? (item.fivestar / item.totalrating )*100 : 0 }/>
+                                    <CustomizedProgressBars  variant="determinate" value={ (item.fivestar /  item.totalrating ) * 100}/>
                                     <div className="row mt-3 mb-1 justify-content-end">
                                     <div className="col px-0">4 <Trans i18nKey='stars'></Trans> </div>
-                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: {this.state.rating && this.state.rating == 4 ? item.fourstar + 1 : item.fourstar}</strong></div>
+                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: { item.fourstar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate"  value={this.state.rating && this.state.rating == 4 ? item.fourstar !== 0 ? (item.fourstar + 1/ item.totalrating + 1)*100 :( 1/ item.totalrating + 1)*100 : item.fourstar !== 0 ? (item.fourstar / item.totalrating )*100 : 0 }/>
+                                    <CustomizedProgressBars variant="determinate"  value={ (item.fourstar /  item.totalrating ) * 100}/>
                                     <div className="row mt-3 mb-1 justify-content-end">
                                     <div className="col px-0">3 <Trans i18nKey='stars'></Trans> </div>
-                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: {this.state.rating && this.state.rating == 3 ? item.threestar + 1 : item.threestar}</strong></div>
+                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: {item.threestar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate"value={this.state.rating && this.state.rating == 3 ? item.threestar !== 0 ? (item.threestar + 1/ item.totalrating + 1)*100 : (1/ item.totalrating + 1)*100: item.threestar !== 0 ? (item.threestar / item.totalrating )*100 : 0 }/>
+                                    <CustomizedProgressBars variant="determinate" value={ (item.threestar /  item.totalrating ) * 100}/>
                                     <div className="row mt-3 mb-1  justify-content-end">
                                     <div className="col px-0">2 <Trans i18nKey='stars'></Trans> </div>
-                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: {this.state.rating && this.state.rating == 2 ? item.twostar + 1 : item.twostar }</strong></div>
+                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans>: {item.twostar }</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={this.state.rating && this.state.rating == 2 ? item.twostar !== 0 ? (item.twostar + 1/ item.totalrating + 1)*100 : (1/ item.totalrating + 1)*100 : item.twostar !== 0 ? (item.twostar / item.totalrating )*100 : 0 }/>
+                                    <CustomizedProgressBars variant="determinate" value={ (item.twostar /  item.totalrating ) * 100}/>
                                     <div className="row mt-3 mb-1  justify-content-end">
                                     <div className="col px-0">1 <Trans i18nKey='stars'></Trans> </div>
-                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans> : {this.state.rating && this.state.rating == 1 ? item.onestar + 1 : item.onestar}</strong></div>
+                                    <div className="col float-right px-0">  <strong className="floatright"><Trans i18nKey='total'></Trans> : {item.onestar}</strong></div>
                                     </div>
-                                    <CustomizedProgressBars variant="determinate" value={this.state.rating && this.state.rating == 1 ? item.onestar !== 0 ? (item.onestar + 1 / item.totalrating + 1)*100 : ( 1 / item.totalrating + 1)*100 : item.onestar !== 0 ? (item.onestar / item.totalrating )*100 : 0 }/>
-                   
+                                    <CustomizedProgressBars variant="determinate" value={ (item.onestar /  item.totalrating ) * 100}/>
+                             
                                     </div>
                                    <div className="col-12">
                                    { isAuthenticated ? 
@@ -533,7 +546,7 @@ class Detail extends Component {
                     </div>
                     </List>
                     </Collapse>
-                    <Divider />
+                    <Divider /> 
                     <ListItem button  onClick={this.handleComments}>
                                 {comments.data ?  <ListItemText primary={ <Trans i18nKey="comments" values={{ number: comments.total}} > Total comments {comments.total} </Trans> }/>: <ListItemText primary={<Trans i18nKey="nocomments"></Trans> }/> }
                                
