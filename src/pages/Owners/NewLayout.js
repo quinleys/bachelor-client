@@ -5,7 +5,6 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import TextField from '@material-ui/core/TextField';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getTables } from '../../actions/tableActions'
@@ -13,19 +12,15 @@ import { getExtras } from '../../actions/extraActions'
 import { getRooms, getRoom } from '../../actions/roomActions'
 import { addLayout } from '../../actions/layoutActions'
 import { forgetLayout } from '../../actions/layoutActions'
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import { Stage, Layer, Rect, Text, Circle, Line, Shape , Transformer, Image } from 'react-konva';
+import { Stage, Layer, Rect, Text, Circle, Shape , Transformer, Image } from 'react-konva';
 import Konva from 'konva';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import { Button, Collapse, CardBody, Input, Form, FormGroup, Label, Alert } from 'reactstrap'
+import { Button,  Input, Form, FormGroup, Label } from 'reactstrap'
 import { toast } from 'react-toastify';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Redirect } from 'react-router-dom';
+import Alert from '@material-ui/lab/Alert';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { Link } from 'react-router-dom';
 class URLImage extends React.Component {
     state = {
       image: null
@@ -119,6 +114,8 @@ class TransformerComponent extends React.Component {
 class NewLayout extends Component {
     constructor(props){
         super(props)
+        var today = new Date(),
+        dateTodayNow = today.getFullYear() + '-0' + (today.getMonth() + 1) + '-' + today.getDate();
         this.state = {
             walls: [],
             tables: [],
@@ -127,6 +124,7 @@ class NewLayout extends Component {
             ],
             x: 0,
             y: 0,
+            dateToday: dateTodayNow,
             error: '',
             errorTables: '',
             toggle: false,
@@ -161,7 +159,6 @@ class NewLayout extends Component {
         })
     }
     onChangeSelectedRoom = e => {
-        console.log(e.target.value)
         if(e.target.value == ''){
             this.setState({
                 roomSelect : false,
@@ -190,12 +187,8 @@ class NewLayout extends Component {
         this.props.forgetLayout()
     }
     onAddItem = e => {
-        // not allowed AND not working
-        console.log(e.target.name)
-        console.log(e.target.value)
 
         let id = e.target.name.split(".");
-        console.log(id)
 
         if(id[1] == 'point-1') {
             let point1 = 0
@@ -230,9 +223,9 @@ class NewLayout extends Component {
         })
     }
     addTable = () => {
-        console.log('selected table' , this.state.selectedTable)
+      
         let newTable = { "id": this.state.tables.length + 1 ,/*  title: this.state.selected, */ "x": 0, "y":0, "height": 100, "width": 100, "title": this.state.selectedTableTitle , "realId" : this.state.selectedTable , fill:Konva.Util.getRandomColor()  }
-        //console.log('newExtra', newExtra)
+     
         this.setState({
             tables: this.state.tables.concat(newTable),
             
@@ -240,8 +233,7 @@ class NewLayout extends Component {
     }
 
     _onMouseMove = e => {
-        console.log(this.state.x, this.state.y)
-        console.log(e.nativeEvent.offsetX)
+     
         let CTM = e.target.getScreenCTM();
         this.setState({ x: (e.clientX - CTM.e) / CTM.a, y: (e.clientY - CTM.f) / CTM.d /* x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY */ });
       }
@@ -252,45 +244,40 @@ class NewLayout extends Component {
         e.target.setAttribute("x", this.state.x);
         e.target.setAttributeNS(null,"y", this.state.y);
         
-        console.log(this.state.x, this.state.y)
-       /*  e.target.setAttributeNS(null, "y", this.state.y); */
-
-        console.log('startDrag')
+      
     }
     stopDrag = () => {
-        console.log('stop drag')
+       
     }
     changeTable = e => {
-         // not allowed AND not working
-         console.log(e.target.name)
-         console.log(e.target.value)
+       
  
          let id = e.target.name.split(".");
-         console.log(id)
+         
  
          if(id[1] == 'x') {
-             console.log('inside x')
+            
              let x = 0
              x = e.target.value
              this.setState({
                  tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, x } : el))
              })
          }if(id[1] == 'y'){
-            console.log('inside y')
+           
              let y = 0
              y = parseInt(e.target.value, 10)
              this.setState({
                  tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, y } : el))
              })
          }if(id[1] == 'height'){
-            console.log('inside height')
+           
             let height = 0
             height = parseInt(e.target.value, 10)
             this.setState({
                 tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, height } : el))
             })
         }if(id[1] =='width'){
-            console.log('inside width')
+        
                 let width = 0
                 width = parseInt(e.target.value, 10)
                 this.setState({
@@ -298,7 +285,7 @@ class NewLayout extends Component {
                 })
             
         }if(id[1] =='rotation'){
-            console.log('inside width')
+          
                 let rotation = 0
                 rotation = parseInt(e.target.value, 10)
                 this.setState({
@@ -306,7 +293,7 @@ class NewLayout extends Component {
                 })
             
         }
-        console.log(this.state.tables)
+
     }
 
     deleteTable = e => {
@@ -318,7 +305,7 @@ class NewLayout extends Component {
                     tables: filteredArray,
                     errorTables: ''
                 });
-                console.log(filteredArray)
+               
                 
           }else{
               this.setState({
@@ -339,20 +326,18 @@ class NewLayout extends Component {
         });
       };
       handleDragEnd = e => {
-        //console.log('end drag', e.target.attrs.x)
+
         e.target.to({
           duration: 0.5,
           easing: Konva.Easings.ElasticEaseOut,
           
         });
 
-        //console.log(e.target.attrs)
-        //console.log('item', item)
         this.setState(state => {
             const tables = state.tables.map((i) => {
-                //console.log('vergelijking', i, e.target.attrs.id.id)
+              
               if ( e.target.attrs.id.id == i.id) {
-                  //console.log('i',i)
+            
                 return {
                     "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width,"realId" : e.target.attrs.id.realId, 'fill': i.fill 
                 };
@@ -368,8 +353,7 @@ class NewLayout extends Component {
     };
 
     saveLayout = () => {
-        console.log('save')
-        console.log(this.state.tables)
+      
         if(this.state.title == ''){
             this.setState({
                 errormsg: 'Layout moet een titel hebben.'
@@ -383,21 +367,20 @@ class NewLayout extends Component {
             "restaurant_id": this.state.restaurant_id,
             "tables": this.state.tables
         }
-        console.log(item);
+   
        if(this.state.title !== ''){ 
             this.props.addLayout(item);
         } 
     }
     onChangeTable = (e) => {
-        //console.log(e.target)
+      
         let titel;
         this.setState({
             selectedTable: e.target.value,
         }, function (){
-            console.log('function')
+           
             this.props.table.tables.map(m => {
-                console.log('checking extras', m )
-                console.log(m.id, this.state.selectedTable)
+              
                 if(m.id == this.state.selectedTable){
                     this.setState({
                         selectedTableTitle: m.name
@@ -407,16 +390,15 @@ class NewLayout extends Component {
         )})
     }
     onSelect = (e) => {
-        console.log(e)
+      
         this.setState({
             selectedRect : e.target
         })
       }
     setStateCorrect = () => {
-        //console.log('set state correct', this.props.dashboard)
-        console.log('state correct layout' , this.props.layout.layout)
+       
         if(this.state.setStateCorrect){
-            //console.log('extras of dashboard',this.props.dashboard.room.extras)
+            
             this.setState({
                 title: this.props.layout.layout.title,
                 setStateCorrect: false,
@@ -437,19 +419,16 @@ class NewLayout extends Component {
     }
 }
 onChangeRect = e =>{
-    console.log('changing')
-
-  console.log(e.target.attrs.scaleX)
+   
     let item = {
       "id": e.target.attrs.id.id , "title": e.target.attrs.id.title, "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height * e.target.attrs.scaleY, "width": e.target.attrs.width * e.target.attrs.scaleX, "realId" : e.target.attrs.id.realId
   }
-  //console.log(e.target.attrs)
-  //console.log('item', item)
+  
   this.setState(state => {
       const tables = state.tables.map((i) => {
-          //console.log('vergelijking', i, e.target.attrs.id.id)
+        
         if ( e.target.attrs.id.id == i.id) {
-            //console.log('i',i)
+            
           return {
               "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height * e.target.attrs.scaleY, "width": e.target.attrs.width * e.target.attrs.scaleX ,"realId" : e.target.attrs.id.realId, 'fill': i.fill 
           };
@@ -468,7 +447,15 @@ onChangeRect = e =>{
         this.setState({
             [e.target.name] : e.target.value
         },function(){
-            //console.log(this.state.length1)
+         if(this.state.title == ''){
+             this.setState({
+                 errormsg: 'Vul een titel in'
+             })
+         }else{
+             this.setState({
+                 errormsg: ''
+             })
+         }
         })
     }
     handleStageClick = e => {
@@ -492,14 +479,31 @@ onChangeRect = e =>{
             <Container>
              { this.props.layout.madeNew  ? <Redirect  to={`/dashboard/layout`} /> : null  }
                 <div className="row">
-                    <div className="col-11">
+                    <div className="col-10">
                     <h1>Maak een nieuwe layout!</h1>
                     </div>
                     <div className="col">
-                    <Button onClick={this.saveLayout}>Opslaan!</Button>
+                    <Button className="floatright" disabled={this.state.errormsg || this.state.title == ''} onClick={this.saveLayout}>Opslaan!</Button>
                     </div>
                 </div>
-
+                <div className="row justify-content-between my-2">
+                          <div className="col">
+                            <Breadcrumbs aria-label="breadcrumb">
+                                <Link to="/dashboard">
+                              <Typography color="textPrimary">Dashboard</Typography>
+                              </Link>
+                              <Link to="/dashboard/layout">
+                              <Typography color="textPrimary">Layout</Typography>
+                              </Link>
+                              <Typography color="textPrimary">Nieuwe Layout</Typography>
+                             
+                            </Breadcrumbs>
+                            </div>
+                            <div className="col">
+                              <h6 div className="floatright">{this.state.dateToday}</h6>
+                            </div>
+                        </div>
+                { this.state.errormsg ? <Alert severity="error"> {this.state.errormsg}</Alert> : null }
                 <div className="row">
                 <div className="col-12">
                     <Card>
@@ -550,7 +554,7 @@ onChangeRect = e =>{
                          
                     <div className="row my-2">
                             <div className="col-12">
-                        <h5>Kamer</h5> {console.log(rooms, 'rooms')}
+                        <h5>Kamer</h5>
                         <Label for="persons">Welke kamer?</Label>
                                             <Input type="select" name="selectedRoom" id="selectedRoom" onChange={this.onChangeSelectedRoom}>
                                               <option value=""> Kies een kamer </option>
@@ -617,7 +621,7 @@ onChangeRect = e =>{
                             
                     {this.state.tables ? 
                             this.state.tables.map((m,i) => {
-                                console.log('tables', m)
+                            
                                 return(
                                     <div className="row my-1">
                                     <div className="col-2">
@@ -667,7 +671,7 @@ onChangeRect = e =>{
                             <Shape
                                 sceneFunc={(context, shape) => {
                                 context.beginPath();
-                                {console.log(this.props.room.room.walls)}
+                               
                                 {this.props.room.room.walls.map(m => {
                                     if(m.id == 1){
                                         context.moveTo(m.point1, m.point2);
@@ -699,7 +703,7 @@ onChangeRect = e =>{
                             </Layer>: null }
                             {this.state.roomSelect && this.props.room.room.extras ?
                             this.props.room.room.extras.map(m => {
-                                console.log(m)
+                            
                                 return(
                                 <Layer>
                                 <Rect
@@ -722,19 +726,11 @@ onChangeRect = e =>{
         
                             }) 
                                                : null }
-                                 {/* <Layer>
-                                    <URLImage src="https://konvajs.org/assets/yoda.jpg" x={600} 
-                                    y={300}
-                                    width={100}
-                                    height={500} />
-                                    <TransformerComponent
-                                            selectedShapeName={this.state.selectedShapeName}
-                                        />
-                                 </Layer> */}
+                               
                             {this.state.tables ? 
                            
                            this.state.tables.map((m,i) => {
-                               //console.log(m.id)
+                             
                                    return (
                                     <Layer 
                                     >

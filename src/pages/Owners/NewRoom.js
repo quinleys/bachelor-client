@@ -5,17 +5,20 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import TextField from '@material-ui/core/TextField';
-import { Button, Collapse, CardBody, Input, Form, FormGroup, Label, Alert } from 'reactstrap'
+import { Button,   Input, Form, FormGroup, Label, } from 'reactstrap'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getTables } from '../../actions/tableActions'
 import { getExtras } from '../../actions/extraActions'
 import { addRoom } from '../../actions/roomActions';
-import { Stage, Layer, Rect, Text, Circle, Line, Shape, Transformer } from 'react-konva';
+import { Stage, Layer, Rect, Text, Circle,  Shape, Transformer } from 'react-konva';
 import Konva from 'konva';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { Redirect } from 'react-router-dom';
+import { clearErrors } from '../../actions/errorActions'
+import Alert from '@material-ui/lab/Alert';
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { Link } from 'react-router-dom';
 class TransformerComponent extends React.Component {
     componentDidMount() {
       this.checkNode();
@@ -51,6 +54,8 @@ class TransformerComponent extends React.Component {
 class NewRoom extends Component {
     constructor(props){
         super(props)
+        var today = new Date(),
+        dateTodayNow = today.getFullYear() + '-0' + (today.getMonth() + 1) + '-' + today.getDate();
         this.state = {
             walls: [
                 {"id": 1, "point1": 0, "point2": 0}, {"id": 2, "point1": 1000, "point2": 0}, {"id": 3, "point1": 1000, "point2": 1000}, {"id": 4, "point1": 0, "point2": 1000}
@@ -62,6 +67,7 @@ class NewRoom extends Component {
             y: 0,
             error: '',
             errorTables: '',
+            dateToday: dateTodayNow,
             toggle: false,
             toggle2: false,
             toggle3: false,
@@ -103,12 +109,9 @@ class NewRoom extends Component {
         this.props.clearErrors()
     }
     onAddItem = e => {
-        // not allowed AND not working
-        console.log(e.target.name)
-        console.log(e.target.value)
-
+     
         let id = e.target.name.split(".");
-        console.log(id)
+       
 
         if(id[1] == 'point-1') {
             let point1 = 0
@@ -125,16 +128,6 @@ class NewRoom extends Component {
         }
        
     
-       /*  let value = []
-        value = e.target.value
-
-        this.setState(state => {
-          const walls = state.walls.push(value);
-            
-          return {
-            walls,
-          };
-        }); */
       };
       addWall = () => {
           let newWall = { id: this.state.walls.length + 1 , point1: 0, point2:0}
@@ -151,21 +144,13 @@ class NewRoom extends Component {
                     walls: filteredArray,
                     error: ''
                 });
-                console.log(filteredArray)
-                
           }else{
               this.setState({
                   errormsg: 'Je hebt minstens 4 muren nodig.'
               })
           }
         
-           /*  this.setState({walls: this.state.walls.filter(function(wall) { 
-                console.log(wall,e.target.value)
-                if(wall.id !== id){
-                    return wall 
-                }
-                
-            })}); */
+    
         
       }
       toggle = () => {
@@ -195,10 +180,8 @@ class NewRoom extends Component {
         this.setState({
             selectedExtra: e.target.value,
         }, function (){
-            console.log('function')
+         
             this.props.extra.extras.map(m => {
-                console.log('checking extras', m )
-                console.log(m.id, this.state.selectedExtra)
                 if(m.id == this.state.selectedExtra){
                     this.setState({
                         selectedExtraTitle: m.title
@@ -209,30 +192,15 @@ class NewRoom extends Component {
     }
     addExtra = () => {
         let newExtra = { "id": this.state.extras.length + 1 ,/*  title: this.state.selected, */ "x": 0, "y":0, "height": 100, "width": 100, "title": this.state.selectedExtraTitle , "realId" : this.state.selectedExtra , fill:Konva.Util.getRandomColor()  }
-        //console.log('newExtra', newExtra)
+      
         this.setState({
             extras: this.state.extras.concat(newExtra),
             
       })
     }
-/*     makeDraggable = evt => {
-        var svg = evt.target;
-        var selectedElement = false;
-        if (evt.target.classList.contains('draggable')) {
-            console.log('draggable')
-            evt.preventDefault();
-            selectedElement = evt.target;
-          }
-        svg.addEventListener('mousedown', startDrag);
-        svg.addEventListener('mousemove', drag);
-        svg.addEventListener('mouseup', endDrag);
-        svg.addEventListener('mouseleave', endDrag);
 
-
-    } */
     _onMouseMove = e => {
-        console.log(this.state.x, this.state.y)
-        console.log(e.nativeEvent.offsetX)
+      
         let CTM = e.target.getScreenCTM();
         this.setState({ x: (e.clientX - CTM.e) / CTM.a, y: (e.clientY - CTM.f) / CTM.d /* x: e.nativeEvent.offsetX, y: e.nativeEvent.offsetY */ });
       }
@@ -242,94 +210,41 @@ class NewRoom extends Component {
         
         e.target.setAttribute("x", this.state.x);
         e.target.setAttributeNS(null,"y", this.state.y);
-        
-        console.log(this.state.x, this.state.y)
-       /*  e.target.setAttributeNS(null, "y", this.state.y); */
-
-        console.log('startDrag')
+    
     }
     stopDrag = () => {
-        console.log('stop drag')
+    
     }
-    changeTable = e => {
-         // not allowed AND not working
-         console.log(e.target.name)
-         console.log(e.target.value)
- 
-         let id = e.target.name.split(".");
-         console.log(id)
- 
-         if(id[1] == 'x') {
-             console.log('inside x')
-             let x = 0
-             x = e.target.value
-             this.setState({
-                 tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, x } : el))
-             })
-         }if(id[1] == 'y'){
-            console.log('inside y')
-             let y = 0
-             y = parseInt(e.target.value, 10)
-             this.setState({
-                 tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, y } : el))
-             })
-         }if(id[1] == 'height'){
-            console.log('inside height')
-            let height = 0
-            height = parseInt(e.target.value, 10)
-            this.setState({
-                tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, height } : el))
-            })
-        }if(id[1] =='width'){
-            console.log('inside width')
-                let width = 0
-                width = parseInt(e.target.value, 10)
-                this.setState({
-                    tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, width } : el))
-                })
-            
-        }if(id[1] =='rotation'){
-            console.log('inside width')
-                let rotation = 0
-                rotation = parseInt(e.target.value, 10)
-                this.setState({
-                    tables: this.state.tables.map(el => (el.id == id[0] ?  {...el, rotation } : el))
-                })
-            
-        }
-        console.log(this.state.tables)
-    }
+
     changeExtra = e => {
-        // not allowed AND not working
-        console.log(e.target.name)
-        console.log(e.target.value)
+     
 
         let id = e.target.name.split(".");
-        console.log(id)
+     
 
         if(id[1] == 'x') {
-            console.log('inside x')
+         
             let x = 0
             x = e.target.value
             this.setState({
                 extras: this.state.extras.map(el => (el.id == id[0] ?  {...el, x } : el))
             })
         }if(id[1] == 'y'){
-           console.log('inside y')
+          
             let y = 0
             y = parseInt(e.target.value, 10)
             this.setState({
                 extras: this.state.extras.map(el => (el.id == id[0] ?  {...el, y } : el))
             })
         }if(id[1] == 'height'){
-           console.log('inside height')
+          
            let height = 0
            height = parseInt(e.target.value, 10)
            this.setState({
             extras: this.state.extras.map(el => (el.id == id[0] ?  {...el, height } : el))
            })
        }if(id[1] =='width'){
-           console.log('inside width')
+        
                let width = 0
                width = parseInt(e.target.value, 10)
                this.setState({
@@ -337,25 +252,8 @@ class NewRoom extends Component {
                })
            
        }
-       console.log(this.state.tables)
    }
-    deleteTable = e => {
 
-        if(this.state.tables.length > 1){
-            let filteredArray = this.state.tables.filter(item => 
-                item.id != e.target.value )
-                this.setState({
-                    tables: filteredArray,
-                    errorTables: ''
-                });
-                console.log(filteredArray)
-                
-          }else{
-              this.setState({
-                errorTables: 'you need to have atleast 1 table'
-              })
-          }
-    }
     deleteExtra = (id) => {
         if(this.state.extras.length > 0){
             let filteredArray = this.state.extras.filter(item => 
@@ -364,7 +262,7 @@ class NewRoom extends Component {
                     extras: filteredArray,
                     errorTables: ''
                 });
-                //console.log(filteredArray)
+               
                 
           }else{
               this.setState({
@@ -378,33 +276,23 @@ class NewRoom extends Component {
         })
     }
     formChange = e => {
-        console.log(e.target.name)
+      if(e.target.value !== ''){
+
+      
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value,
+            errormsg: ''
         },function(){
-            console.log(this.state.length1)
+           
         })
-    }
-   
-    createTable = () => {
-            let table = []
-        
-            // Outer loop to create parent
-            for (let i = 0; i < this.state.amountOfWall; i++) {
-             
-              //Create the parent and add the children
-              table.push(<Input 
-                type="input"
-                name={`length` + i}
-                onChange={this.formChange}
-                id={i}
-                required
-                placeholder="length of wall"
-                />)
-            }
-            return table
+    }else{
+        this.setState({
+            errormsg: 'Vul een titel in!'
+        })
         
     }
+    }
+
     onSubmit = e => {
         e.preventDefault();
         if(this.state.amountOfWall == 4){
@@ -414,9 +302,11 @@ class NewRoom extends Component {
                 ]
             })
         }
-        console.log('calculate')
     }
     saveRoom = () => {
+        if(this.state.title !== ''){
+
+        
         this.setState({
             errormsg: ''
         }, function(){
@@ -435,20 +325,22 @@ class NewRoom extends Component {
                     "title": this.state.title,
                     "restaurant_id": 1,
                     "user_id": 1,
-                    "layout_id": 0,
+                    "layout_id": 1,
                     "active": 0,
                     "walls": this.state.walls,
                     "extras": this.state.extras,
                 }
-                console.log(item)
                 this.props.addRoom(item);
             }
         })
        
-
+    }else {
+        this.setState({
+            errormsg: 'Vul een titel in!'
+        })
+    }
     }
     handleDragStart = e => {
-        console.log(e.target.attrs)
         e.target.setAttrs({
           shadowOffset: {
             x: 15,
@@ -459,7 +351,6 @@ class NewRoom extends Component {
         });
       };
       handleDragEnd = e => {
-        console.log('end drag', e.target.attrs.x)
       e.target.to({
         duration: 0.5,
         easing: Konva.Easings.ElasticEaseOut,
@@ -471,13 +362,12 @@ class NewRoom extends Component {
       let item = {
           "id": e.target.attrs.id.id , "title": e.target.attrs.id.title, "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width, "realId" : e.target.attrs.id.realId
       }
-      console.log(e.target.attrs)
-      console.log('item', item)
+    
       this.setState(state => {
           const extras = state.extras.map((i) => {
-              console.log('vergelijking', i, e.target.attrs.id.id)
+          
             if ( e.target.attrs.id.id == i.id) {
-                console.log('i',i)
+           
               return {
                   "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width,"realId" : e.target.attrs.id.realId, 'fill': e.target.attrs.fill 
               };
@@ -492,25 +382,22 @@ class NewRoom extends Component {
         });
     };
     onSelect = (e) => {
-        console.log(e)
+       
         this.setState({
             selectedRect : e.target
         })
       }
     onChangeRect = e =>{
-        console.log('changing')
-
-      console.log(e.target.attrs.scaleX)
+        
         let item = {
           "id": e.target.attrs.id.id , "title": e.target.attrs.id.title, "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height * e.target.attrs.scaleY, "width": e.target.attrs.width * e.target.attrs.scaleX, "realId" : e.target.attrs.id.realId
       }
-      //console.log(e.target.attrs)
-      //console.log('item', item)
+    
       this.setState(state => {
           const extras = state.extras.map((i) => {
-              //console.log('vergelijking', i, e.target.attrs.id.id)
+           
             if ( e.target.attrs.id.id == i.id) {
-                //console.log('i',i)
+                
               return {
                   "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height * e.target.attrs.scaleY, "width": e.target.attrs.width * e.target.attrs.scaleX ,"realId" : e.target.attrs.id.realId, 'fill': e.target.attrs.fill 
               };
@@ -535,15 +422,12 @@ class NewRoom extends Component {
         let item = {
           "id": e.target.attrs.id.id , "point1": e.target.attrs.x, "point2": e.target.attrs.y ,
         }
-        //console.log(e.target.attrs)
-        //console.log('item', item)
+     
         this.setState(state => {
             const walls = state.walls.map((i, count) => {
-                //console.log('vergelijking', i, e.target.attrs.id.id)
-                console.log('items', i, count , 'id' ,e.target.attrs.id.id)
+               
               if ( e.target.attrs.id.id == i.id) {
-                  //console.log('i',i)
-                  console.log('gevonden');
+               
                 return {
                     "id": e.target.attrs.id.id , "point1": e.target.attrs.x, "point2": e.target.attrs.y ,
                 };
@@ -570,7 +454,6 @@ class NewRoom extends Component {
       };
     handleDragEndPoint = e => {
 
-        //console.log('end drag', e.target.attrs.x)
       e.target.to({
         duration: 0.5,
         easing: Konva.Easings.ElasticEaseOut,
@@ -584,7 +467,7 @@ class NewRoom extends Component {
         const CANVAS_VIRTUAL_WIDTH = 1000;
         const CANVAS_VIRTUAL_HEIGHT = 1000;
        if( window.innerWidth < 1140){
-           console.log('smaller then')
+           
             let scaleCalc = Math.min(
                 1140 / CANVAS_VIRTUAL_WIDTH,
                 ) - 0.1;
@@ -593,7 +476,7 @@ class NewRoom extends Component {
                 })
         }
        else {
-        console.log('smaller then')
+       
             let scaleCalc = Math.min(
                 1140 / CANVAS_VIRTUAL_WIDTH,
                 ) - 0.1;
@@ -616,14 +499,31 @@ class NewRoom extends Component {
                 <Container>
                 { this.props.room.madeNew  ? <Redirect  to={`/dashboard/layout`} /> : null  }
                     <div className="row">
-                        <div className="col-11">
+                        <div className="col-10">
                         <h1>Maak een nieuwe kamer!</h1>
                         </div>
                         <div className="col">
-                        <Button onClick={this.saveRoom}>Opslaan</Button>
+                        <Button className="floatright" disabled={this.state.errormsg} onClick={this.saveRoom}>Opslaan</Button>
                         </div>
                     </div>
-                
+                    <div className="row justify-content-between my-2">
+                          <div className="col">
+                            <Breadcrumbs aria-label="breadcrumb">
+                                <Link to="/dashboard">
+                              <Typography color="textPrimary">Dashboard</Typography>
+                              </Link>
+                              <Link to="/dashboard/layout">
+                              <Typography color="textPrimary">Layout</Typography>
+                              </Link>
+                              <Typography color="textPrimary">Nieuwe Kamer</Typography>
+                             
+                            </Breadcrumbs>
+                            </div>
+                            <div className="col">
+                              <h6 div className="floatright">{this.state.dateToday}</h6>
+                            </div>
+                        </div>
+                    { this.state.errormsg ? <Alert severity="error" onClose={() => this.closeAlert()}> {this.state.errormsg}</Alert> : null }
                 
                 <div className="row">
                     <div className="col-12">
@@ -674,12 +574,12 @@ class NewRoom extends Component {
                                 <div className="col-12">
                         <h5>Kies de lengte van de muren.</h5>
                         <p>Ga kloksgewijs. Hoe u het hier ziet zal de gebruiker ook zien.</p>
-                        {this.state.errormsg != '' ? <Alert color="danger">{this.state.errormsg}</Alert> : null }
+                      
                         
                         <p>{this.state.error}</p>
                             {this.state.walls ? 
                             this.state.walls.map((m,i) => {
-                                console.log(m)
+                             
                                 return(
                                     <div className="row mt-1">
                                     <div className="col-1">
@@ -792,10 +692,10 @@ class NewRoom extends Component {
                                     </div>
                                     
                         </div>
-                        {console.log(this.state.extras)}
+                      
                         {this.state.extras ? 
                             this.state.extras.map((m,i) => {
-                                console.log(m)
+                              
                                 return(
                                     <div className="row my-3">
                                     <div className="col-1">
@@ -856,7 +756,7 @@ class NewRoom extends Component {
                         sceneFunc={(context, shape) => {
                         context.beginPath();
                         {this.state.walls.map(m => {
-                            console.log(m)
+                           
                             if(m.id == 1){
                                 context.moveTo(m.point1, m.point2);
                             }
@@ -905,7 +805,7 @@ class NewRoom extends Component {
                                         {this.state.extras ? 
                                
                                this.state.extras.map((m,i) => {
-                                   console.log(m.id)
+                               
                                        return (
                                         <Layer 
                                         >
@@ -961,4 +861,4 @@ const mapStateToProps = state => ({
     extra: state.extra,
     room: state.room,
 })
-export default connect(mapStateToProps, { getTables, getExtras, addRoom })(NewRoom)
+export default connect(mapStateToProps, { getTables, getExtras, addRoom, clearErrors })(NewRoom)

@@ -9,17 +9,15 @@ const initialState = {
 export default function(state = initialState, action){
     switch(action.type){
         case GET_COMMENTS:
-            console.log(action.payload)
             return {
                 ...state,
                 comments: action.payload,
                 commentsloading: false,
             };
         case ADD_COMMENT:
-            console.log(action.payload)
             return {
                 ...state,
-                comments: [...state.comments, action.payload],
+              /*   comments: [...state.comments, action.payload], */
                 commentsloading: false,
             };
         case COMMENTS_LOADING:

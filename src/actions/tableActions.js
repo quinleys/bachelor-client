@@ -6,7 +6,7 @@ import { GET_TABLES, FAILED_TABLES, TABLES_LOADING } from "./types";
 export const getTables = () => (dispatch) => {
     dispatch(setTablesLoading())
 
-    axios.get('http://127.0.0.1:8000/api/table/all')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/table/all')
     .then(res => {
         dispatch({
             type:GET_TABLES,

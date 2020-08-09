@@ -9,7 +9,6 @@ const initialState = {
 export default function(state = initialState, action){
     switch(action.type){
         case GET_EXTRAS:
-            console.log('extra',action.payload)
             return {
                 ...state,
                 extras: action.payload,

@@ -1,14 +1,14 @@
-import {  ADD_ITEM,  ITEMS_LOADING, FAILED_ITEMS,FAILED_ITEM, GET_ITEMS, GET_RANDOM, GET_ITEM, LOAD_NEXT, FAILED_TEIM} from './types'
+import {  ADD_ITEM,  ITEMS_LOADING, FAILED_ITEMS, GET_ITEMS, GET_RANDOM, GET_ITEM, LOAD_NEXT} from './types'
 import axios from 'axios';
 import { returnErrors, tooManyRequest } from './errorActions';
+
+
 
 export const getItems = url => (dispatch) => {
     
     dispatch(setItemsLoading());
-    console.log(url)
-    axios.get('http://127.0.0.1:8000/api/restaurant/all' + url )
+    axios.get( "https://quinten.staging.7.web.codedor.online/api"+ '/restaurant/all' + url )
     .then(res => {
-        console.log(res)
             dispatch({ 
                 type: GET_ITEMS, 
                 payload: res.data
@@ -36,11 +36,9 @@ export const getItems = url => (dispatch) => {
     })
 };
 export const loadNext = page => (dispatch) => {
-    console.log(page)
     dispatch(setItemsLoading());
     axios.get(page)
     .then(res => {
-        console.log(res)
             dispatch({ 
                 type: LOAD_NEXT, 
                 payload: res.data
@@ -56,7 +54,7 @@ export const loadNext = page => (dispatch) => {
 export const getRandom = () => (dispatch) => {
     dispatch(setItemsLoading());
 
-    axios.get('http://127.0.0.1:8000/api/restaurant/random')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/restaurant/random')
     .then(
         res => {
             dispatch({
@@ -73,8 +71,7 @@ export const getRandom = () => (dispatch) => {
     })
 }
 export const addItem = item  => (dispatch) => {
-    // console.log(item);
-    axios.post('https://127.0.0.1:8000/api/restaurant', item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + '/restaurant', item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => 
         dispatch({ 
             type: ADD_ITEM, 
@@ -91,22 +88,15 @@ export const setItemsLoading = () => {
 export const getItem = id => (dispatch) => {
     
     dispatch(setItemsLoading());
-    console.log('get item')
-    axios.get('http://127.0.0.1:8000/api/restaurant/' + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/restaurant/' + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
-        console.log('get Item',res.data)
         dispatch({
             type: GET_ITEM,
             payload: res.data
         })}).catch(err => {
-            console.log(err, 'wa is het probleem')
-            console.log('error' , err.response)
             if(typeof err.response == "object"){
-
-           
              if(err && err.response && err.response.status && err.response.status == 429){
                 dispatch(tooManyRequest(err.response.status))
-                
             }else{ 
             dispatch(returnErrors(err, err, err))}
            

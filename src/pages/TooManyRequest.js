@@ -1,18 +1,12 @@
 import React, { Component } from 'react'
 import {
-    BrowserRouter as Router,
-    Route,
     Link,
-    Switch,
-    Redirect,
-    useLocation
+
   } from "react-router-dom";
-  import { Translation } from 'react-i18next';
-import i18n from '../i18n';
+ 
 // the hoc
-import { Trans, useTranslation } from 'react-i18next'
-  import { Container, Badge,Button, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup, NavLink, Alert, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, } from 'reactstrap';
+import { Trans } from 'react-i18next'
+  import { Container,Button,  } from 'reactstrap';
 export default class NoMatch extends Component {
     
     render() {

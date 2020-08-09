@@ -17,7 +17,6 @@ export default function(state = initialState, action){
                 loading: false,
             };
         case ADD_RATING:
-            console.log(action.payload)
             return {
                 ...state,
                 ratings: [...state.ratings, action.payload],

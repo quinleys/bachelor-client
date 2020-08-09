@@ -7,7 +7,7 @@ export const getPrices = () => (dispatch) => {
     
     dispatch(setPricesLooading())
 
-    axios.get('http://127.0.0.1:8000/api/price/all')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/price/all')
     .then(res => {
         dispatch({
             type:GET_PRICES,

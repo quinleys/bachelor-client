@@ -1,5 +1,4 @@
-import { GET_DAILY_RESERVATIONS,LOADING_NEWDATA,IMAGES_LOADING, NOTUPDATED, RESTAURANT_UPDATING, UPLOADRESTAURANTMENUS, UPLOADPRIMARYIMG,GET_RECENT_COMMENTS,DELETERESTAURANTIMAGE,UPLOADRESTAURANTIMAGES,GET_RESTAURANT, GET_ACTIVEROOMS, ADD_LAYOUT, RESET_SERVERRESPONSE, MAKE_ROOM_UNACTIVE, MAKE_ROOM_ACTIVE , DASHBOARD_LOADING, FAILED_DASHBOARD, UPDATE_RESTAURANT, GET_WEEKLY_RESERVATIONS, GET_PLATTEGROND, GET_ROOMDASHBOARD, GET_MONTHLY_RESERVATIONS, GET_LAYOUTSDASHBOARD, DELETE_LAYOUT, DELETE_ROOM, UPDATE_ROOMDASHBOARD, GET_RECENT_RESERVATIONS, REMOVE_ROOM, UPDATE_LAYOUT, DELETERESTAURANTCAROUSELIMAGE, DELETERESTAURANTMENUIMAGE } from '../actions/types'
-import { setNotUpdated } from '../actions/dashboardActions'
+import { GET_DAILY_RESERVATIONS,LOADING_NEWDATA,IMAGES_LOADING, NOTUPDATED, RESTAURANT_UPDATING, UPLOADRESTAURANTMENUS, UPLOADPRIMARYIMG,GET_RECENT_COMMENTS,UPLOADRESTAURANTIMAGES,GET_RESTAURANT, GET_ACTIVEROOMS, ADD_LAYOUT, RESET_SERVERRESPONSE, MAKE_ROOM_UNACTIVE, MAKE_ROOM_ACTIVE , DASHBOARD_LOADING, FAILED_DASHBOARD, UPDATE_RESTAURANT, GET_WEEKLY_RESERVATIONS, GET_PLATTEGROND, GET_ROOMDASHBOARD, GET_MONTHLY_RESERVATIONS, GET_LAYOUTSDASHBOARD, DELETE_LAYOUT, DELETE_ROOM, UPDATE_ROOMDASHBOARD, GET_RECENT_RESERVATIONS, REMOVE_ROOM, UPDATE_LAYOUT, DELETERESTAURANTCAROUSELIMAGE, DELETERESTAURANTMENUIMAGE } from '../actions/types'
 
 
 const initialState = {
@@ -28,7 +27,6 @@ const initialState = {
 export default function(state = initialState, action){
     switch(action.type){
         case UPDATE_ROOMDASHBOARD: 
-        console.log('action payload', action.payload)
             return {
                 ...state,
                 room: action.payload,
@@ -74,7 +72,6 @@ export default function(state = initialState, action){
                 imagesloading: false,
             }
         case UPLOADRESTAURANTMENUS:
-            console.log(action.payload,'payload')
             return {
                 ...state,
                 menus: action.payload,
@@ -93,7 +90,6 @@ export default function(state = initialState, action){
                 imagesloading: false,
             }
         case DELETERESTAURANTMENUIMAGE:
-            console.log('inside DELETERESTAURANTMENUIMAGE')
             return {
                 ...state,
                 menus: action.payload,
@@ -104,7 +100,7 @@ export default function(state = initialState, action){
             return {
                 ...state,
                 updated: true,
-               /*  restaurant: action.payload, */
+                restaurant: action.payload, 
                 dashboardloading: false,
                 restaurantupdating: false,
             }
@@ -134,7 +130,6 @@ export default function(state = initialState, action){
                 dashboardloading:false,
             }
         case GET_DAILY_RESERVATIONS:
-            console.log('get daily', action.payload)
             return {
                 ...state,
                 daily: action.payload,
@@ -159,10 +154,9 @@ export default function(state = initialState, action){
                 dashboardloading: false,
             }
         case DELETE_ROOM:
-            console.log(state.allRooms.filter(item => item.id != action.payload.id ))
             return {
                 ...state,
-                allRooms: state.allRooms.filter(item => item.id != action.payload.id ),
+                allRooms: state.allRooms.filter(item => item.id !== action.payload.id ),
                 dashboardloading:false,
             }
         case GET_WEEKLY_RESERVATIONS:
@@ -185,7 +179,6 @@ export default function(state = initialState, action){
                 dashboardloading: false,
             }
         case GET_LAYOUTSDASHBOARD:
-            console.log(action.payload)
             return {
                 ...state,
                 activeRoom: action.payload.activeRoom,

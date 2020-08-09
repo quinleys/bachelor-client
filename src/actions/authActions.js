@@ -1,44 +1,54 @@
 import axios from 'axios';
-import { returnErrors,loginErrors } from './errorActions';
+import { returnErrors, } from './errorActions';
 import React from 'react';
-import { Translation } from 'react-i18next';
-import i18n from '../i18n';
+
 // the hoc
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { USER_LOADED, USER_LOADING, LOGIN_FAIL, LOGOUT_SUCCESS , LOGIN_SUCCES, LOGIN_TOKEN, NOT_LOGGEDIN, REGISTER_SUCCES, REGISTER_FAIL, SOCIAL_LOGIN } from "./types";
 import { toast } from "react-toastify";
 // check token & load user
 export const loadUser = () => (dispatch) => {
-    // User Loading
-    console.log('loaduser')
-    console.log('id', localStorage.getItem('id'))
+
     dispatch({type: USER_LOADING});
-    axios.get('http://127.0.0.1:8000/api/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    if(localStorage.getItem('id') !== null ){
+
+  
+    axios.get("https://quinten.staging.7.web.codedor.online/api"+ '/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
         .then(res => dispatch({
             type: USER_LOADED,
             payload: res.data
         }))
         .catch(err => {
+            dispatch(returnErrors(err, err));
             dispatch({
                 type: NOT_LOGGEDIN
             })
         })
+    }else {
+        dispatch({
+            type: NOT_LOGGEDIN
+        })
+    }
+}
+export const socialLogin = () => (dispatch) => {
+    axios.get('https://quinten.staging.7.web.codedor.online/api/user/login/google', {headers: {"Access-Control-Allow-Origin": "*"}})
+    .then(res => {
+        this.props.history.push(res);
+    })
 }
 // check token & load user
 export const loginSocial = (id, token) => (dispatch) => {
-    // User Loading
-
-    console.log('loginsocial' , id, token)
+   
     localStorage.setItem('token', token);
     localStorage.setItem('id', id)
     dispatch({type: USER_LOADING});
-    axios.get('http://127.0.0.1:8000/api/user/' + id , { headers: { Authorization: "Bearer " + token } })
+    axios.get("https://quinten.staging.7.web.codedor.online/api"+ '/user/' + id , { headers: { Authorization: "Bearer " + token } })
         .then(res => dispatch({
             type: SOCIAL_LOGIN,
             payload: res.data
         }))
         .catch(err => {
-            console.log('Login social error', err )
+         
             dispatch(returnErrors(err.response, err.response));
             dispatch({
                 type: NOT_LOGGEDIN
@@ -59,8 +69,9 @@ export const login = ({email, password}) => (dispatch) => {
     const body = JSON.stringify({email, password});
 
     
-    axios.post('http://127.0.0.1:8000/api/user/login', body, config)
+    axios.post("https://quinten.staging.7.web.codedor.online/api"+ '/user/login', body, config)
     .then(res => {
+      
         dispatch({
         type: LOGIN_SUCCES,
         payload: res.data
@@ -68,7 +79,7 @@ export const login = ({email, password}) => (dispatch) => {
     toast.success(<Trans i18nKey="loggedin"></Trans>);
     })
     .catch(err => {
-        console.log('log in failed')
+ 
         dispatch(returnErrors(err, err.response, 'LOGIN_FAIL'));
         dispatch({
             type: LOGIN_FAIL
@@ -86,7 +97,7 @@ export const register = ({email, password, name, password_confirmation}) => disp
         }
     }
     const body = JSON.stringify({email, password, name, password_confirmation});
-    axios.post('http://127.0.0.1:8000/api/user/register',body, config)
+    axios.post("https://quinten.staging.7.web.codedor.online/api"+ '/user/register',body, config)
     .then(res => {
         dispatch({
             type: REGISTER_SUCCES,

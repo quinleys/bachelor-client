@@ -1,4 +1,4 @@
-import { GET_COMMENTS, ADD_FAVORITE, GET_FAVORITES,GET_USER_ALLFAVORITES, GET_USER_FAVORITES, FAILED_FAVORITES, DELETE_FAVORITE } from '../actions/types'
+import {  ADD_FAVORITE, GET_USER_ALLFAVORITES, GET_USER_FAVORITES, FAILED_FAVORITES, DELETE_FAVORITE } from '../actions/types'
 
 
 const initialState = {
@@ -11,7 +11,6 @@ const initialState = {
 export default function(state = initialState, action){
     switch(action.type){
         case ADD_FAVORITE:
-            console.log(action.payload)
             return {
                 ...state,
                 favorites: [...state.favorites, action.payload],

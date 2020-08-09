@@ -7,15 +7,13 @@ export const getPayments = () => (dispatch) => {
     
     dispatch(setPaymentLoading())
 
-    axios.get('http://127.0.0.1:8000/api/payment/all')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/payment/all')
     .then(res => {
         dispatch({
             type:GET_PAYMENTS,
             payload: res.data
         })
     }).catch(err => {
-        console.log(err.response, 'error')
-        console.log('check typeof', typeof err.response == "object")
         if(typeof err.response == "object"){
         if(err.response.status == 429 ){
             dispatch(tooManyRequest(err.response.status))

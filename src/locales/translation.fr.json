@@ -91,7 +91,7 @@
     "pageisnotavailable": "Cette page n'est pas disponible!",
     "backtohome": "Go back to home",
     "passwordconfirmation": "Confirmation mot de passe",
-    "Register":"Créer un compte",
+    "register":"Créer un compte",
     "loggedin" : "Connecté avec succès!",
     "loggedout" : "Déconnecté avec succès!",
     "loginfailed" : "Authentification invalide!",
@@ -111,5 +111,9 @@
     "givearating": "Donne une note",
     "amountratings": "Nombre de notes",
     "loginrating" : "Vous devez vous connecter avant de pouvoir donner une note." ,
-    "toomanyrequests" : "Trop de demandes, réessayez plus tard."
+    "toomanyrequests" : "Trop de demandes, réessayez plus tard.",
+    "placeacomment" :"Voulez-vous placer un commentaire?",
+    "logincomment": "Vous devez être connecté avant de pouvoir publier un commentaire.",
+    "nofavorites" : "Pas des favoris",
+    "noreservations": "Pas de réservations"
 }

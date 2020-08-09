@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Container, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup, NavLink,  Card } from 'reactstrap';
+import { Form, Input, Label, FormGroup,  } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { addReservation } from '../../actions/reservationActions';
-import { getReservationTable } from '../../actions/reservationActions';
+import { getReservationTable , deleteReservationTable } from '../../actions/reservationActions';
  import { clearErrors } from '../../actions/errorActions'; 
-import { Stage, Layer, Rect, Text, Circle, Line, Shape , Image } from 'react-konva';
-import Konva from 'konva';
-import { getRooms } from '../../actions/roomActions'
-/* import Stepper, { Step } from "react-material-stepper"; */
-import { Steps, message } from 'antd';
-import TableCanvas from './TableCanvas'
+import { Stage, Layer, Rect, Text,  Shape , Image } from 'react-konva';
+import { getRooms, deleteGetRooms } from '../../actions/roomActions'
+
+
 import Drawer from '@material-ui/core/Drawer';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Button from '@material-ui/core/Button';
@@ -21,7 +19,6 @@ import Spinner from '../Components/Spinner/Spinner'
 import CircularProgress from '@material-ui/core/CircularProgress';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
@@ -34,31 +31,10 @@ import moment from 'moment';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import * as animationData from './success.json'
-import { Translation } from 'react-i18next';
-import i18n from '../../i18n';
 // the hoc
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import Alert from '@material-ui/lab/Alert';
-const { Step } = Steps;
 
-const steps = [
-  {
-    title: 'Reservation data',
-    content: '',
-  },
-  {
-    title: 'Choose a table',
-    content: '',
-  },
-  {
-    title: 'Overview',
-    content: '',
-  },
-  {
-    title: 'Finished',
-    content: '',
-  },
-];
 
 class URLImage extends React.Component {
   state = {
@@ -94,6 +70,7 @@ class URLImage extends React.Component {
   render() {
     return (
       <Image
+      key={this.props.id}
       id={this.props.id}
           name={this.props.name}
         x={this.props.x}
@@ -108,7 +85,6 @@ class URLImage extends React.Component {
           this.imageNode = node;
         }}
         closed
-        draggable={true}
         strokeWidth={this.props.strokeWidth}
         onClick={this.props.onClick}
         onTouchEnd={this.props.onTouchEnd}
@@ -129,7 +105,7 @@ class ReservationModal extends Component {
         persons: 1,
         date: null,
         later : null,
-        showCanvas: 0,
+        showCanvas: 1,
         freetables: 0,
         time: null,
         gevonden: '',
@@ -192,8 +168,8 @@ class ReservationModal extends Component {
     }
 
     componentDidMount(){
-        console.log(this.props.item)
-        this.resetSession();
+    
+        this.calcScale()
         this.setState({
           modal: false,
           current: 0,
@@ -202,23 +178,25 @@ class ReservationModal extends Component {
           persons: 1,
           date: null,
           later : null,
+          showCanvas: 1,
+          freetables: 0,
           time: null,
-          showCanvas: 0,
-          freetables: 0, 
+          gevonden: '',
+          gevondenTest: [],
+          errormsg:'',
           formCorrect: true,
           checkedProblems: false,
-          resetting: true,
           tafel: 1,
-          formSubmitted: false,
+          resetting: false,
           msg: '',
-          gevonden: '',
-          errormsg: '',
           item: this.props.item,
           selectedTable: [],
           selectedTableByUser: null,
           activeStep: 0,
           prevState: null ,
           listOpen: true,
+          drawer: false,
+          buttonDisbled: false,
         }, function () {
           this.props.getRooms(this.props.item.id)
         })
@@ -226,71 +204,88 @@ class ReservationModal extends Component {
         
     }
     componentWillUnmount(){
+      console.log('unmount')
       this.setState({
         modal: false,
         current: 0,
         username: '',
         password: '',
         persons: 1,
-        freetables: 0,
         date: null,
         later : null,
+        showCanvas: 1,
+        freetables: 0,
         time: null,
-        formSubmitted: false,
+        gevonden: '',
+        gevondenTest: [],
+        errormsg:'',
         formCorrect: true,
         checkedProblems: false,
-        resetting: true,
         tafel: 1,
-        msg: null,
-        item: this.props.item,
+        resetting: false,
+        msg: '',
+        item: [],
         selectedTable: [],
         selectedTableByUser: null,
         activeStep: 0,
-        gevonden: '',
         prevState: null ,
         listOpen: true,
+        drawer: false,
+        buttonDisbled: false,
       },function(){
         this.setState({
           resetting: false
         })
       })
+      this.props.deleteReservationTable();
+      this.props.deleteGetRooms(); 
     }
 
     resetSession = () => {
+      console.log('reset')
       this.setState({
         modal: false,
         current: 0,
         username: '',
         password: '',
-        freetables: 0,
         persons: 1,
         date: null,
-        formSubmitted: false,
         later : null,
+        showCanvas: 1,
+        freetables: 0,
         time: null,
+        gevonden: '',
+        gevondenTest: [],
+        errormsg:'',
         formCorrect: true,
         checkedProblems: false,
-        resetting: true,
         tafel: 1,
-        gevonden: '',
+        resetting: false,
         msg: '',
-        errormsg: '',
-        item: this.props.item,
+        item: [],
         selectedTable: [],
         selectedTableByUser: null,
         activeStep: 0,
         prevState: null ,
         listOpen: true,
+        drawer: false,
+        buttonDisbled: false,
       },function(){
         this.setState({
           resetting: false
         })
       })
+      this.props.deleteReservationTable();
+      this.props.deleteGetRooms(); 
     }
     toggle = () => {
-        // console.log('toggle')
+        
         this.setState({
             modal: !this.state.modal,
+        },function(){
+         /*  if(this.state.modal == false){
+            this.resetSession()
+          } */
         })
     }
     toggleDrawer = () => {
@@ -299,10 +294,13 @@ class ReservationModal extends Component {
         drawer: !this.state.drawer,
         formSubmitted: false,
       },function(){
-        this.resetSession()})
+        if(this.state.drawer == false){
+          this.resetSession()
+        }
+      })
     }
     onChange = e => {
-        // console.log(e.target.name)
+       
         this.setState({ [e.target.name] : e.target.value}, function(){
             this.setState({
               buttonDisbled: false,
@@ -311,9 +309,6 @@ class ReservationModal extends Component {
             })
         })
 
-
-        // console.log('tafel',this.state.tafel)
-        // console.log('persons', this.state.persons)
     }
 
     onSubmit = event => {
@@ -330,31 +325,32 @@ class ReservationModal extends Component {
         const { date, time, persons, item } = this.state;
         this.setState({
           freetables: 0
+        },function(){
+          let restaurant_id = item.id
+          let user_id = localStorage.getItem('id')
+          let table_id = this.state.tafel
+          const newReservation = {
+              date,
+              time,
+              persons,
+              restaurant_id ,
+              user_id ,
+              table_id,
+          }
+          let url =  '?date=' + this.state.date + ' ' + this.state.time + '&persons=' + this.state.persons;
+        
+          this.setState({
+            buttonDisbled: true,
+          })
+          this.setState({
+            errormsg: '',
+            gevonden: '',
+            freetables: 0,
+          }, function(){
+            this.props.getReservationTable(item.id, url)
+          })
         })
-        let restaurant_id = item.id
-        let user_id = localStorage.getItem('id')
-        let table_id = this.state.tafel
-        const newReservation = {
-            date,
-            time,
-            persons,
-            restaurant_id ,
-            user_id ,
-            table_id,
-        }
-        let url =  '?date=' + this.state.date + ' ' + this.state.time + '&persons=' + this.state.persons;
-        console.log(url);
 
-        this.setState({
-          buttonDisbled: true,
-        })
-        this.setState({
-          errormsg: '',
-          gevonden: '',
-          freetables: 0,
-        }, function(){
-          this.props.getReservationTable(item.id, url)
-        })
         
         /* this.checkProblems()  */
       }else{
@@ -367,7 +363,7 @@ class ReservationModal extends Component {
 
     }
     onClick = e => {
-      console.log('touched',e.target.attrs.id)
+    
        this.setState({
          selectedTable: e.target.attrs.id.id
      }) 
@@ -376,9 +372,8 @@ class ReservationModal extends Component {
      }) 
   }
   finish = () => {
-    console.log('finish', this.state.selectedTableByUser, this.state.selectedTable)
     let item = {
-      "user_id" : this.props.auth.user.id,
+      "user_id" : localStorage.getItem('id'),
       "restaurant_id": this.state.item.id,
       "persons": this.state.persons,
       "date" : this.state.date,
@@ -389,6 +384,7 @@ class ReservationModal extends Component {
     }
     this.props.addReservation(item)
     this.handleNext(); 
+    /* this.resetSession(); */
   }
 
 /*   makeReservation = () => {
@@ -412,13 +408,10 @@ class ReservationModal extends Component {
 checkProblems = () => {
 
 
-  console.log('checkProblems',this.props.reservation)
-  console.log('check if same', this.state.prevState == this.props.reservation.tablereservations)
+
 
   if(this.state.prevState !== this.props.reservation.tablereservations){
-    console.log('inside because new search')
 
-    console.log('inside checkedProblems ')
   if(this.props.reservation.tablereservations[0])
   {
     if(this.props.reservation.tablereservations[0] == 'closed')
@@ -437,15 +430,12 @@ checkProblems = () => {
       }
       
     }else{ 
-      if(this.props.room.rooms.length > 0 )
+      if(!this.props.room.loading && !this.props.reservation.loadingReservation && this.props.room.rooms.length > 0 )
       {
         this.props.room.rooms.map((m,i) => {
-          
-          console.log('m', m.title ,'i',i)
-          console.log('room', this.props.reservation.tablereservations.rooms[i])
+        
           if(this.props.reservation.tablereservations.rooms[i].freetables.length !== 0){
-            console.log(i , 'times through loop', 'freetables', this.state.freetables, 'gevonden' , this.state.gevonden );
-            console.log('freetables',this.props.reservation.tablereservations.rooms[i].freetables.length)
+         
             let length = parseInt(this.props.reservation.tablereservations.rooms[i].freetables.length,10)
             this.setState(prevState =>{
               return{
@@ -457,7 +447,7 @@ checkProblems = () => {
               }
            })
           }else{
-            if(this.state.freetables == 0 ){
+            if( !this.state.freetables > 0  ){
               this.setState(prevState =>{
                 return {
                 ...prevState,
@@ -469,6 +459,8 @@ checkProblems = () => {
             }else{
               this.setState({
                 errormsg: ''
+              },function(){
+                return;
               })
             }
             
@@ -477,14 +469,29 @@ checkProblems = () => {
       }
      
 
-   console.log('gevonden', this.state.gevonden, 'freetables', this.state.freetables);
+  
    
   }
 }
-this.setState({
-  checkedProblems: true,
-  prevState: this.props.reservation.tablereservations
-})
+
+if(this.state.gevonden !== '' ){
+  
+  this.setState({
+    errormsg: ''
+  },function(){
+    this.setState({
+      checkedProblems: true,
+      prevState: this.props.reservation.tablereservations
+    })
+
+  })
+}else{
+  this.setState({
+    checkedProblems: true,
+    prevState: this.props.reservation.tablereservations
+  })
+}
+
 } 
 
 }
@@ -494,13 +501,13 @@ listOpen = () => {
   })
 }
 showPrevCanvas = () => {
-  console.log('show prev' , this.state.showCanvas)
+
   this.setState({
     showCanvas: this.state.showCanvas - 1
   })
 }
 showNextCanvas = () => {
-  console.log('show next' , this.state.showCanvas)
+
   this.setState({
     showCanvas: this.state.showCanvas + 1
   })
@@ -510,6 +517,26 @@ closeAlert = () => {
       alert: false
   })
   this.props.clearErrors();
+}
+calcScale = () => {
+  const CANVAS_VIRTUAL_WIDTH = 1000;
+      const CANVAS_VIRTUAL_HEIGHT = 1000;
+ if( window.innerWidth < 1140){
+      let scaleCalc = Math.min(
+          window.innerWidth / CANVAS_VIRTUAL_WIDTH,
+          ) - 0.1;
+          this.setState({
+              scale: scaleCalc
+          })
+  }
+ else {
+      let scaleCalc = Math.min(
+          1140 / CANVAS_VIRTUAL_WIDTH,
+          ) - 0.1;
+          this.setState({
+              scale: scaleCalc
+          })
+  }
 }
     render() {
          const { current } = this.state;
@@ -524,8 +551,8 @@ closeAlert = () => {
     // we can just scale it
     const scale = Math.min(
       window.innerWidth / CANVAS_VIRTUAL_WIDTH,
-      window.innerHeight / CANVAS_VIRTUAL_HEIGHT,
-    ) - 0.05;
+    
+    )-0.03;
 
     const defaultOptions = {
       loop: false,
@@ -555,14 +582,16 @@ closeAlert = () => {
                          root: 'floatright' }} fontSize="large" onClick={this.toggleDrawer} />
                        </div>
                        </div>
-                      <div className="row" style={{overflow: "scroll"}}>
-                        <div className="col-12">
+                    
+                      
                           { this.state.activeStep == 0 ?
+                            <div className="row" >
+                            <div className="col-12">
                           <div>
                        <div>
-                         {console.log(this.state.gevondenTest, 'gevonden test')}
-                         { this.state.errormsg ? ( <Alert severity="error"> {this.state.errormsg} </Alert> ): null }
-                         { this.state.gevonden ? ( <Alert severity="success" > {this.state.gevonden} </Alert> ): null }
+                    
+                         { this.state.errormsg && this.state.errormsg !== '' ? ( <Alert severity="error"> {this.state.errormsg} </Alert> ): null }
+                         { this.state.gevonden ? ( <Alert severity="success" > {this.state.gevonden} </Alert> )  : null }
                       { this.state.item && !this.state.resetting && tablereservations && tablereservations[0] && !this.props.reservation.loading && this.state.drawer && this.state.formSubmitted ? this.checkProblems() : null  } 
                       
                         <Form onSubmit={this.onSubmit}>
@@ -610,11 +639,15 @@ closeAlert = () => {
             
                         </div>  
                         </div>
+                        </div>
+                        </div>
                         : null }
                         
                         {this.state.activeStep == 1 && this.props.reservation && tablereservations && tablereservations[0] && this.state.item ? 
+                        <div className="row" style={{overflow: "scroll"}}>
+                          <div className="col-12">
                         <div>
-                             {rooms ?  console.log(rooms) : null }
+                         
                              
                              {rooms.length > 1 ? 
                              <div className="row my-2 justify-content-between"  >
@@ -631,13 +664,14 @@ closeAlert = () => {
                              {rooms ? 
                              rooms.map(( room,i ) => {
                                return (
-                                 <div className={ this.state.showCanvas == i ? 'hiddenCanvas' : null}>
+                                 <div className={ this.state.showCanvas == i ? 'hiddenCanvas' : 'reservationmodal'}>
                                    <div className="row">
-                                     {console.log('i', i , 'showCanvas' , this.state.showCanvas )}
+                                 
                                     <h6>{room.title}</h6>
                                   </div>
-                              <Stage  width={window.innerWidth} height={window.innerHeight} scaleX={scale} scaleY={scale}>
-                              { console.log(scale)}
+                               {/* <Stage  width={window.innerWidth} height={window.innerWidth} scaleX={scale} scaleY={scale}>  */}
+                              <Stage  width={1000 * this.state.scale > 1000 ?  1140 : window.innerWidth  } height={1000 * this.state.scale > 1000 ? 1140 : window.innerWidth  } scaleX={1000 * this.state.scale > 1000 ?  this.state.scale : scale } scaleY={1000 * this.state.scale > 1000 ?  this.state.scale : scale }> 
+                           
                              {  room.walls ?  
                              <Layer>
                                  <Shape
@@ -675,7 +709,7 @@ closeAlert = () => {
                                  { room.extras ? 
                             
                             room.extras.map(m => {
-                                console.log('m',m)
+                             
                                 return(
                                 <Layer>
                                 <Rect
@@ -703,6 +737,7 @@ closeAlert = () => {
                                   /* src={process.env.PUBLIC_URL + `/tables/tabletest2-3.svg`} */
                                        src={process.env.PUBLIC_URL + `/tables/table${m.id}-3.svg`} 
                                        id={m}
+                                       key={m.pivot.id}
                                        x={m.pivot.x}
                                        y={m.pivot.y}
                                        width={m.pivot.width}
@@ -725,14 +760,13 @@ closeAlert = () => {
                                         
                        
                                       />  */}   
-                                      {console.log('free table', this.props.reservation.tablereservations.freetables )}
-                                      {console.log('reservation tables',this.props.reservation.tablereservations.reservations)}
+                                   
                                       {tablereservations.rooms[i].reservations !== 'no reservations' ? 
                                                         
                                                    tablereservations.rooms[i].reservations &&  tablereservations.rooms[i].reservations.map(res => {
-                                                            console.log('reservations tables',res)
+                                                        
                                                             if(res.table_pivot_id == m.pivot.id){
-                                                                console.log('gevonden')
+                                                              
                                                                 return (
                                                                   <URLImage 
                                                                  /*  src={process.env.PUBLIC_URL + `/tables/tabletest2-4.svg`} */
@@ -764,9 +798,9 @@ closeAlert = () => {
                                                         {tablereservations.rooms[i].freetables && tablereservations.rooms[i].freetables[0] ? 
                                                         tablereservations.rooms[i].freetables && tablereservations.rooms[i].freetables.length >= 1 ? 
                                                         tablereservations.rooms[i].freetables && tablereservations.rooms[i].freetables.map(res => {
-                                                         {console.log('res',res[0])}
+                                                      
                                                            if(res[0][0].pivot.id == m.pivot.id){
-                                                               console.log('gevonden')
+                                                               
                                                                return (
                                                   
                                                                     <URLImage
@@ -788,29 +822,7 @@ closeAlert = () => {
                                                            } 
                                                        })
                                                        : null
-                                                       /* tablereservations.rooms[i].freetables.map(res => {
-                                                        {console.log('res',res[0][0])}
-                                                          if(res[0][0].pivot.id == m.pivot.id){
-                                                              console.log('gevonden')
-                                                              return (
-                                                                  <Rect
-                                                                  id={m}
-                                                                  
-                                                                  x={m.pivot.x}
-                                                                  y={m.pivot.y}
-                                                                  width={m.pivot.width}
-                                                                  height={m.pivot.height}
-                                                                  fill={this.state.selectedTableByUser == m.pivot.id ? "#FB3640" : '#2369f6'}
-                                                                  shadowBlur={this.state.selectedTableByUser == m.pivot.id ? 30 : 10}
-                                                                  strokeWidth={this.state.selectedTableByUser == m.pivot.id ? 2 : 0 }
-                                                                  stroke={"black"}
-                                                                  onClick={this.onClick}
-                                                                   onTouchEnd={this.onClick}
-                                                                  closed
-                                                                />
-                                                              )
-                                                          } 
-                                                      }) */
+                                            
                                                        : null } 
                            <Text text={m.title} fontSize={30} x={m.pivot.x} y={m.pivot.y} />
     
@@ -819,6 +831,7 @@ closeAlert = () => {
                          : null }
                                  </Stage>
                                  </div>
+                                 
                              )})
                              
                              :null }
@@ -840,18 +853,13 @@ closeAlert = () => {
                                 <div className="geserveerdeplaats"> </div> <Trans i18nKey="reservatedtables"></Trans> 
                               </div>
                             </div>
-                             {/*      {console.log('ex',this.props.room.rooms.extras)}
-                            
-            
-                         
-            */
-                        
-                        
-                         }
+                          
                      </div>
-                
+                </div>
+                  </div>
                     : null }
                     {this.state.activeStep == 2 ? 
+                      <div className="col-12">
                     <div>
                        <h5><Trans i18nKey="reservationoverview"></Trans></h5>
                        <List>
@@ -912,9 +920,11 @@ closeAlert = () => {
                        {/* <Button className="mt-3" classes={{ root: 'fullLengthButton'}} variant="contained" color="primary" onClick={() => this.makeReservation()}>Bevestig</Button> */}
                        
                     </div>
+                    </div>
                     : null }
                    {this.state.activeStep == 3 ? 
-                  <div>
+                  <div className="row">
+                    <div className="col-12">
                     { loadingReservation ? 
                     
                     <div>
@@ -925,14 +935,14 @@ closeAlert = () => {
                     <Alert severity="error" onClose={() => this.closeAlert()}> <Trans i18nKey="somethingwentwrong"></Trans> </Alert>
                      : 
                     <div>
-                      {console.log('nieuwe reservatie', newReservation)}
+                   
                        <Lottie options={defaultOptions}
                           height={250}
                           width={250}
                           isStopped={false}
                           isPaused={false}/>
                           <FadeIn>
-                            <div className="pt-3">
+                            <div className="pt-3" style={{textAlign: 'center'}}>
                             <h3> <Trans i18nKey="reservationsuccesfull"></Trans></h3>
                             <p> <Trans i18nKey="reservationnumber"></Trans>: { newReservation.reservation.id }</p>
                             <Link to="/profile" ><Button classes={{ root: 'fullLengthButton'}} > <Trans i18nKey="watchyourreservation"></Trans></Button></Link>
@@ -941,12 +951,12 @@ closeAlert = () => {
                     </div>
                     }
                     
-                  
+                    </div>
                   </div>  
                 : null }
                 { this.state.activeStep < 3 ?
-             <div className="row">
-               <div className="col-12">
+             <div className="row" style={{width : '100%'}}>
+               <div className="col-12 px-0">
                  
              <MobileStepper
              classes= {{
@@ -984,8 +994,8 @@ closeAlert = () => {
             </div>
             </div>
             : null }
-            </div>
-            </div>
+          
+       
             </Drawer>
   
             </div>
@@ -1000,4 +1010,4 @@ const mapStateToProps = state => ({
     reservation: state.reservation
 });
 
-export default connect(mapStateToProps,{addReservation, clearErrors, getReservationTable, getRooms  })(ReservationModal)
+export default connect(mapStateToProps,{addReservation, clearErrors, deleteReservationTable,deleteGetRooms, getReservationTable, getRooms  })(ReservationModal)

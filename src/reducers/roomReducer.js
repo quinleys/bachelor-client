@@ -1,4 +1,4 @@
-import { GET_ROOMS, ADD_ROOM ,GET_ROOM, FAILED_ROOMS , ROOMS_LOADING } from '../actions/types'
+import { GET_ROOMS, ADD_ROOM , DELETE_GET_ROOMS, GET_ROOM, FAILED_ROOMS , ROOMS_LOADING } from '../actions/types'
 
 
 const initialState = {
@@ -11,15 +11,21 @@ const initialState = {
 export default function(state = initialState, action){
     switch(action.type){
         case GET_ROOMS:
-            console.log('extra',action.payload)
             return {
                 ...state,
                 rooms: action.payload,
                 loading: false,
                 madeNew: false,
             };
+            case DELETE_GET_ROOMS: 
+                return {
+                ...state,
+                rooms : [],
+                loading: false,
+                madeNew: false,
+            }
+            
             case GET_ROOM:
-            console.log('extra',action.payload)
             return {
                 ...state,
                 room: action.payload,

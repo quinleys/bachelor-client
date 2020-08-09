@@ -5,8 +5,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import TextField from '@material-ui/core/TextField';
-import { Button, Collapse, CardBody, Input, Form, FormGroup, Label } from 'reactstrap'
+import { Button,  Input, Form, FormGroup, Label } from 'reactstrap'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getTables } from '../../actions/tableActions'
@@ -14,19 +13,20 @@ import { getExtras } from '../../actions/extraActions'
 import { getRoom } from '../../actions/dashboardActions'; 
 /* import { getRoom } from '../../actions/roomActions'; */
 import Spinner from '../../components/Components/Spinner/Spinner'
-import { Stage, Layer, Rect, Text, Circle, Line, Shape, Transformer, Image } from 'react-konva';
+import { Stage, Layer, Rect, Text, Circle, Shape, Transformer, } from 'react-konva';
 import Konva from 'konva';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { updateRoom } from '../../actions/dashboardActions' 
 import { removeRoom } from '../../actions/dashboardActions' 
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Tooltip from '@material-ui/core/Tooltip';
 import HelpIcon from '@material-ui/icons/Help';
 import Alert from '@material-ui/lab/Alert';
 import { clearErrors } from '../../actions/errorActions'; 
 import NotAllowed from '../NotAllowed';
-
+import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { Link } from 'react-router-dom';
 class TransformerComponent extends React.Component {
     componentDidMount() {
       this.checkNode();
@@ -62,6 +62,8 @@ class TransformerComponent extends React.Component {
 class EditRoom extends Component {
     constructor(props){
         super(props)
+        var today = new Date(),
+        dateTodayNow = today.getFullYear() + '-0' + (today.getMonth() + 1) + '-' + today.getDate();
         this.state = {
             walls: [],
             extras: [
@@ -76,6 +78,7 @@ class EditRoom extends Component {
             toggle2: false,
             toggle3: false,
             errorExtra: '',
+            dateToday: dateTodayNow,
             amountOfWall: 0,
             lengthOfWall: [],
             length0: 0,
@@ -113,7 +116,7 @@ class EditRoom extends Component {
         let id = this.props.match.params.id
         var splitstr = id.split(':');
         let final = splitstr.slice(0)
-        console.log('id', final[1] )
+      
         this.setState({
             roomId : final[1]
         })
@@ -122,19 +125,15 @@ class EditRoom extends Component {
         window.addEventListener("resize", this.calcScale());
     }
     componentWillUnmount(){
-        console.log('unmount')
+      
         window.removeEventListener("resize",  this.calcScale());
         this.props.removeRoom()
         this.props.clearErrors()
     }
     onAddItem = e => {
-        // not allowed AND not working
-        //console.log(e.target.name)
-        //console.log(e.target.value)
-
+      
         let id = e.target.name.split(".");
-        //console.log(id)
-
+        
         if(id[1] == 'point-1') {
             let point1 = 0
             point1 = parseInt(e.target.value, 10)
@@ -165,7 +164,7 @@ class EditRoom extends Component {
                     walls: filteredArray,
                     error: ''
                 });
-                //console.log(filteredArray)
+               
                 
           }else{
               this.setState({
@@ -198,15 +197,14 @@ class EditRoom extends Component {
       })
     }
     onChangeExtra = (e) => {
-        //console.log(e.target)
+       
         let titel;
         this.setState({
             selectedExtra: e.target.value,
         }, function (){
-            console.log('function')
+      
             this.props.extra.extras.map(m => {
-                console.log('checking extras', m )
-                console.log(m.id, this.state.selectedExtra)
+
                 if(m.id == this.state.selectedExtra){
                     this.setState({
                         selectedExtraTitle: m.title
@@ -216,11 +214,10 @@ class EditRoom extends Component {
         )})
     }
     addExtra = () => {
-        //console.log('selected', this.state.selectedExtra)
-        //console.log('title', this.state.selectedExtraTitle)
+       
 
             let newExtra = { "id": this.state.extras.length + 1 ,/*  title: this.state.selected, */ "x": 0, "y":0, "height": 100, "width": 100, "title": this.state.selectedExtraTitle , "realId" : this.state.selectedExtra , fill:Konva.Util.getRandomColor()  }
-            //console.log('newExtra', newExtra)
+           
             this.setState({
                 extras: this.state.extras.concat(newExtra),
                 
@@ -231,37 +228,33 @@ class EditRoom extends Component {
     }
 
     changeExtra = e => {
-        //console.log('change extra')
-        // not allowed AND not working
-        //console.log(e.target.name)
-        //console.log(e.target.value)
+    
 
         let id = e.target.name.split(".");
-        //console.log(id)
-
+       
         if(id[1] == 'x') {
-            //console.log('inside x')
+           
             let x = 0
             x = e.target.value
             this.setState({
                 extras: this.state.extras.map(el => (el.id == id[0] ?  {...el, x } : el))
             })
         }if(id[1] == 'y'){
-           //console.log('inside y')
+          
             let y = 0
             y = parseInt(e.target.value, 10)
             this.setState({
                 extras: this.state.extras.map(el => (el.id == id[0] ?  {...el, y } : el))
             })
         }if(id[1] == 'height'){
-           //console.log('inside height')
+          
            let height = 0
            height = parseInt(e.target.value, 10)
            this.setState({
             extras: this.state.extras.map(el => (el.id == id[0] ?  {...el, height } : el))
            })
        }if(id[1] =='width'){
-           //console.log('inside width')
+         
                let width = 0
                width = parseInt(e.target.value, 10)
                this.setState({
@@ -269,7 +262,7 @@ class EditRoom extends Component {
                })
            
        }
-       //console.log(this.state.tables)
+   
    }
     deleteExtra = (id) => {
         
@@ -280,8 +273,7 @@ class EditRoom extends Component {
                     extras: filteredArray,
                     errorTables: ''
                 });
-                //console.log(filteredArray)
-                
+              
           }else{
               this.setState({
                 errorExtra: 'you need to have atleast 1 table'
@@ -294,13 +286,25 @@ class EditRoom extends Component {
         })
     }
     formChange = e => {
-        //console.log(e.target.name)
+      
         this.setState({
-            [e.target.name] : e.target.value
+            [e.target.name] : e.target.value,
+          
         },function(){
-            //console.log(this.state.length1)
+            if(this.state.title == ''){
+              
+                    this.setState({
+                        errormsg: 'Vul een titel in!'
+                    })
+                    
+            }else {
+                this.setState({
+                    errormsg: ''
+                })
+            }
         })
     }
+    
    
     createTable = () => {
             let table = []
@@ -331,9 +335,10 @@ class EditRoom extends Component {
                 ]
             })
         }
-        //console.log('calculate')
+       
     }
     saveRoom = () => {
+
         this.setState({
             errormsg: ''
         },function (){
@@ -348,7 +353,7 @@ class EditRoom extends Component {
             })
             if(this.state.title == ''){
                 this.setState({
-                    errormsg: 'Layout moet een titel hebben.'
+                    errormsg: 'De Kamer moet een titel hebben.'
                 }, function(){
                     toast.error(this.state.errormsg)
                 })
@@ -364,7 +369,7 @@ class EditRoom extends Component {
                 this.props.updateRoom(item);
             }
         })
-
+    
     }
     handleDragStartPoint = e => {
         e.target.setAttrs({
@@ -376,7 +381,7 @@ class EditRoom extends Component {
       };
     handleDragEndPoint = e => {
 
-        //console.log('end drag', e.target.attrs.x)
+       
       e.target.to({
         duration: 0.5,
         easing: Konva.Easings.ElasticEaseOut,
@@ -391,15 +396,12 @@ class EditRoom extends Component {
       let item = {
         "id": e.target.attrs.id.id , "point1": e.target.attrs.x, "point2": e.target.attrs.y ,
       }
-      //console.log(e.target.attrs)
-      //console.log('item', item)
+   
       this.setState(state => {
           const walls = state.walls.map((i, count) => {
-              //console.log('vergelijking', i, e.target.attrs.id.id)
-              console.log('items', i, count , 'id' ,e.target.attrs.id.id)
+
             if ( e.target.attrs.id.id == i.id) {
-                //console.log('i',i)
-                console.log('gevonden');
+
               return {
                   "id": e.target.attrs.id.id , "point1": e.target.attrs.x, "point2": e.target.attrs.y ,
               };
@@ -419,7 +421,7 @@ class EditRoom extends Component {
     
     };
     calcMax = () => {
-        console.log('inside calc', this.state.walls)
+      
         this.setState({
             maxX: 0,
             minX: 1000,
@@ -449,10 +451,10 @@ class EditRoom extends Component {
         )
         })
 
-    console.log('new maxes', this.state.maxX, this.state.minX, this.state.maxY, this.state.minY) 
+    
     }
     handleDragStart = e => {
-        console.log('drag start', e.target.attrs)
+       
         e.target.setAttrs({
           shadowOffset: {
             x: 15,
@@ -463,19 +465,16 @@ class EditRoom extends Component {
       };
 
       onChangeRect = e =>{
-          console.log('changing')
-        console.log(e.target, 'target')
-        console.log(e.target.attrs.scaleX)
+   
           let item = {
             "id": e.target.attrs.id.id , "title": e.target.attrs.id.title, "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height * e.target.attrs.scaleY, "width": e.target.attrs.width * e.target.attrs.scaleX, "realId" : e.target.attrs.id.realId
         }
-        //console.log(e.target.attrs)
-        //console.log('item', item)
+     
         this.setState(state => {
             const extras = state.extras.map((i) => {
-                //console.log('vergelijking', i, e.target.attrs.id.id)
+               
               if ( e.target.attrs.id.id == i.id) {
-                  //console.log('i',i)
+                 
                 
                 return {
                     "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height * e.target.attrs.scaleY, "width": e.target.attrs.width * e.target.attrs.scaleX ,"realId" : e.target.attrs.id.realId, 'fill': e.target.attrs.fill 
@@ -494,7 +493,7 @@ class EditRoom extends Component {
       }
       handleDragEnd = e => {
 
-        console.log('end drag', e.target.attrs)
+       
         e.target.to({
           duration: 0.5,
           easing: Konva.Easings.ElasticEaseOut,
@@ -506,21 +505,19 @@ class EditRoom extends Component {
         let item = {
             "id": e.target.attrs.id.id , "title": e.target.attrs.id.title, "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width, "realId" : e.target.attrs.id.realId
         }
-        //console.log(e.target.attrs)
-        //console.log('item', item)
+      
         this.setState(state => {
             const extras = state.extras.map((i) => {
-                //console.log('vergelijking', i, e.target.attrs.id.id)
+            
               if ( e.target.attrs.id.id == i.id) {
-                  //console.log('i',i)
-                  console.log(e.target.attrs.x, 'X')
+                  
                   if(e.target.attrs.x > this.state.minX ){
-                      console.log('between points')
+                     
                 return {
                     "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width,"realId" : e.target.attrs.id.realId, 'fill': e.target.attrs.fill 
                 };
             }else{ 
-                 console.log('not between points')
+                
                 return {
                     "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width,"realId" : e.target.attrs.id.realId, 'fill': e.target.attrs.fill 
                 };
@@ -539,12 +536,9 @@ class EditRoom extends Component {
       updateRect = e => {
         this.setState(state => {
             const extras = state.extras.map((i) => {
-                //console.log('vergelijking', i, e.target.attrs.id.id)
+            
               if ( e.target.attrs.id.id == i.id) {
-                  //console.log('i',i)
-                  console.log(e.target.attrs.x, 'X')
-                
-                      console.log('between points')
+                  
                 return {
                     "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width,"realId" : e.target.attrs.id.realId, 'fill': e.target.attrs.fill 
                 };
@@ -563,7 +557,7 @@ class EditRoom extends Component {
           });
       }
       setStateCorrect = () => {
-          //console.log('set state correct', this.props.dashboard)
+       
           if(this.state.setStateCorrect){
             this.setState({
                 walls: this.props.dashboard.room.walls,
@@ -571,9 +565,9 @@ class EditRoom extends Component {
                 title: this.props.dashboard.room.title,
                 setStateCorrect: false,
               }, function(){
-                  //console.log('extras of dashboard',this.props.dashboard.room.extras)
+                
                 this.props.dashboard.room.extras.map((m,i) => {
-                    /* { id: 1, title: 'Wc' , x: 10 , y: 10 , width: 100, height: 100 } */
+  
                     let item = { "id": i, 'realId': m.id, "title" :m.title, "x": m.pivot.x , "y": m.pivot.y , "width":m.pivot.width, "height":m.pivot.height, "fill":Konva.Util.getRandomColor()  }
                     this.setState(previousState => ({
                         extras: [...previousState.extras, item ]
@@ -586,16 +580,13 @@ class EditRoom extends Component {
           }
         
       }
-      /* onSelect = () => { 
-        trRef.current.setNode(shapeRef.current);
-        trRef.current.getLayer().batchDraw();
-      } */
+   
       onClickThis = e => {
-          console.log(e)
+        
           e.stage.getPointerPosition()
       }
       onSelect = (e) => {
-        console.log(e)
+      
         this.setState({
             selectedRect : e.target
         })
@@ -609,7 +600,7 @@ class EditRoom extends Component {
         const CANVAS_VIRTUAL_WIDTH = 1000;
         const CANVAS_VIRTUAL_HEIGHT = 1000;
        if( window.innerWidth < 1140){
-           console.log('smaller then')
+         
             let scaleCalc = Math.min(
                 1140 / CANVAS_VIRTUAL_WIDTH,
                 ) - 0.1;
@@ -618,7 +609,7 @@ class EditRoom extends Component {
                 })
         }
        else {
-        console.log('smaller then')
+       
             let scaleCalc = Math.min(
                 1140 / CANVAS_VIRTUAL_WIDTH,
                 ) - 0.1;
@@ -640,11 +631,10 @@ class EditRoom extends Component {
         return (
            
             <div className="dashboard">
-                {console.log('extras',this.state.extras)}
-                {console.log(status,'status')}
+               
                 {dashboardloading ? <Spinner /> : 
                 <div>
-                     {console.log(this.props.error.status == 'NOT_ALLOWED')}
+                    
                 { room == 'Not allowed' ? <NotAllowed /> : 
            
             <div>
@@ -652,15 +642,32 @@ class EditRoom extends Component {
                 <Container>
                     {room.title && !loading && this.state.setStateCorrect ? this.setStateCorrect() : null}
                     <div className="row">
-                        <div className="col-11">
+                        <div className="col-10">
                         <h1>Bewerk uw pagina!</h1>
                         </div>
                         <div className="col">
-                        <Button onClick={this.saveRoom}>Opslaan!</Button>
+                        <Button className="floatright" disabled={this.state.errormsg} onClick={this.saveRoom}>Opslaan!</Button>
                         </div>
                     </div>
-                
-                {console.log(this.state.maxX,this.state.minX, this.state.maxY, this.state.minY, 'new max and min')}
+                    <div className="row justify-content-between my-2">
+                          <div className="col">
+                            <Breadcrumbs aria-label="breadcrumb">
+                                <Link to="/dashboard">
+                              <Typography color="textPrimary">Dashboard</Typography>
+                              </Link>
+                              <Link to="/dashboard/layout">
+                              <Typography color="textPrimary">Layout</Typography>
+                              </Link>
+                              <Typography color="textPrimary">Bewerk Kamer</Typography>
+                             
+                            </Breadcrumbs>
+                            </div>
+                            <div className="col">
+                              <h6 div className="floatright">{this.state.dateToday}</h6>
+                            </div>
+                        </div>
+                    {this.state.errormsg != '' ? <Alert severity="error" > {this.state.errormsg} </Alert>: null }
+               
                 <div className="row">
                     <div className="col-12">
                        
@@ -718,12 +725,12 @@ class EditRoom extends Component {
                                 <div className="col-12">
                         <h5>Kies de lengte van de muren.</h5>
                         <p>Ga kloksgewijs. Hoe u het hier ziet zal de gebruiker ook zien.</p>
-                        {this.state.errormsg != '' ? <Alert severity="error" > {this.state.errormsg} </Alert>: null }
+                
                         
                         <p>{this.state.error}</p>
                             {this.state.walls ? 
                             this.state.walls.map((m,i) => {
-                                //console.log(m)
+                               
                                 return(
                                     <div className="row mt-1">
                                     <div className="col-1">
@@ -809,10 +816,10 @@ class EditRoom extends Component {
                                     </div>
                                     
                         </div>
-                        {console.log(this.state.extras)}
+                      
                         {this.state.extras ? 
                             this.state.extras.map((m,i) => {
-                                //console.log('state extra', m)
+                              
                                 return(
                                     <div className="row my-1">
                                     <div className="col-2">
@@ -864,9 +871,9 @@ class EditRoom extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-12 ">{
-                        console.log(this.state.scale ,'scale')
-                    }
+                    <div className="col-12 ">
+                      
+                    
                     { this.state.walls ?      
                 <Stage  onClick={this.handleStageClick} width={1000 * this.state.scale < 1140 ? 1000 * this.state.scale : 1140 } height={1000 * this.state.scale < 1140 ? 1000 * this.state.scale : 1140 } scaleX={this.state.scale} scaleY={this.state.scale}>
                 <Layer>
@@ -875,7 +882,7 @@ class EditRoom extends Component {
                         sceneFunc={(context, shape) => {
                         context.beginPath();
                         {this.state.walls.map(m => {
-                            //console.log(m)
+                          
                             if(m.id == 1){
                                 context.moveTo(m.point1, m.point2);
                             }
@@ -931,40 +938,13 @@ class EditRoom extends Component {
                        {this.state.extras ? 
                                
                                this.state.extras.map((m,i) => {
-                                   //console.log(m.id)
+                                 
                                        return (
                                         <Layer 
                                      
-                                        /* id={m}
-                                        x={m.x}
-                                        y={m.y}
-                                        width={m.width}
-                                        height={m.height}
-                                        fill={m.fill}
-                                        closed
-                                        shadowBlur={10}
-                                        draggable={true}  */
-                                       /*  onClick={console.log('on click')}
-                                        onTransform={console.log('on transform')}
-                                        onDragStart={console.log('on dragstart')}
-                                        onDragEnd={console.log('on dragend')}
-                                        onDragMove={console.log('on dragmove')} */
-                                      /*  onClick={ this.onSelect }
-                                        onTap={this.onSelect}
-                                        onTransform={this.onChangeRect}
-                                        onDragStart={this.handleDragStart}
-                                        onDragEnd={this.handleDragEnd} */
                                 
                                         >
-                                      {/*   <URLImage src="https://konvajs.org/assets/yoda.jpg" 
-                                        name={`rectange${i}`}
-                                        id={m}
-                                      x={m.x}
-                                      y={m.y}
-                                      width={m.width}
-                                      height={m.height}
-                                      onClick={ this.onSelect }
-                                   /> */}
+                                    
                                        <Rect
                                         name={`rectange${i}`}
                                         id={m}

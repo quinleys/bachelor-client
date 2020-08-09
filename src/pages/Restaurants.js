@@ -1,41 +1,28 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Container, Badge,Button, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup, NavLink, Alert, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, } from 'reactstrap';
+import { Container, Badge,Button, Form, Input, Label, FormGroup, Card, CardImg, CardText, CardBody,
+    CardTitle,  } from 'reactstrap';
 import { getItems , loadNext } from '../actions/itemActions';
 import FadeIn from 'react-fade-in'
-import Grid from '@material-ui/core/Grid';
-import Slide from '@material-ui/core/Slide';
 import { Link } from 'react-router-dom';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+
 import Chip from '@material-ui/core/Chip';
-import DoneIcon from '@material-ui/icons/Done';
-import FaceIcon from '@material-ui/icons/Face';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import SearchIcon from '@material-ui/icons/Search';
 import Collapse from '@material-ui/core/Collapse';
-import SendIcon from '@material-ui/icons/Send';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
 import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import CommentIcon from '@material-ui/icons/Comment';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import PeopleIcon from '@material-ui/icons/People';
+
 import EuroIcon from '@material-ui/icons/Euro';
-import GradeIcon from '@material-ui/icons/Grade';
 import StoreIcon from '@material-ui/icons/Store';
 import PaymentIcon from '@material-ui/icons/Payment';
 import Menu from '@material-ui/core/Menu';
@@ -45,32 +32,23 @@ import Drawer from '@material-ui/core/Drawer';
 import Fab from '@material-ui/core/Fab';
 import CancelIcon from '@material-ui/icons/Cancel';
 import SortIcon from '@material-ui/icons/Sort';
-import { withStyles } from '@material-ui/core/styles';
-import DatePicker from 'react-date-picker'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import Pagination from "react-js-pagination";
 import CloseIcon from '@material-ui/icons/Close';
 import  Spinner  from '../components/Components/Spinner/Spinner'
 import Fade from '@material-ui/core/Fade';
-import TextRotateUpIcon from '@material-ui/icons/TextRotateUp';
-import TextRotateVerticalIcon from '@material-ui/icons/TextRotateVertical';
 import RoomIcon from '@material-ui/icons/Room';
 import Rating from '@material-ui/lab/Rating';
-import LoginModal from '../components/Auth/LoginModal';
 import moment from 'moment';
 import Box from '@material-ui/core/Box';
-import { Translation } from 'react-i18next';
-import i18n from '../i18n';
-// the hoc
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans,  } from 'react-i18next'
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import TooManyRequests from './TooManyRequest'
 import { clearErrors } from '../actions/errorActions'; 
-
-function ListItemLink(props) {
+import FastfoodIcon from '@material-ui/icons/Fastfood';
+/* function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
-  }
+  } */
 
 class Restaurants extends Component {
     constructor(props){
@@ -145,19 +123,15 @@ class Restaurants extends Component {
                 {"id":2 , "value" : 2 , "title": "2 Sterren"},
                 {"id":3, "value" : 3 , "title": "3 Sterren"},
                 {"id":4, "value" : 4 , "title": "4 Sterren"},
-                {"id":5, "value" : 5 , "title": "3 Sterren"},
+                {"id":5, "value" : 5 , "title": "5 Sterren"},
             ],
             filterUrl: '',
         }
     }
     componentDidMount(){
-        console.log(this.props.prices, 'prices')
-        console.log(this.state.url)
-        console.log(this.props.location.searchProps)
-        
+
         if(this.props.location.searchProps){
-            console.log('category', this.props.location.searchProps.categories)
-            console.log('availabilty', this.props.location.searchProps)
+          
             if( this.props.location.searchProps.date && this.props.location.searchProps.time && this.props.location.searchProps.date != '' && this.props.location.searchProps.time != '' ){
                 
                 if(this.props.location.searchProps.persons != '' ){
@@ -213,8 +187,7 @@ class Restaurants extends Component {
                 
 
                 if(this.props.location.searchProps.categories.length >= 1){
-                    console.log('categories',this.props.location.searchProps.categories )
-                    
+                  
                     if(this.props.location.searchProps.categories.length > 1){
                        
                         this.props.location.searchProps.categories.map(m => {
@@ -230,7 +203,7 @@ class Restaurants extends Component {
                                     checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
                                 }));
                             }
-                            console.log('cat',m.title)
+                          
                             let item = {"class" : "category.title", "value" :  m.title};
                             if(this.state.filters.includes(item)){
                                 this.setState({filters: this.state.filters.filter(function(filter) { 
@@ -295,13 +268,13 @@ class Restaurants extends Component {
                             }));
                         }
                 let item = {"class" : "layouts.tables.people", "value" :  this.props.location.searchProps.persons};
-                console.log('persons', this.props.location.searchProps.persons)
+               
                 this.setState(previousState => ({
                     filters: [...previousState.filters, item ]
                 }));
             }
             if(this.props.location.searchProps.categories.length >= 1){
-                console.log('categories',this.props.location.searchProps.categories )
+
                 
                 if(this.props.location.searchProps.categories.length > 1){
                    
@@ -318,7 +291,7 @@ class Restaurants extends Component {
                                 checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
                             }));
                         }
-                        console.log('cat',m.title)
+                      
                         let item = {"class" : "category.title", "value" :  m.title};
                         if(this.state.filters.includes(item)){
                             this.setState({filters: this.state.filters.filter(function(filter) { 
@@ -360,10 +333,7 @@ class Restaurants extends Component {
         this.props.clearErrors()
     }
     onChangeForm = e => {
-        console.log(e.target.value)
-        console.log(e.target.name)
-        console.log('value',e.target.value)
-        
+       
         this.setState({ 
             [e.target.name] : e.target.value
            
@@ -375,7 +345,7 @@ class Restaurants extends Component {
     toggle = e => {
         
         let item = e.target.value;
-        console.log(e.target.value)
+    
         if(this.state.filters.includes(e)){
             this.setState({filters: this.state.filters.filter(function(filter) { 
                 return filter !== item
@@ -394,18 +364,9 @@ class Restaurants extends Component {
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
-            /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
-            this.setState({
-                checkBoxfilters: newList
-            }); */
-            console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
-                return filter !== checkbox
-            })}); */
+
         }else{
-            console.log(this.state.checkBoxfilters, 'filters')
-            console.log('bestaat nog niets')
+           
             this.setState(previousState => ({
                 checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
             }));
@@ -442,18 +403,9 @@ class Restaurants extends Component {
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
-            /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
-            this.setState({
-                checkBoxfilters: newList
-            }); */
-            console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
-                return filter !== checkbox
-            })}); */
+
         }else{
-            console.log(this.state.checkBoxfilters, 'filters')
-            console.log('bestaat nog niets')
+
             this.setState(previousState => ({
                 checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
             }));
@@ -473,18 +425,9 @@ class Restaurants extends Component {
         let checkbox = e.target.value;
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
-            /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
-            this.setState({
-                checkBoxfilters: newList
-            }); */
-            console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
-                return filter !== checkbox
-            })}); */
+
         }else{
-            console.log(this.state.checkBoxfilters, 'filters')
-            console.log('bestaat nog niets')
+
             this.setState(previousState => ({
                 checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
             }));
@@ -505,18 +448,9 @@ class Restaurants extends Component {
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
-            /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
-            this.setState({
-                checkBoxfilters: newList
-            }); */
-            console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
-                return filter !== checkbox
-            })}); */
+
         }else{
-            console.log(this.state.checkBoxfilters, 'filters')
-            console.log('bestaat nog niets')
+
             this.setState(previousState => ({
                 checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
             }));
@@ -534,23 +468,13 @@ class Restaurants extends Component {
         
         let checkbox = e.target.value;
 
-        console.log(this.state.checkBoxfilters, 'filters')
-        console.log(this.state.checkBoxfilters.includes(checkbox))
+
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
-            /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
-            this.setState({
-                checkBoxfilters: newList
-            }); */
-            console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
-                return filter !== checkbox
-            })}); */
+
         }else{
-            console.log(this.state.checkBoxfilters, 'filters')
-            console.log('bestaat nog niets')
+
             this.setState(previousState => ({
                 checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
             }));
@@ -564,8 +488,6 @@ class Restaurants extends Component {
 
     }
     makeUrl = () => {
-        console.log('make Url')
-        console.log('make url with these filters', this.state.filters);
         let paymentUrl = ''; 
         let priceUrl = '';
         let facilitiesUrl = '';
@@ -577,7 +499,7 @@ class Restaurants extends Component {
         let dayUrl = "";
         if(this.state.filters.length >= 1){
             this.state.filters.map( m => {
-                console.log('filter map for url',m)
+              
                 if(m.class == "payments.title" ){
                     if(paymentUrl == '' ){
                         paymentUrl = "&filter[payments.title]=" + m.value
@@ -633,9 +555,9 @@ class Restaurants extends Component {
             this.setState({
                 filterUrl: '?' + paymentUrl + priceUrl + facilitiesUrl + categoriesUrl + ratingUrl + titleUrl + availabilityUrl + dayUrl
             }, function(){
-                    console.log('getItems', this.state.filterUrl)
+                 
                     this.props.getItems(this.state.filterUrl + '&sort=' + this.state.sort);
-                    console.log(this.state.filters , 'filters na uploading')
+           
             })
         
         }else{
@@ -652,18 +574,9 @@ class Restaurants extends Component {
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
-            /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
-            this.setState({
-                checkBoxfilters: newList
-            }); */
-            console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
-                return filter !== checkbox
-            })}); */
+
         }else{
-            console.log(this.state.checkBoxfilters, 'filters')
-            console.log('bestaat nog niets')
+
             this.setState(previousState => ({
                 checkBoxfilters: [...previousState.checkBoxfilters, checkbox]
             }));
@@ -691,13 +604,13 @@ class Restaurants extends Component {
         }
 
 
-        console.log('item', item);
+      
         // make chip and add to filter array
         if(this.state.filters.includes(item)){
             this.setState({filters: this.state.filters.filter(function(filter) { 
                 return filter !== item
             })});
-            console.log('bestaat al')
+           
         }else{
             this.setState(previousState => ({
                 filters: [...previousState.filters, item]
@@ -709,8 +622,7 @@ class Restaurants extends Component {
         }
     }
     sortIt = e => {
-        console.log(e.target.id)
-        console.log ('sort',e.target.id)
+
         let page = this.props.item.page.current_page
         this.setState({
             sort: e.target.id
@@ -722,31 +634,24 @@ class Restaurants extends Component {
 
 
     loadNextPage = e => {
-        console.log(e)
+    
         let page = this.props.item.page.current_page + 1;
         this.setState({
             pageUrl: e
         })
-        console.log('page',page)
-        /* this.props.loadNext(this.props.item.page.next_page_url) */
+
         this.props.getItems(this.state.filterUrl + '?&page=' + e )
-        /* console.log(this.props.item.page.last_page)
-        this.setState({
-            page: this.props.item.page.current_page + 1 ,
-            amountOfpage : this.props.item.page.last_page,
-        },
-        
-        function() {this.props.loadNext(this.state.filterUrl + '?page=' + this.state.page)})  */
+
         
     }
 
     handleDelete = m => {
 
            
-           console.log(m, this.state.filters, 'mmmm')
+     
 
            if(m.class == "availability" || m.class == "day"){
-               console.log('inside availability')
+            
                this.setState({
                 checkBoxfilters: this.state.checkBoxfilters.filter(item => item !== m.class),
                 filters: this.state.filters.filter(item => item !== m)
@@ -754,7 +659,7 @@ class Restaurants extends Component {
           },function(){
             this.makeUrl()
           })
-          console.log('checkboxfilters', this.state.checkBoxfilters);    
+          
         }else{
             this.setState({
                 checkBoxfilters: this.state.checkBoxfilters.filter(item => item !== m.value),
@@ -762,7 +667,7 @@ class Restaurants extends Component {
               },function(){
                 this.makeUrl()
               })
-              console.log('checkboxfilters', this.state.checkBoxfilters);  
+             
         }
       
     }
@@ -836,8 +741,7 @@ class Restaurants extends Component {
       searchForm = e => {
          
         e.preventDefault()
-        console.log('search for form')
-        console.log('form data',this.state.dateForm, this.state.timeForm, this.state.personsForm)
+       
 
         if(this.state.personsData){
             let item = {"class" : "day", "value" :  this.state.date + ' ' + this.state.time };
@@ -863,20 +767,6 @@ class Restaurants extends Component {
             }),function (){ this.makeUrl()});
         }
 
-        /* this.props.getItems() */
-        // make a filter chip 
-
-        // filter with url
-
-/*         if(this.state.filters.includes(e)){
-            this.setState({filters: this.state.filters.filter(function(filter) { 
-                return filter !== item
-            })});
-        }else{
-            this.setState(previousState => ({
-                filters: [...previousState.filters, item]
-            }));
-        } */
 
       }
       ToggleViewFilters = () => {
@@ -910,7 +800,7 @@ class Restaurants extends Component {
                         </div>
                         <div className="col float-right">
                         <CancelIcon classes={{
-                         root: 'floatright' }} onClick={this.toggleDrawer(false)} className="cancelbutton" fontSize="large"/>
+                         root: 'floatright' }} onClick={this.toggleDrawer(false)} fontSize="large"/>
                         </div>
                         
                         </div>
@@ -983,7 +873,7 @@ class Restaurants extends Component {
                                                 onChange={this.onChangeForm}
                                                 required
                                                 id="time"
-                                                placeholder="time placeholder"
+                                                placeholder="HH:mm"
                                                 />
                                                 <Label for="personsForm"><Trans i18nKey="persons"></Trans></Label>
                                                 <Input type="select" name="personsForm" id="personsForm" onChange={this.onChangeForm} required value={this.state.personsForm}>
@@ -1045,7 +935,7 @@ class Restaurants extends Component {
                         <Divider />
                         <ListItem button  onClick={this.handleClickFilterCategory} >
                             <ListItemIcon>
-                            <InboxIcon />
+                           < FastfoodIcon />
                             </ListItemIcon>
                             <ListItemText primary={
                                 <Trans i18nKey="kitchen"></Trans>} />
@@ -1186,7 +1076,7 @@ class Restaurants extends Component {
                             <ListItemText primary={<Trans i18nKey="price"></Trans>}/>
                              {this.state.openFilterPrijs ? <ExpandLess /> : <ExpandMore />} 
                         </ListItem>
-                        {console.log('prijs',this.props.price )}
+                       
                         <Collapse  in={this.state.openFilterPrijs} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {this.state.filterAantalPrijs && this.props.price.prices.map((m,i) => {
@@ -1213,7 +1103,7 @@ class Restaurants extends Component {
                         </Collapse>
                         <Divider />
 
-                    <ListItem button  onClick={this.handleClickFilterRating}  >
+                  {/*   <ListItem button  onClick={this.handleClickFilterRating}  >
                             <ListItemIcon>
                                 <GradeIcon />
                             </ListItemIcon>
@@ -1244,9 +1134,9 @@ class Restaurants extends Component {
                             
                         
                             </List>
-                        </Collapse>
+                        </Collapse> */}
                     </List>
-                    <Divider />
+                  {/*   <Divider /> */}
                     
                     </List>
                         </div>
@@ -1279,8 +1169,8 @@ class Restaurants extends Component {
                                 onChange={this.onChange}
                                 value={this.state.title}
                                 id="title"
-                                placeholder="Zoek bij naam"
-                                className="form-controll"
+                                placeholder="Search by name"
+                                className="form-control"
                                 />
                                 <div className="row">
                         </div>
@@ -1327,7 +1217,7 @@ class Restaurants extends Component {
                                                 onChange={this.onChangeForm}
                                                 required
                                                 id="time"
-                                                placeholder="time placeholder"
+                                                /* placeholder="time placeholder" */
                                                 />
                                                 <Label for="personsForm"><Trans i18nKey="persons"></Trans></Label>
                                                 <Input type="select" name="personsForm" id="personsForm" onChange={this.onChangeForm} required value={this.state.personsForm}>
@@ -1359,7 +1249,7 @@ class Restaurants extends Component {
                         <Divider />
                         <ListItem button  onClick={this.handleClickFilterCategory} >
                             <ListItemIcon>
-                            <InboxIcon />
+                            <FastfoodIcon />
                             </ListItemIcon>
                         <ListItemText primary={<Trans i18nKey="kitchen"></Trans>}/>
                              {this.state.openFilterCategory ? <ExpandLess /> : <ExpandMore />} 
@@ -1524,7 +1414,7 @@ class Restaurants extends Component {
                             </List>
                         </Collapse>
                         <Divider />
-                    <ListItem button  onClick={this.handleClickFilterRating} >
+{/*                     <ListItem button  onClick={this.handleClickFilterRating} >
                             <ListItemIcon>
                                 <GradeIcon />
                             </ListItemIcon>
@@ -1555,14 +1445,14 @@ class Restaurants extends Component {
                             
                         
                             </List>
-                        </Collapse>
+                        </Collapse> */}
                     </List>
-                    <Divider />
+                   {/*  <Divider /> */}
                     
                     </div>
           
                     <div className={this.state.ToggleViewFilters ? 'col-lg-12' : 'col-lg-9'}>
-                    {console.log(page)}
+                  
                     <div className='d-none d-lg-block'>
                     <div className="row  justify-content-end">
              
@@ -1587,14 +1477,10 @@ class Restaurants extends Component {
                     >
                     <MenuItem id="title" value="title" onClick={this.sortIt.bind(this)}  ><Trans i18nKey="namea-z"></Trans></MenuItem>
                     <MenuItem id="-title" value="-title" onClick={this.sortIt.bind(this)}  ><Trans i18nKey="namez-a"></Trans></MenuItem>
-                    <MenuItem id="price_id" value="price_id" onClick={this.sortIt.bind(this)} ><Trans i18nKey="pricehighlow"></Trans></MenuItem>
-                    <MenuItem id="-price_id" value="-price_id" onClick={this.sortIt.bind(this)} ><Trans i18nKey="pricelowhigh"></Trans></MenuItem>
+                    <MenuItem id="price_id" value="price_id" onClick={this.sortIt.bind(this)} ><Trans i18nKey="pricelowhigh" ></Trans></MenuItem>
+                    <MenuItem id="-price_id" value="-price_id" onClick={this.sortIt.bind(this)} ><Trans i18nKey="pricehighlow"></Trans></MenuItem>
                     </Menu>
-                            {/* <Input type="select" name="sort" id="sort" onChange={this.onChange} value={this.state.sort}  className="form-controll" placeholder="sort by">
-                                <option value="">Sort by</option>
-                                <option value="title">name</option>
-                                <option value="price_id">price</option>
-                            </Input> */}
+
                       </div>
                     
                     
@@ -1606,7 +1492,7 @@ class Restaurants extends Component {
                     <div className="row filterRow">
                         <div className="col-12">
                     {this.state.filters ? this.state.filters.map((m,i) => {
-                        console.log('filters',m)
+                    
 
                         return(
                             <Chip
@@ -1625,41 +1511,9 @@ class Restaurants extends Component {
                     
                
                 <div className="row p-x-0">
-                {console.log(items)}
-                {/*     { items && items.map((m, i) => {
-                                    return(
-
-                                        <div className="col-md-6" key={i}>
-                                                                                    <FadeIn
-                    transitionDuration="500"
-                    delay="100"
-                >
-                                        <Card key={m.id}>
-                                        <CardImg top width="100%" src={process.env.PUBLIC_URL + '/bgimg.jpg'} alt="Card image cap" />
-                                        <CardBody>
-                                        <CardTitle><strong>{m.title}</strong></CardTitle>
-                                        <CardSubtitle><Badge>{m.category.title}</Badge></CardSubtitle>
-                                        <CardText>{m.address}</CardText>
-                                       
-                                        <Link to={{
-                                                    pathname: `/restaurants:${m.id}`,
-                                                    
-                                                    }}>
-                                                <Button 
-                                                className="mb-2 mt-2"
-                                                color="dark"
-                                                block 
-                                                renderAs="button">
-                                                    <span>More info</span>
-                                                </Button>
-                                                </Link>
-                                        </CardBody>
-                                            </Card>
-                                            </FadeIn>  
-                                            </div>
-                                           
-                                    )})}  */}
-                                                {console.log(this.props.item)}                      
+               
+               
+                                                             
                                     {  !loading && items   ? 
                                     
                                     <div>
@@ -1669,23 +1523,24 @@ class Restaurants extends Component {
                                  {items && items.map((m, i) => {
                                     return(
                                         
-                                        <div className="col-md-6 my-2" key={i}>
+                                        <div className="col-md-6 my-2 d-flex align-items-stretch" key={i}>
                                             
                                         <FadeIn
                                             transitionDuration="500"
                                             delay="100"
+                                            className="d-flex align-items-stretch"
                                         >
                                              <Link to={{
                                                     pathname: `/restaurants:${m.id}`,
                                                     
                                                     }}>
-                                        <Card key={m.id}>
-                                        <CardImg top width="100%" src={`http://127.0.0.1:8000/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
+                                        <Card key={m.id} className="h-100">
+                                        <CardImg top  className="img-fluid image-responsive" src={`https://quinten.staging.7.web.codedor.online/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
                                         <CardBody>
                                         <CardTitle><h5><strong>{m.title}</strong></h5></CardTitle>
                                         <CardText><Badge>{m.category.title}</Badge>
                                         <p className="pt-1"><RoomIcon /> {m.address} </p>
-                                        {console.log('rating', m.ratings)}
+                                      
                                         {m.ratings ? <div className="row"><Box><Rating name="rating" precision={0.5} defaultValue={m.average_rating} readOnly/></Box> <div> ( {m.totalrating} )</div> </div>: null }
                                         </CardText>
                                    

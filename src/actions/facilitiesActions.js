@@ -6,7 +6,7 @@ import { GET_FACILITIES, FAILED_FACILITIES, FACILITIES_LOADING } from "./types";
 export const getFacilities = () => (dispatch) => {
     dispatch(setCategoriesLoading())
 
-    axios.get('http://127.0.0.1:8000/api/facility/all')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/facility/all')
     .then(res => {
         dispatch({
             type:GET_FACILITIES,

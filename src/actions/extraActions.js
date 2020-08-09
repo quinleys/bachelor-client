@@ -6,7 +6,7 @@ import { GET_EXTRAS, FAILED_EXTRAS, EXTRAS_LOADING } from "./types";
 export const getExtras = () => (dispatch) => {
     dispatch(setExtrasLoading())
 
-    axios.get('http://127.0.0.1:8000/api/extra/all')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/extra/all')
     .then(res => {
         dispatch({
             type:GET_EXTRAS,

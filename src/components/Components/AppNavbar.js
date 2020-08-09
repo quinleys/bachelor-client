@@ -1,24 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
 
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
     Container,
   } from 'reactstrap';
 import LoginModal from '../Auth/LoginModal';
-import RegisterModal from '../Auth/RegisterModal';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -34,18 +21,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import CancelIcon from '@material-ui/icons/Cancel';
-import FacebookIcon from '@material-ui/icons/Facebook';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
 import ConfirmationNumberIcon from '@material-ui/icons/ConfirmationNumber';
-import { Translation } from 'react-i18next';
 import i18n from '../../i18n';
 // the hoc
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import DashboardIcon from '@material-ui/icons/Dashboard';
 class AppNavbar extends Component {
     constructor(props){
@@ -69,7 +52,6 @@ class AppNavbar extends Component {
     }
     changeLanguage = (language) => {
         i18n.changeLanguage(language);
-        console.log(i18n.language)
         window.location.reload();
     } 
     render() {
@@ -79,13 +61,13 @@ class AppNavbar extends Component {
         const dashboard = (
             <MiniDrawer />
         )
-        const authLinks = (
+        /* const authLinks = (
             <Fragment>
                 <NavItem className="navlink-user">
                 <UncontrolledDropdown nav inNavbar>
                
               <DropdownToggle nav caret>
-              {user ? console.log(user.user) : '' }
+        
                          { user ? <strong>{ user.user ? `${user.user.name}` : `${localStorage.getItem('username')}` }</strong> : <strong>  {localStorage.getItem('username')} </strong>} 
                         <Link to='/profile'><AccountCircleIcon /></Link> 
               </DropdownToggle>
@@ -107,8 +89,8 @@ class AppNavbar extends Component {
                     
                 </NavItem>
             </Fragment>
-        )
-            const guestLinks = (
+        ) */
+         /*    const guestLinks = (
                 <Fragment>
                     <NavItem className="navlink-login">
                         <LoginModal />
@@ -117,10 +99,9 @@ class AppNavbar extends Component {
                         <RegisterModal />
                     </NavItem>
                 </Fragment>
-            )
+            ) */
         return (
             <div>
-                {console.log(this.state.window) , console.log('auth',isAuthenticated)}
 
          { isAuthenticated && this.state.window == `/dashboard` || this.state.window == `/dashboard/edit`  || this.state.window == `/dashboard/calendar` || this.state.window == `/dashboard/layout`  || this.state.window == `/dashboard/layout/new` || this.state.window == '/dashboard/room/new' /* || this.state.window == '/dashboard/calendar'  */ ? dashboard : 
              <div>
@@ -131,9 +112,9 @@ class AppNavbar extends Component {
                     </IconButton>
                     <Link
                     to="/">
-                    <img  className="navbarlogo" src={process.env.PUBLIC_URL + '/logo.png'} />
+                    <img  className="navbarlogo" alt="navbarlogo" src={process.env.PUBLIC_URL + '/logo.png'} />
                     </Link>
-                    {isAuthenticated ?<Link to='/profile'> <IconButton edge="end">{user ? console.log(user.user) : '' }
+                    {isAuthenticated ?<Link to='/profile'> <IconButton edge="end">
                          
 
     <AccountCircleIcon /> </IconButton> </Link>  : <LoginModal/> }
@@ -145,7 +126,7 @@ class AppNavbar extends Component {
                         <Container>
                         <div className="row justify-content-end mt-5">
                         <div className="col-10">
-                        <img  className="navbarlogo" src={process.env.PUBLIC_URL + '/logo.png'} />
+                        <img  className="navbarlogo"  alt="navbarlogo" src={process.env.PUBLIC_URL + '/logo.png'} />
                          
                         </div>
                         <div className="col float-right exiticon">
@@ -179,7 +160,7 @@ class AppNavbar extends Component {
                             {isAuthenticated ? 
                              <List component="nav" aria-label="secondary mailbox folders">
                              <Link to="/profile">
-                             <ListItem button>
+                             <ListItem button onClick={this.toggle()}>
                              <ListItemIcon>
                                     <AccountCircleIcon />
                                 </ListItemIcon>
@@ -191,7 +172,7 @@ class AppNavbar extends Component {
                              </ListItem>
                              </Link>
                              <Link to="/profile/favorites">
-                             <ListItem button>
+                             <ListItem button onClick={this.toggle()}>
                              <ListItemIcon>
                                     <FavoriteIcon />
                                 </ListItemIcon>
@@ -203,7 +184,7 @@ class AppNavbar extends Component {
                              </ListItem>
                              </Link>
                              <Link to="/profile/reservations">
-                             <ListItem button>
+                             <ListItem button onClick={this.toggle()}>
                              <ListItemIcon>
                                     <ConfirmationNumberIcon />
                                 </ListItemIcon>
@@ -218,7 +199,7 @@ class AppNavbar extends Component {
                            <div>
                       < Divider />
                       <Link to="/dashboard" >
-                       <ListItem button>
+                       <ListItem button onClick={this.toggle()}>
                        <ListItemIcon>
                               <DashboardIcon />
                           </ListItemIcon>
@@ -232,7 +213,7 @@ class AppNavbar extends Component {
                        <Divider />
                     </div>
                      : null }
-                             <ListItem button>
+                             <ListItem button onClick={this.toggle()}>
                              <ListItemIcon>
                                     <ExitToAppIcon />
                                 </ListItemIcon>
@@ -243,35 +224,26 @@ class AppNavbar extends Component {
                              
 
                          </List>
-                    : <List>
-                        <ListItem button onClick={this.toggle()}>
-                            <ListItemIcon>
-                                <InboxIcon />
-                            </ListItemIcon>
-                            <ListItemText >
-                                <LoginModal/> 
-                            </ListItemText>
-                            </ListItem>
-                        </List>}
+                    : null }
                         <Divider/>
-                        {console.log('current lang' ,i18n.languages[0])}
+                     <div className="d-flex justify-content-between">
                            <List>
                              
                            <Button classes={
                                i18n.languages[0] == 'en' ? 
-                         {root: 'langButtonSelected mx-2' } :  {root: 'langButton mx-2' }} onClick={() => this.changeLanguage('en')} disabled={i18n.languages[0] == 'en'}>EN</Button>
+                         {root: 'langButtonSelected m-1' } :  {root: 'langButton m-1' }} onClick={() => this.changeLanguage('en')} disabled={i18n.languages[0] == 'en'}>EN</Button>
 
                          
                             <Button classes={
                                i18n.languages[0] == 'nl' ? 
-                         {root: 'langButtonSelected mx-2' } :  {root: 'langButton mx-2' }} onClick={() => this.changeLanguage('nl')} disabled={i18n.languages[0] == 'nl'} >NL</Button>
+                         {root: 'langButtonSelected m-1' } :  {root: 'langButton m-1' }} onClick={() => this.changeLanguage('nl')} disabled={i18n.languages[0] == 'nl'} >NL</Button>
                             
 
                             <Button classes={
                                i18n.languages[0] == 'fr' ? 
-                         {root: 'langButtonSelected mx-2' } :  {root: 'langButton mx-2' }} onClick={() => this.changeLanguage('fr')} disabled={i18n.languages[0] == 'fr'} >FR</Button>
+                         {root: 'langButtonSelected m-1' } :  {root: 'langButton m-1' }} onClick={() => this.changeLanguage('fr')} disabled={i18n.languages[0] == 'fr'} >FR</Button>
                            </List>
-                          
+                           </div>
                         </div>
                         </Container>
                     </Drawer>

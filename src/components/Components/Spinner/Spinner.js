@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/core";
-import ClipLoader from "react-spinners/ClipLoader";
-import { Spin } from "antd";
+/* import ClipLoader from "react-spinners/ClipLoader";
+import { Spin } from "antd"; */
 import { MetroSpinner } from "react-spinners-kit";
 // Can be a string as well. Need to ensure each key-value pair ends with ;
 const override = css`

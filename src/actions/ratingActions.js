@@ -10,7 +10,7 @@ export const addRating = item => (dispatch) => {
             'Content-Type' : 'application/json',
             'Authorization' : "Bearer " + localStorage.getItem('token') }
     }
-    axios.post('http://127.0.0.1:8000/api/rating/add' , item , config)
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + '/rating/add' , item , config)
     .then(res => {
         dispatch({
             type: ADD_RATING,
@@ -21,18 +21,18 @@ export const addRating = item => (dispatch) => {
 } 
 
 export const getRatings = id => (dispatch) => {
-    console.log(id)
-    axios.get('http://127.0.0.1:8000/api/rating/' + id)
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/rating/' + id)
     .then(res => 
         dispatch({
             type: GET_RATINGS,
             payload: res.data
         })).catch(err => {
+            if(typeof err.response == "object"){
             if(err.response.status == 429 ){
                 dispatch(tooManyRequest(err.response.status))
-               
+            }  
             }else{
-            dispatch(returnErrors(err.response.status,err.response.status,err.response.status))
+            dispatch(returnErrors(err,err,err))
             }
         }
             )

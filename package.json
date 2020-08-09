@@ -18,6 +18,7 @@
     "antd": "^4.4.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "env-cmd": "^10.1.0",
     "i18next": "^19.6.3",
     "i18next-browser-languagedetector": "^5.0.0",
     "i18next-http-backend": "^1.0.17",
@@ -31,10 +32,12 @@
     "react-dom": "^16.13.1",
     "react-fade-in": "^1.1.0",
     "react-google-places-autocomplete": "^2.0.7",
+    "react-horizontal-scroll-container": "^1.0.1",
     "react-horizontal-scrolling-menu": "^0.7.7",
     "react-i18next": "^11.7.0",
     "react-image-lightbox": "^5.1.1",
     "react-images-upload": "^1.2.8",
+    "react-indiana-drag-scroll": "^1.6.1",
     "react-infinite-scroll-component": "^5.0.5",
     "react-infinite-scroller": "^1.2.4",
     "react-intl": "^5.4.2",
@@ -68,7 +71,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "env-cmd .env.development react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

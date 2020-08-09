@@ -5,33 +5,32 @@ import { loginSocial } from '../actions/authActions';
 import { clearErrors } from '../actions/errorActions';
 import  Spinner  from '../components/Components/Spinner/Spinner';
 import { Link } from 'react-router-dom';
-import { Translation } from 'react-i18next';
-import i18n from '../i18n';
+
 // the hoc
-import { Trans, useTranslation } from 'react-i18next'
-import { Container, Badge,Button, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup, NavLink, Alert, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, } from 'reactstrap';
+import { Trans } from 'react-i18next'
+import { Container, Button } from 'reactstrap';
 class SocialCallback extends Component {
     static propTypes = {
         isAuthenticated: PropTypes.bool,
         error: PropTypes.object.isRequired,
         login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired,
+        loginSocial: PropTypes.func.isRequired,
     }
     componentDidMount(){
         this.getQuery();
         /* const token = query.get('token')
         const id = query.get('id')
         console.log(token, id)
-        this.props.loginSocial(id, token); */
+        this.props.loginSocial(id, token);  */
     }
     getQuery = () => {
-        console.log('getquery')
         const query = new URLSearchParams(this.props.location.search);
         const token = query.get('token');
         const id = query.get('id')
         console.log('token', token, 'id', id)
-        this.props.loginSocial(query.get('id'), query.get('token'));
+     /*    this.props.loginSocial(query.get('id'), query.get('token')); */
+        this.props.loginSocial(id, token);
     }
     render() {
         const { isLoading, isAuthenticated } = this.props.auth

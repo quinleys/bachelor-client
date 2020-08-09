@@ -9,7 +9,6 @@ const initialState = {
 export default function(state = initialState, action){
     switch(action.type){
         case GET_FACILITIES:
-            console.log('facilities',action.payload);
             return {
                 ...state,
                 facilities: action.payload,

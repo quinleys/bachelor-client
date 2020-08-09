@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import { deleteReservation, clearDeleteSuccess } from '../../actions/reservationActions';
 import { clearErrors } from '../../actions/errorActions'; 
 import PropTypes from 'prop-types';
@@ -24,7 +24,7 @@ class AnnulationModal extends Component {
         this.props.clearDeleteSuccess();
     }
     confirm = (id) => {
-        console.log('delete reservation!')
+       
         this.props.deleteReservation(id)
     }
     closeAlert = () => {
@@ -52,9 +52,7 @@ class AnnulationModal extends Component {
               <ModalBody>
               { this.props.error && this.props.error.status == 'RESERVATION_DELETE_FAIL'  ? <Alert severity="error" onClose={() => this.closeAlert()}> <Trans i18nKey="somethingwentwrong"></Trans> </Alert> : null }
               <Trans i18nKey="annulationconfirm" ></Trans>
-              {console.log(deleteSuccess, 'delete sucess')}
-             {console.log(this.props.item)}
-            
+           
              
              <div className="my-2">
 

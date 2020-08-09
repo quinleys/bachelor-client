@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 import { addFavorite, deleteFavorite } from '../../actions/favoriteActions';
 import  FavoriteIcon  from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import DeleteOutlinedIcon from '@material-ui/icons/DeleteOutlined';
 import Button from '@material-ui/core/Button';
-import i18n from '../../i18n';
-// the hoc
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 class FavoriteButton extends Component {
     constructor(props){
         super(props)
@@ -41,9 +38,9 @@ class FavoriteButton extends Component {
             }else{
                 
                 this.props.item.item.favorites.map(m => {
-                    console.log(m)
+                   
                     if(m.user_id == localStorage.getItem('id')){
-                        console.log('delete favorite', m.id)
+                       
                         this.props.deleteFavorite(m.id)
                     }
                    

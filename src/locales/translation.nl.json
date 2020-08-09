@@ -91,7 +91,7 @@
     "noaccount": "Nog geen account? Klik hier om je te registreren.",
     "pageisnotavailable": "Deze pagina is niet beschikbaar!",
     "backtohome": "Terug naar de hoofdpagina",
-    "passwordconfirmation" : "Password Confirmatie",
+    "passwordconfirmation" : "Wachtwoord confirmatie",
     "register" : "Registreer",
     "loggedin": "Succesvol ingelogd!",
     "loggedout" : "Succesvol uitgelogd!",
@@ -112,5 +112,11 @@
     "givearating": "Geef een beoordeling",
     "amountratings": "Aantal beoordelingen",
     "loginrating" : "U moet ingelogt zijn alvorens u een beoordeling kan geven.",
-    "toomanyrequests" : "Te veel verzoeken, probeer later opnieuw."
+    "toomanyrequests" : "Te veel verzoeken, probeer later opnieuw.",
+    "stars": "Étoiles",
+    "total": "total",
+    "placeacomment" :"Wil je commentaar plaatsen?",
+    "logincomment": "U moet ingelogt zijn alvorens u een commentaar kan plaatsen.",
+    "nofavorites" : "Geen favorieten",
+    "noreservations": "Geen reservaties"
 }

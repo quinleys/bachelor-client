@@ -1,18 +1,11 @@
-import React, { Component, Suspense } from 'react'
-import ReactFullpage, { B } from '@fullpage/react-fullpage';
+import React, { Component, } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Paper from '@material-ui/core/Paper';
-import { Container, Badge,Button, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup, NavLink,  Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle } from 'reactstrap';
-import ScrollMenu from 'react-horizontal-scrolling-menu';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
-// If you want to use the provided css
+import { Container, Badge,Button, Form, Input, Label, FormGroup, Card, CardImg, CardText, CardBody,
+    CardTitle, } from 'reactstrap';
 import 'react-google-places-autocomplete/dist/index.min.css';
 import FadeIn from 'react-fade-in';
 import Chip from '@material-ui/core/Chip';
-import ReservationModal from '../components/ReservationModal/ReservationModal'
-import GridList from '@material-ui/core/GridList';
 import HorizontalScroll from 'react-scroll-horizontal'
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
@@ -20,19 +13,9 @@ import { getRandom } from '../actions/itemActions';
 import RoomIcon from '@material-ui/icons/Room';
 import Rating from '@material-ui/lab/Rating';
 import moment from 'moment';
-import { Translation } from 'react-i18next';
-import i18n from '../i18n';
-// the hoc
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import Alert from '@material-ui/lab/Alert';
-
-
-export function MyComponent() {
-  const { t, i18n } = useTranslation();
-  // or const [t, i18n] = useTranslation();
-
-  return <p>{t('my translated text')}</p>
-}
+import Box from '@material-ui/core/Box';
 
 class Home extends Component {
     
@@ -56,14 +39,10 @@ class Home extends Component {
         this.props.getRandom(); 
     }
     onChange = e => {
-        console.log(e.target.value)
         this.setState({ [e.target.name] : e.target.value})
     }
     toggle = m => {
-        console.log(m)
         let item = m;
-        console.log(this.state.categories)
-        console.log(this.state.categories.includes(item))
         if(this.state.categories.includes(m)){
             this.setState({categories: this.state.categories.filter(function(category) { 
                 return category !== item
@@ -107,14 +86,14 @@ class Home extends Component {
                                         <div>
                               
                                 <div className="row">
-                                <div className="col-md-7 background-image"></div>
+                                <div className="col-lg-7 background-image"></div>
                                 </div>
                                
                                 <FadeIn>
                                 <Container>
                             <div className="section homepage flex-column-reverse">
                                 <div className="row">
-                                    <div className="home-picture col-md-7 ">
+                                    <div className="home-picture col-lg-7 ">
                                     <h1 className="whitetext">
                                     <Trans i18nKey="hometitle">
                                     </Trans>
@@ -122,42 +101,45 @@ class Home extends Component {
 
                                    
                                     
-                                    <div className="indekijker d-sm-none d-lg-block ">
+                                    <div className="indekijker d-md-none d-lg-block ">
                                     <h1 className="whitetext"><Trans i18nKey="homesubtitle">
                                     </Trans></h1>
                                      <div className="row ">
                                     { random.data && random.data.map((m, i) => {
-                                            console.log(m)
+                                        
                                         return(
-                                            <div className="col-md-6 " key={i} >
-                                                <Card className="" >
-                                                    <CardImg top width="100%" src={`http://127.0.0.1:8000/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
-                                                    <CardBody>
-                                                    <CardTitle><h5><strong>{m.title}</strong></h5></CardTitle>
-                                                    <CardText><Badge>{m.category.title}</Badge>
-                                                        <p className="color-primary pt-1"><RoomIcon /> {m.address} </p>
-                                                        {console.log('rating', m.ratings, m.average_rating)}
-                                                        {m.ratings ? <p>Rating {m.average_rating} <br/> <Rating name="rating" defaultValue={m.average_rating} readOnly/></p> : null }
-                                                        </CardText>
-                                                    <Link to={`/restaurants:${m.id}`}>
-                                                    <Button 
-                                                className="mb-2 mt-2 noradius"
-                                                color="dark"
-                                                block 
-                                                renderAs="button">
-                                                    <span> <Trans i18nKey="more info"></Trans></span>
-                                                </Button>
-                                                    </Link>
-                                                    </CardBody>
+                                            <div className="col-lg-6 my-2 d-flex align-items-stretch" key={i}>
+                                            
+                                            <FadeIn
+                                                transitionDuration="500"
+                                                delay="100"
+                                                className="d-flex align-items-stretch"
+                                            >
+                                                 <Link to={{
+                                                        pathname: `/restaurants:${m.id}`,
+                                                        
+                                                        }}>
+                                            <Card key={m.id} className="h-100">
+                                            <CardImg top width="100%" className='cardimgTest'  src={`https://quinten.staging.7.web.codedor.online/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
+                                            <CardBody>
+                                            <CardTitle><h5><strong>{m.title}</strong></h5></CardTitle>
+                                            <CardText><Badge>{m.category.title}</Badge>
+                                            <p className="pt-1"><RoomIcon /> {m.address} </p>
+                                            {m.ratings ? <div className="row"><Box><Rating name="rating" precision={0.5} defaultValue={m.average_rating} readOnly/></Box> <div> ( {m.totalrating} )</div> </div>: null }
+                                            </CardText>
+                                       
+                                            </CardBody>
                                                 </Card>
-                                            </div> 
+                                                </Link>
+                                                </FadeIn>  
+                                                </div>
                                         
                                         )})} 
                                     </div> 
                                     </div>
                                 </div>     
                             
-                                <div className="col-md offset-md-1">
+                                <div className="col-lg offset-lg-1">
                                     <Card className="homecard">                                
                                     <CardBody>
                                     <h3><Trans i18nKey="homecardtitle">
@@ -165,7 +147,7 @@ class Home extends Component {
                                     {this.state.error ? ( <Alert severity="error" onClose={() => this.closeAlert()}> <Trans i18nKey="timedateerror"></Trans> </Alert> ): null }
                                     <p><Trans i18nKey="kitchen">
                                     </Trans></p>
-                                    <div className="row keuken-row">
+                                    <div className="row keuken-row overflow-x-scroll" >
                                     <HorizontalScroll>
                                    { categories.length > 1 && categories.map((m,i) => {
                                         return (
@@ -186,7 +168,7 @@ class Home extends Component {
                                                 name="title"
                                                 onChange={this.onChange}
                                                 id="title"
-                                                placeholder="zoek met naam"
+                                                placeholder="Search by name"
                                                 />
                                                 <Label for="date"><Trans i18nKey="date">
                                     </Trans></Label>
@@ -200,7 +182,7 @@ class Home extends Component {
                                                 placeholder="date placeholder"
                                                 />
                                             
-                                                <Label for="start"><Trans i18nKey="hour">
+                                                <Label for="time"><Trans i18nKey="hour">
                                     </Trans></Label>
                                                 <Input
                                                 type="time"
@@ -210,15 +192,6 @@ class Home extends Component {
                                                 id="time"
                                                 placeholder="time placeholder"
                                                 />
-                                            
-                                            {/* <GooglePlacesAutocomplete
-                                                onSelect={console.log}
-                                                />
-                                            
-                                                <Label for="straal">Straal</Label>
-                                                <Input type="number" name="straal" id="straal" /> */}
-                                               
-                                        
                                                 <Label for="persons"><Trans i18nKey="persons">
                                     </Trans></Label>
                                                 <Input type="select" name="persons" id="persons" onChange={this.onChange}>
@@ -229,6 +202,8 @@ class Home extends Component {
                                                 <option>4</option>
                                                 <option>5</option>
                                                 <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
                                                 </Input>
                                                 {this.state.date != '' || this.state.time != ''  ?
                                                 this.state.date != '' && this.state.time != '' ?
@@ -286,7 +261,7 @@ class Home extends Component {
                                                 }
                                                 }}>
                                             <Button 
-                                            className="mb-2 mt-2 buttonstyle noradius"
+                                            className="my-4 buttonstyle noradius"
                                             color="dark"
                                             block 
                                             renderAs="button">

@@ -4,13 +4,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Divider from '@material-ui/core/Divider';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Link } from 'react-router-dom';
-import { getRooms } from '../../actions/roomActions';
-import { getItem } from '../../actions/itemActions';
 import { getLayouts, deleteLayout, deleteRoom } from '../../actions/dashboardActions'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -19,16 +15,14 @@ import HelpIcon from '@material-ui/icons/Help';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Switch from '@material-ui/core/Switch';
-import {  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {  Collapse, CardBody, Input, Form, FormGroup, Label, Alert } from 'reactstrap'
+import {   Input, Label } from 'reactstrap'
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import { updateRoom, makeRoomUnactive, makeRoomActive } from '../../actions/dashboardActions'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
+import Alert from '@material-ui/lab/Alert';
 const longText = `Actieve layout zijn de layouts die worden gezien door de gebruiker.
 Als er geen actieve layouts is kan er geen reservatie gemaakt worden. Maak een kamer en een layout om een actieve layout te maken.`;
 class Layout extends Component {
@@ -41,10 +35,13 @@ class Layout extends Component {
             editActive:false ,
             date:date,
             change: [],
+            editLayout: false,
+            errormsg: '',
+            update: false,
         }
     }
     componentDidMount(){
-        console.log('resto_id', localStorage.getItem('restaurant_id'))
+    
         this.props.getLayouts(localStorage.getItem('restaurant_id'));
     }
     deleteLayout = (id) => {
@@ -55,27 +52,46 @@ class Layout extends Component {
     }
     makeActive = () => {
         this.setState({
-            editActive: !this.state.editActive
+            editActive: !this.state.editActive,
+            update: false,
         })
     }
 
     toggleDelete = () => {
         this.setState({
-            deleteToggle: !this.state.deleteToggle
+            deleteToggle: !this.state.deleteToggle,
+            update: false,
         })
     }
-    updateRoom = (id) => {
-        if(this.state.change.length > 1){
+    updateRoom = (id, updateRoom) => {
+    
+        if(updateRoom){
+            this.setState({
+                update: true
+            })
+        }
+        if(this.state.errormsg == ''){
+         
+        
+        if(this.state.change.length > 1 ){
             this.state.change.map(el => (el.id == id ? this.props.updateRoom(el) : el ))
         }else{
             this.props.updateRoom(this.state.change[0])
         }
-       
+       this.setState({
+           editLayout: false
+       })
+    }
     }
     onChangeSelectedRoom = ( e, id ) => {
-        console.log('kamer id', e.target.value, id, this.state.change )
+      
+        if(e.target.value !== 'please select a room'){
+            this.setState({
+                errormsg: '',
+                update:false
+            })
+        
         let item = { "id" : id , "layout" : e.target.value}
-        console.log(this.state.change.length, 'lengte')
         this.setState({change: this.state.change.filter(function(person) { 
             return person.id !== item.id
         })}, function (){
@@ -83,10 +99,14 @@ class Layout extends Component {
                 change: [...prevState.change, item]
               }))
         });
+    }else{
+        this.setState({
+            errormsg: 'U moet een layout selecteren!',
+            update:false
+        })
     }
-    addNewActive = () => {
-        console.log('add new')
     }
+
     makeActiveNow = (id) => {
         let item = { "id" : id , "active" : "true"}
         this.props.makeRoomActive(item)
@@ -108,6 +128,7 @@ class Layout extends Component {
                             </div>
                           
                         </div>
+                        { this.state.errormsg ? <Alert severity="error" onClose={() => this.closeAlert()}> {this.state.errormsg}</Alert> : null }
                         <div className="row justify-content-between my-2">
                           <div className="col">
                             <Breadcrumbs aria-label="breadcrumb">
@@ -183,8 +204,7 @@ class Layout extends Component {
                                                     variant="body2"
                                                     color="textPrimary"
                                                     >
-                                                    {/*  {m.comment} 
-                                                    {m.created_at} */}
+                                                 
                                                     {room.title}
                                                     </Typography>
                                                    
@@ -200,22 +220,14 @@ class Layout extends Component {
                                                     variant="body2"
                                                     color="textPrimary"
                                                     >
-                                                    {/*  {m.comment} 
-                                                    {m.created_at} */}
-                                                    {  room.layout_id != 0 ? room.layout.title : 'no layout' }
+                                           
+                                                    {  room.layout_id != null ? room.layout.title : 'no layout' }
                                                     
                                                     </Typography>
                                                 </React.Fragment>
                                                 }
                                             />
-                                          {/*  <ListItemSecondaryAction>
-                                            <Switch
-                                                edge="end"
-                                        
-                                                checked={true}
-                                         
-                                            />
-                                            </ListItemSecondaryAction> */}
+                                   
                                             </ListItem>
                                             <Divider component="li" />
                                             </div>)
@@ -238,8 +250,7 @@ class Layout extends Component {
                                                     variant="body2"
                                                     color="textPrimary"
                                                     >
-                                                    {/*  {m.comment} 
-                                                    {m.created_at} */}
+                                     
                                                     {room.title}
                                                     </Typography>
                                                 </React.Fragment>
@@ -256,17 +267,16 @@ class Layout extends Component {
                                                     variant="body2"
                                                     color="textPrimary"
                                                     >
-                                                    {/*  {m.comment} 
-                                                    {m.created_at} */}
-                                                    {  room.layout_id != 0 ? room.layout.title : 'no layout' }
-                                                    
+                                              
+                                                    {  room.layout_id != null ? room.layout.title : 'no layout' }
+                                                  
                                                     </Typography>
                                                   
                                                 </React.Fragment>
                                                 }
                                             />
                                             </div>
-                                            {console.log('change', this.state.change)}
+                                    
                                             <div className="col">
                                             <ListItemText 
                                             primary={
@@ -282,26 +292,19 @@ class Layout extends Component {
                                                         )
                                                     })  
                                                : 'Please make a room first' }
-                                                  
-                                                   {/*  <option value="">choose ... </option>
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
-                                                <option>6</option> */}
+
                                                 </Input>
                                                 </React.Fragment>
                                             }
                                             />
                                             </div>
                                         
-                                          <Button className="mx-2"  onClick={() => this.updateRoom(room.id)}>
+                                          <Button className="mx-2" disabled={this.state.errormsg !== ''} onClick={() => this.updateRoom(room.id)}>
                                                 
                                                 <SaveIcon />
                                               
                                             </Button>
-                                            <Button color="danger" onClick={() => this.deleteRoom(room.id)}><DeleteIcon /></Button>
+                                            <Button color="danger"  onClick={() => this.makeUnactive(room.id)}><VisibilityOffIcon /></Button>
                                             
                                             </ListItem>
                                             <Divider component="li" />
@@ -330,8 +333,7 @@ class Layout extends Component {
                                                     variant="body2"
                                                     color="textPrimary"
                                                     >
-                                                    {/*  {m.comment} 
-                                                    {m.created_at} */}
+                                                   
                                                     {m.title}
                                                     </Typography>
                                                 </React.Fragment>
@@ -354,7 +356,34 @@ class Layout extends Component {
                                                 }
                                             />
                                             </div>
-                                            {m.active == true ? <Button onClick={() => this.makeUnactive(m.id) }><VisibilityOffIcon /> </Button> : <Button onClick={() => this.makeActiveNow(m.id)}><VisibilityIcon /></Button>}
+                                            { m.layout_id == null && this.state.editLayout ? 
+                                            
+                                            <div className="col">
+                                            <ListItemText 
+                                            primary={
+                                                <React.Fragment>
+                                                <Label for="persons">Welke layout?</Label>
+                                                <Input type="select" name="selectedRoom" id="selectedRoom" defaultValue={m.layout_id} onChange={(e) => this.onChangeSelectedRoom(e,m.id)}>
+                                                  <option > please select a room </option>
+                                                  { allLayouts ?
+                                                    allLayouts.map(m => {
+                                                        return(
+                                                            
+                                                            <option id={m.id} value={m.id}>{m.title}</option>
+                                                        )
+                                                    })  
+                                               : 'Please make a room first' }
+
+                                                </Input>
+                                                </React.Fragment>
+                                            }
+                                            />
+                                            </div> : null }
+                                            {m.active == true ? <Button onClick={() => this.makeUnactive(m.id) }><VisibilityOffIcon /> </Button> : this.state.update ?  <Button onClick={() => this.makeActiveNow(m.id)}> <VisibilityIcon /></Button> : m.layout_id == null && this.state.editLayout !== true ?  <Button onClick={() => this.setState({editLayout: true})} ><VisibilityIcon /></Button> : m.layout_id == null && this.state.editLayout && !this.state.updated ? <Button className="mx-2" disabled={this.state.errormsg !== ''}  onClick={() => this.updateRoom(m.id, true)}>
+                                                
+                                                <SaveIcon />
+                                              
+                                            </Button> :   <Button onClick={() => this.makeActiveNow(m.id)}> <DeleteIcon /></Button>}
                                             
                                             <Button className="mx-2 buttoneditpencil">
                                                 <Link to={`/dashboard/layout/room/edit:${m.id}`}>
@@ -362,16 +391,7 @@ class Layout extends Component {
                                                 </Link>
                                             </Button>
                                             <Button color="danger" onClick={() => this.deleteRoom(m.id)}><DeleteIcon /></Button>
-                                           {/*  <Modal style={{ marginTop: "6rem" }} isOpen={this.state.deleteToggle} toggle={this.toggleDelete}>
-                                                <ModalHeader toggle={this.toggleDelete}>Delete</ModalHeader>
-                                                <ModalBody>
-                                                    Ben je zeker dat je dit wilt verwijderen?
-                                                </ModalBody>
-                                                <ModalFooter>
-                                                <Button color="danger" onClick={() => this.deleteRoom(m.id)}>Ja</Button>
-                                                <Button color="secondary" onClick={this.toggleDelete}>Nee</Button>
-                                                </ModalFooter>
-                                            </Modal> */}
+                                       
                                            
                                             </ListItem>
                                             <Divider component="li" />
@@ -401,8 +421,7 @@ class Layout extends Component {
                                                     variant="body2"
                                                     color="textPrimary"
                                                     >
-                                                    {/*  {m.comment} 
-                                                    {m.created_at} */}
+                                                 
                                                     {m.title}
                                                     </Typography>
                                                 </React.Fragment>
@@ -419,8 +438,7 @@ class Layout extends Component {
                                                     variant="body2"
                                                     color="textPrimary"
                                                     >
-                                                    {/*  {m.comment} 
-                                                    {m.created_at} */}
+                                                
                                                     
                                                     {  m.tables.length != 0 ? m.tables.length : "no tables selected" } 
                                                     </Typography>
@@ -429,7 +447,7 @@ class Layout extends Component {
                                             />
                                             </div>
                                             <Button className="mx-2 buttoneditpencil">
-                                                <Link to={`/dashboard/layout/layout/edit:${m.id}`}>
+                                                <Link itemId={m.id} to={`/dashboard/layout/layout/edit:${m.id}`}>
                                                     <EditIcon />
                                                 </Link>
                                             </Button>

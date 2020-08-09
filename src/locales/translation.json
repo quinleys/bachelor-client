@@ -14,7 +14,7 @@
 
     "profile": "Profile",
     "favorites":"Favorites",
-    "reservations" : "Reservaties",
+    "reservations" : "Reservations",
     "logingoogle": "Login with google",
 
     "sortby": "Sort by",
@@ -32,7 +32,7 @@
     "hidefilters": "Hide filters",
 
     "noitemsfound": "No restaurants found ...",
-    "intrested" : "Intrested to make a reservation? Dont wait!",
+    "intrested" : "Intrested in making a reservation? Dont wait!",
     "openinghours": "Openinghours",
     "monday": "Monday",
     "tuesday": "Tuesday",
@@ -53,7 +53,7 @@
     "nomenus": "No menus available.",
     "clickonpicture": "Click on the pictures.",
     "extrainformation" : "Extra information",
-    "nopayment": "No payment opties available. Please contact the restaurant if you have any questions.",
+    "nopayment": "No payment options available. Please contact the restaurant if you have any questions.",
     "nofacilities":"No facilities available. Please contact the restaurant if you have any questions.",
     "averagerating":"Average rating",
     "myrating": "My rating",
@@ -94,7 +94,7 @@
     "pageisnotavailable": "This page is not available!",
     "backtohome": "Go back to home",
     "passwordconfirmation": "Password Confirmation",
-    "Register":"Register",
+    "register":"Register",
     "loggedin" : "Logged in succesfully!",
     "loggedout": "Logged out succesfully!",
     "loginfailed" : "Invalid login credentials!",
@@ -113,5 +113,11 @@
     "givearating": "Give a rating",
     "amountratings": "Amount of ratings",
     "loginrating" :  "You need to login before you are able to give a rating.",
-    "toomanyrequests" : "Too many requests, try again later."
+    "toomanyrequests" : "Too many requests, try again later.",
+    "stars": "stars",
+    "total": "total",
+    "placeacomment" :"Want to place a comment?",
+    "logincomment": "You need to login before you are able to place a comment.",
+    "nofavorites" : "No favorites",
+    "noreservations": "No reservations"
   }

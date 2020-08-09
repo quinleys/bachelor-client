@@ -1,17 +1,12 @@
 import axios from 'axios';
 import { returnErrors } from './errorActions';
 import { toast } from "react-toastify";
-import { GET_DAILY_RESERVATIONS,DELETERESTAURANTIMAGE,NOTUPDATED, RESTAURANT_UPDATING , DELETERESTAURANTMENUIMAGE, DELETERESTAURANTCAROUSELIMAGE, IMAGES_LOADING,LOADING_NEWDATA,GET_RECENT_COMMENTS,UPLOADRESTAURANTMENUS, ADD_LAYOUT, UPLOADPRIMARYIMG, GET_RESTAURANT, UPLOADRESTAURANTIMAGES, GET_ACTIVEROOMS, GET_WEEKLY_RESERVATIONS, RESET_SERVERRESPONSE, MAKE_ROOM_UNACTIVE, MAKE_ROOM_ACTIVE,  DASHBOARD_LOADING , FAILED_DASHBOARD, UPDATE_RESTAURANT,  UPDATE_ROOMDASHBOARD, UPDATE_LAYOUT, GET_MONTHLY_RESERVATIONS, GET_LAYOUTSDASHBOARD, DELETE_ROOM, GET_ROOMDASHBOARD, GET_RECENT_RESERVATIONS, REMOVE_ROOM, GET_PLATTEGROND, DELETE_LAYOUT } from "./types";
+import { GET_DAILY_RESERVATIONS,NOTUPDATED, RESTAURANT_UPDATING , DELETERESTAURANTMENUIMAGE, DELETERESTAURANTCAROUSELIMAGE, IMAGES_LOADING,LOADING_NEWDATA,GET_RECENT_COMMENTS,UPLOADRESTAURANTMENUS, ADD_LAYOUT, UPLOADPRIMARYIMG, GET_RESTAURANT, UPLOADRESTAURANTIMAGES, GET_ACTIVEROOMS, GET_WEEKLY_RESERVATIONS, RESET_SERVERRESPONSE, MAKE_ROOM_UNACTIVE, MAKE_ROOM_ACTIVE,  DASHBOARD_LOADING , FAILED_DASHBOARD, UPDATE_RESTAURANT,  UPDATE_ROOMDASHBOARD, UPDATE_LAYOUT, GET_MONTHLY_RESERVATIONS, GET_LAYOUTSDASHBOARD, DELETE_ROOM, GET_ROOMDASHBOARD, GET_RECENT_RESERVATIONS, REMOVE_ROOM, GET_PLATTEGROND, DELETE_LAYOUT } from "./types";
 
 export const getRoom = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
-
-    console.log('id',id)
-    axios.get('http://127.0.0.1:8000/api/dashboard/room/' + id ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/room/" + id ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
     .then(res => {
-        console.log('res', res.data)
-      
-       
             dispatch({
                 type: GET_ROOMDASHBOARD,
                 payload: res.data
@@ -27,11 +22,8 @@ export const getRoom = (id) => (dispatch) => {
 }
 export const getActiveRooms = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
-
-    console.log('id',id)
-    axios.get('http://127.0.0.1:8000/api/dashboard/'+ id +'/rooms/active',  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } } )
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/"+ id +'/rooms/active',  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } } )
     .then(res => {
-        console.log('res active rooms', res.data)
         dispatch({
             type: GET_ACTIVEROOMS,
             payload: res.data
@@ -49,11 +41,10 @@ export const getRecentReservations = (id,url ) => (dispatch) => {
     if (url != '' && url != undefined && url != null){
         newurl = url
     }else{
-        newurl = ''
+        newurl = '?[page]=1'
     }
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/reservations/'  + newurl ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get("http://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + '/reservations'  + newurl ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
-        console.log('res', res.data)
         dispatch({
             type: GET_RECENT_RESERVATIONS,
             payload: res.data
@@ -71,12 +62,10 @@ export const getRecentComments = (id , url) => (dispatch) => {
     if (url != '' && url != undefined && url != null){
         newurl = url
     }else{
-        newurl = ''
+        newurl = '?[page]=1'
     }
-    console.log(newurl, 'new url')
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/comments/' + newurl,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + '/comments' + newurl,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
     .then(res => {
-        console.log('res', res.data)
         dispatch({
             type: GET_RECENT_COMMENTS,
             payload: res.data
@@ -92,9 +81,8 @@ export const getPlattegrond = (id,url) => (dispatch) => {
 
     dispatch(setDashboardLoading())
 
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/plattegrond' + url)
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + '/plattegrond' + url,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
-        console.log('res', res.data)
         dispatch({
             type: GET_PLATTEGROND,
             payload: res.data
@@ -111,17 +99,14 @@ export const updateRestaurant = (id, item) => (dispatch) => {
     dispatch(setRestaurantUpdating())
     dispatch(resetServerResponse())
     dispatch(setNotUpdated())
-
-    axios.post('http://127.0.0.1:8000/api/dashboard/' + id + '/restaurant/update', item , { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json"  }} )
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + "/restaurant/update", item , { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json"  }} )
     .then(res => {
-        console.log('update restaurant', res)
         dispatch({
             type: UPDATE_RESTAURANT,
             payload: res.data
         })
         toast.success("De kamer is succesvol geupdate.");
     }).catch(err => {
-        console.log(err)
         dispatch(returnErrors(err.message, err.error))
         dispatch({
             type: FAILED_DASHBOARD
@@ -131,18 +116,15 @@ export const updateRestaurant = (id, item) => (dispatch) => {
 }
 
 export const updateRoom = (item) => (dispatch) => {
-    console.log('item',item)
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
+    axios.put("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/room/update" , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
     .then(res => {
-        console.log('update',res);
         dispatch({
             type: UPDATE_ROOMDASHBOARD,
             payload: res.data
         })
         toast.success("De kamer is succesvol geupdate.");
     }).catch(err => {
-        console.log(err.message, 'error')
         dispatch(returnErrors(err.response, err.response, 'UPDATE_FAIL'))
         dispatch({
             type: FAILED_DASHBOARD
@@ -150,11 +132,9 @@ export const updateRoom = (item) => (dispatch) => {
     })
 }
 export const makeRoomActive = (item) => (dispatch) => {
-    console.log('item',item)
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
+    axios.put("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/room/update" , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
     .then(res => {
-        console.log('update',res);
         dispatch({
             type: MAKE_ROOM_ACTIVE,
             payload: res.data
@@ -168,11 +148,9 @@ export const makeRoomActive = (item) => (dispatch) => {
     })
 }
 export const makeRoomUnactive = (item) => (dispatch) => {
-    console.log('item',item)
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
+    axios.put("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/room/update" , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
     .then(res => {
-        console.log('update',res);
         dispatch({
             type: MAKE_ROOM_UNACTIVE,
             payload: res.data
@@ -189,30 +167,25 @@ export const getRestaurant = id => (dispatch) => {
     
     dispatch(setDashboardLoading());
     dispatch(setImagesLoading());
-    console.log('get item')
-    axios.get('http://127.0.0.1:8000/api/restaurant/' + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/restaurant/" + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
-        console.log('get Item',res.data)
         dispatch({
             type: GET_RESTAURANT,
             payload: res.data
         })}).catch(err => {
-            console.log(err, 'getRestaurant')
             dispatch(returnErrors(err.response, err.response))})
 }
 
-export const postPrimaryImg = (item) => (dispatch) => {
+export const postPrimaryImg = (id, item) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.post('http://127.0.0.1:8000/api/dashboard/14/restaurant/primaryimg' , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + "/restaurant/primaryimg" , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
     .then( res => {
-        console.log(res)
         dispatch({
             type: UPLOADPRIMARYIMG,
             payload: res.data
         })
         toast.success("De hoofdfoto is succesful geupload.");
     }).catch(err => {
-        console.log('all error', err)
         dispatch(returnErrors(err.response, err.response))
         dispatch({
             type: FAILED_DASHBOARD
@@ -220,11 +193,10 @@ export const postPrimaryImg = (item) => (dispatch) => {
         toast.error("Er is iets misgegaan. De file is te groot of de foute extensie.");
     })
 }
-export const postRestaurantImages = (item) => (dispatch) => {
+export const postRestaurantImages = (id, item) => (dispatch) => {
     dispatch(setImagesLoading())
-    axios.post('http://127.0.0.1:8000/api/dashboard/14/restaurant/uploadimages' , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + "/restaurant/uploadimages" , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
     .then( res => {
-        console.log('res upload', res)
         if(res.data[0] == 'menus'){
             dispatch({
                 type: UPLOADRESTAURANTMENUS,
@@ -239,7 +211,6 @@ export const postRestaurantImages = (item) => (dispatch) => {
        
         toast.success("De foto is succesful geupload.");
     }).catch(err => {
-        console.log('all error', err)
         dispatch(returnErrors(err.response, err.response))
         dispatch({
             type: FAILED_DASHBOARD
@@ -247,12 +218,10 @@ export const postRestaurantImages = (item) => (dispatch) => {
         toast.error("Er is iets misgegaan. De file is te groot of de foute extensie.");
     })
 }
-export const deleteRestaurantImage = (item) => (dispatch)=> {
-    console.log('item', item)
+export const deleteRestaurantImage = (id, item) => (dispatch)=> {
     dispatch(setImagesLoading())
-    axios.post('http://127.0.0.1:8000/api/dashboard/14/restaurant/deleteimage' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + "/restaurant/deleteimage" , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
     .then(res => {
-        console.log('delete',res )
         if(res.data[0] == "menus"){
             dispatch({
                 type: DELETERESTAURANTMENUIMAGE,
@@ -267,7 +236,6 @@ export const deleteRestaurantImage = (item) => (dispatch)=> {
        
         toast.success("De foto is succesful verwijderd.");
     }).catch(err => {
-        console.log('all error', err)
         dispatch(returnErrors(err.response, err.response))
         dispatch({
             type: FAILED_DASHBOARD
@@ -278,9 +246,8 @@ export const deleteRestaurantImage = (item) => (dispatch)=> {
 export const updateLayout = (item) => (dispatch) => {
 
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/layout/update', item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }}  )
+    axios.put("https://quinten.staging.7.web.codedor.online/api"  + "/dashboard/layout/update" , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }}  )
     .then(res => {
-        console.log('update',res)
         dispatch({
             type: UPDATE_LAYOUT,
             payload: res
@@ -298,7 +265,7 @@ export const updateLayout = (item) => (dispatch) => {
 
 export const getLayouts = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/layouts')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/dashboard/" + id + '/layouts', { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         dispatch({
             type: GET_LAYOUTSDASHBOARD,
@@ -313,9 +280,8 @@ export const getLayouts = (id) => (dispatch) => {
 }
 export const getDailyReservations = (id , date) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.get('http://127.0.0.1:8000/api/restaurant/dashboard/' + id + '/daily?date=' + date )
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/restaurant/dashboard/' + id + '/daily?date=' + date , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
-        console.log(res.data)
         dispatch({
             type:GET_DAILY_RESERVATIONS,
             payload: res.data
@@ -328,13 +294,11 @@ export const getDailyReservations = (id , date) => (dispatch) => {
     })
 }
 export const getWeeklyReservations = (id , date) => (dispatch) => {
-    console.log(id, date)
     dispatch(setLoadingNewData())
     dispatch(setDashboardLoading())
 
-    axios.get('http://127.0.0.1:8000/api/restaurant/dashboard/' + id + '/weekly?date=' + date )
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/restaurant/dashboard/' + id + '/weekly?date=' + date ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
-        console.log(res.data)
         dispatch({
             type:GET_WEEKLY_RESERVATIONS,
             payload: res.data
@@ -350,9 +314,8 @@ export const deleteRoom = (id) => (dispatch) => {
 
     dispatch(setDashboardLoading())
 
-    axios.delete('http://127.0.0.1:8000/api/room/' + id + '/delete')
+    axios.delete("https://quinten.staging.7.web.codedor.online/api" +  '/room/' + id + '/delete' ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
-        console.log('res', res)
         dispatch({
             type: DELETE_ROOM,
             payload: res.data
@@ -368,8 +331,7 @@ export const deleteRoom = (id) => (dispatch) => {
 }
 export const addLayout = item => (dispatch) => {
     dispatch(setDashboardLoading())
-    console.log(item);
-    axios.post('http://127.0.0.1:8000/api/layout/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + '/layout/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         dispatch({
         type: ADD_LAYOUT,
@@ -384,7 +346,7 @@ export const addLayout = item => (dispatch) => {
 
 export const deleteLayout = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.delete('http://127.0.0.1:8000/api/layout/' + id + '/delete')
+    axios.delete("https://quinten.staging.7.web.codedor.online/api" + '/layout/' + id + '/delete',  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         dispatch({
             type: DELETE_LAYOUT,
@@ -400,25 +362,6 @@ export const deleteLayout = (id) => (dispatch) => {
     })
 }
 
-
-/* export const getMonthlyReservations = (id , date) => (dispatch) => {
-    console.log(id, date)
-    dispatch(setDashboardLoading())
-
-    axios.get('http://127.0.0.1:8000/api/restaurant/dashboard/' + id + '/monthly?date=' + date )
-    .then(res => {
-        console.log(res.data)
-        dispatch({
-            type:GET_MONTHLY_RESERVATIONS,
-            payload: res.data
-        })
-    }).catch(err => {
-        dispatch(returnErrors(err.response, err.response))
-        dispatch({
-            type: FAILED_DASHBOARD
-        })
-    })
-} */
 export const removeRoom = () => {
     return {
         type: REMOVE_ROOM

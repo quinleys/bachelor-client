@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import MiniDrawer from '../../components/Owners/MiniDrawer'
 import { Container } from 'reactstrap'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import Paper from '@material-ui/core/Paper';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
@@ -11,12 +9,10 @@ import {
   DayView,
   Appointments,
   WeekView,
-  MonthView,
   Toolbar,
   DateNavigator,
   ViewSwitcher,
   AllDayPanel,
-  Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import moment from 'moment';
 import Radio from '@material-ui/core/Radio';
@@ -24,7 +20,6 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-import appointments from './today-appointments';
 import { getWeeklyReservations } from '../../actions/dashboardActions';
 import { getDailyReservations } from '../../actions/dashboardActions';
 import Typography from '@material-ui/core/Typography';
@@ -104,7 +99,6 @@ class Calendar extends Component {
         var today = new Date(),
         dateTodayNow = today.getFullYear() + '-0' + (today.getMonth() + 1) + '-' + today.getDate();
         this.state = {
-            data: appointments,
             restaurant_id: localStorage.getItem('restaurant_id'),
             title: '',
             description: '',
@@ -126,7 +120,6 @@ class Calendar extends Component {
         this.currentViewNameChange = (currentViewName) => {
 
           this.setState({ currentViewName: currentViewName });
-          console.log(this.state.currentDate)
           if(currentViewName == 'Week'){
             this.props.getWeeklyReservations(localStorage.getItem('restaurant_id'), this.state.currentDate);
           }else if (currentViewName == "Day"){
@@ -156,7 +149,6 @@ class Calendar extends Component {
     }
 
     componentDidMount(){
-      console.log('date', this.state.currentDate)
       this.props.getWeeklyReservations(localStorage.getItem('restaurant_id'), this.state.currentDate)
     }
 
@@ -165,9 +157,9 @@ class Calendar extends Component {
         this.setState({
           data: []
         })
-          console.log('inside make data', this.props.dashboard.daily)
+        
           this.props.dashboard.daily.map(m => {
-            console.log('inside functtion',m.id)
+            
             let item = {
               "id" : m.id,
               "title" : m.persons,
@@ -198,9 +190,9 @@ class Calendar extends Component {
         this.setState({
           data: []
         })
-      console.log('inside make data', this.props.dashboard.weekly)
+    
           this.props.dashboard.weekly.map(m => {
-            console.log('inside functtion',m.id)
+           
             let item = {
               "id" : m.id,
               "title" : m.persons,
@@ -228,9 +220,9 @@ class Calendar extends Component {
         this.setState({
           data: []
         })
-      console.log('inside make data', this.props.dashboard.weekly)
+    
           this.props.dashboard.weekly.map(m => {
-            console.log('inside functtion',m.id)
+          
             let item = {
               "id" : m.id,
               "title" : m.persons,
@@ -253,9 +245,7 @@ class Calendar extends Component {
            })
           )}
     }
-    /* componentDidUpdate =() => {
-      this.makeWeeklyData()
-    } */
+
     render() {
         const { categories } = this.props.categories;
         const { data, currentViewName, currentDate } = this.state;
@@ -267,7 +257,7 @@ class Calendar extends Component {
                             <div className="col-10">
                             <h1>Kalender</h1>
                             </div>
-                          {console.log(this.state.dateToday,"todat")}
+                         
                         </div>
                         <div className="row justify-content-between my-2">
                           <div className="col">
@@ -286,7 +276,7 @@ class Calendar extends Component {
               loadingNewData ? <div>Loading ... <Spinner /> </div>:
               <div>
                 
-              {console.log('data', this.state.data)}
+             
               {this.state.currentViewName == 'Day' ? weekly.length > 0 ? this.makeWeeklyData() : null 
               : this.state.currentViewName == 'Week' ?  weekly.length > 0 ? this.makeWeeklyData() : null 
               : null}

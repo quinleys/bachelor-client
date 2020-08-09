@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import MiniDrawer from '../../components/Owners/MiniDrawer'
 import { Container } from 'reactstrap'
-import {  Collapse, CardBody, Card , Input, Form, Label, FormGroup, } from 'reactstrap'
+import {   Card , Input, Form, Label, FormGroup, } from 'reactstrap'
 import Button from '@material-ui/core/Button';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -10,14 +9,11 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getTables } from '../../actions/tableActions'
-import { getExtras } from '../../actions/extraActions'
 import { addReservation } from '../../actions/reservationActions';
 import { getReservationTable } from '../../actions/reservationActions';
 import { clearErrors } from '../../actions/errorActions';  
-import { getRooms } from '../../actions/roomActions'
 import { getPlattegrond, getActiveRooms } from '../../actions/dashboardActions';
-import { Stage, Layer, Rect, Text, Circle, Line, Shape, Image } from 'react-konva';
+import { Stage, Layer, Rect, Text, Shape, Image } from 'react-konva';
 import moment from 'moment';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Spinner from '../../components/Components/Spinner/Spinner'
@@ -132,7 +128,6 @@ class Plattegrond extends Component {
     }
 
     setClosed = () => {
-        console.log('closed')
         this.setState({
             error: 'Restaurant gesloten.'
         })
@@ -181,8 +176,7 @@ class Plattegrond extends Component {
         clearInterval(this.interval);
       }
     nowLive = () => {
-        console.log('now live')
-        console.log(this.props.dashboard, 'live item')
+       
         if(this.props.dashboard.plattegrond[0] !== 'closed'){
             this.interval = setInterval(() => 
             this.setState({  
@@ -191,7 +185,7 @@ class Plattegrond extends Component {
                 date: moment().format('YYYY-MM-DD'),
                 time: moment().format('HH:mm:ss'),
              }, function(){
-                console.log('interval')
+               
                 this.props.getPlattegrond(localStorage.getItem('restaurant_id'), '?date=' + this.state.date + this.state.time )
              })  , 5000);
         }else{
@@ -204,23 +198,23 @@ class Plattegrond extends Component {
       
     }
     onClick = (e) => {
-        console.log('e', e)
+   
     }
     showPrevCanvas = () => {
-        console.log('show prev' , this.state.showCanvas)
+      
         this.setState({
           showCanvas: this.state.showCanvas - 1
         })
       }
       showNextCanvas = () => {
-        console.log('show next' , this.state.showCanvas)
+      
         this.setState({
           showCanvas: this.state.showCanvas + 1
         })
       }
       calcScale = () => {
         const CANVAS_VIRTUAL_WIDTH = 1000;
-            const CANVAS_VIRTUAL_HEIGHT = 1000;
+          /*   const CANVAS_VIRTUAL_HEIGHT = 1000; */
        if( window.innerWidth < 1140){
             let scaleCalc = Math.min(
                 window.innerWidth / CANVAS_VIRTUAL_WIDTH,
@@ -251,17 +245,16 @@ class Plattegrond extends Component {
 
         return (
             <div>
-                
-             {console.log(activeRooms, 'activerooms')}
-             { activeRooms && plattegrond ? 
+
+             { activeRooms && plattegrond && !dashboardloading && plattegrond[0]? 
                 <div className="dashboard"> 
-                  
+                   
                 <Container>
                 <div className="row">
                             <div className="col-10">
                             <h1>Plattegrond</h1>
                             </div>
-                          {console.log(this.state.dateToday,"todat")}
+                          
                         </div>
                         <div className="row justify-content-between my-2">
                           <div className="col">
@@ -276,12 +269,17 @@ class Plattegrond extends Component {
                               <h6 div className="floatright">{this.state.dateToday}</h6>
                             </div>
                         </div>
+                        {activeRooms.length > 0 ?
+                        <div>
+                        { this.state.errormsg ? <Alert className="my-2" severity="error">{this.state.errormsg}</Alert> : null }
+                    { plattegrond[0] == 'closed' ? <Alert severity="error">Het restaurant is gesloten op de gekozen data.</Alert> : null }
+                     
                 <div className="row my-3">
                     <div className="col-12">
-                    { this.state.errormsg ? <Alert severity="error">{this.state.errormsg}</Alert> : null }
-                    { plattegrond[0] == 'closed' ? <Alert severity="error">Het restaurant is gesloten op de gekozen data.</Alert> : null }
+                  
                     {/* {plattegrond[0] == 'closed' ?
                         <Alert color="danger"> Closed </Alert> : null } */}
+                       
                         <Card>
                         <Accordion>
                         <AccordionSummary
@@ -328,9 +326,9 @@ class Plattegrond extends Component {
                             </FormGroup>  
                         </Form>
 
-                        { !this.state.live ? <Button onClick={()=> this.goToLive()}>
+                        { !this.state.live ? <Button classes={{ root: 'fullLengthButton'}} onClick={()=> this.goToLive()}>
                             Ga naar live!
-                        </Button> :<Button onClick={()=> this.stopLive()}>
+                        </Button> :<Button classes={{ root: 'fullLengthButton'}} onClick={()=> this.stopLive()}>
                             Stop live!
                         </Button> }
 
@@ -353,27 +351,16 @@ class Plattegrond extends Component {
                     </div>
                 </div>
                
-{/*                 {plattegrond && !dashboardloading ? 
-                <Alert>{this.state.error}</Alert>
-                : null } */}
-                {console.log('rooms', activeRooms)}
+
+              
                 <div className='row'>
-                {activeRooms ?  console.log(activeRooms) : null }
+         
                              
-                            {/*  {rooms.length > 1 ? 
-                             <div className="row my-2 justify-content-between">
-                              <Button onClick={() => this.showPrevCanvas()} disabled={ this.state.showCanvas == 0 ? true : false  }>
-                              <p><ArrowBackIosIcon /> Vorige kamer</p>
-                            </Button>
-                              <Button onClick={() => this.showNextCanvas()} disabled={ this.state.showCanvas == rooms.length - 1 ? true : false  } >
-                                <p>Volgende kamer <ArrowForwardIosIcon /></p>
-                                </Button>
-                            </div>
-                            : null } */}
+                          
                             </div>
                 <div className="row">
              
-                                {console.log('plattegrond',plattegrond)}
+                            
                 
                     <div className="col-12">
                         { !dashboardloading  ? 
@@ -393,7 +380,7 @@ class Plattegrond extends Component {
                        <div className={ this.state.showCanvas == i ? 'hiddenCanvas' : null} > 
                        <h6>{room.title}</h6>
                     <Stage   width={1000 * this.state.scale < 1140 ? 1000 * this.state.scale : 1140 } height={1000 * this.state.scale < 1140 ? 1000 * this.state.scale : 1140 } scaleX={this.state.scale} scaleY={this.state.scale}>
-                          { console.log(scale)}
+                        
                          {  room.walls ?  
                          <Layer>
                              <Shape
@@ -428,11 +415,11 @@ class Plattegrond extends Component {
                                  strokeWidth={5}
                              /> 
                              </Layer>: null }
-                             {console.log('ex',this.props.room.rooms.extras)}
+                         
                         { room.extras ? 
                         
                         room.extras.map(m => {
-                            console.log('m',m)
+                           
                             return(
                             <Layer>
                             <Rect
@@ -452,11 +439,11 @@ class Plattegrond extends Component {
                         : null
                         }
                        
-                        {console.log('rooms tables', room.layout.tables)}
+                   
                         
                         { !dashboardloading && activeRooms && this.props.dashboard && room.layout.tables.length >= 1 ? 
                             room.layout.tables.map((m,i) => {
-                                console.log('inside map', m)
+                              
                                 return(
                                  <Layer>
                                         <URLImage src={process.env.PUBLIC_URL + `/tables/table${m.id}-1.svg`}
@@ -475,15 +462,13 @@ class Plattegrond extends Component {
                                         
                                    />
                                     
-                                   {console.log('plattegrond', plattegrond)} 
+                              
                                    {!dashboardloading && activeRooms && plattegrond.rooms[i] && this.props.dashboard && room.layout.tables.length >= 1 && plattegrond && plattegrond[0] !== 'closed' ?
            
                                    plattegrond && plattegrond.rooms[i].reservations !== 'geen reservaties' && plattegrond.rooms[i].reservations && !dashboardloading  ? 
                                             plattegrond.rooms[i].reservations !== 0 ?       
                                             plattegrond.rooms[i].reservations.map( res => {
-                                                    console.log('freetables', plattegrond)
-                                                    console.log(m, 'm.pivot.id')
-                                                    console.log('res', res.table_pivot_id , m.pivot.id, 'm.pivot.id')
+                                                   
                                                     if(res.table_pivot_id == m.pivot.id){
                                                     return (
                                                  
@@ -525,10 +510,14 @@ class Plattegrond extends Component {
                      : <Spinner /> }
                     </div>
                 </div>
-                
+                </div>
+                : <div ><Alert className="my-2" severity="error"> GEEN ACTIEVE KAMERS</Alert> <div className="row"><Alert className="my-2 w-100" severity="info"  action={
+                    <Link to="/dashboard/layout"><Button color="inherit" size="small">Klik hier!</Button></Link>
+                   
+                  }> U moet een actieve kamer instellen vooralleer u een plattegrond kan bekijken! </Alert> </div></div>}
                      </Container>
                 </div>
-                : null }
+                : <Spinner /> }
                
             </div>
         )

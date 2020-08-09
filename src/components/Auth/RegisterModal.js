@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Container, Button, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup, NavLink,  } from 'reactstrap';
+import { Container, Button, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup,   } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions'; 
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
-import { Translation } from 'react-i18next';
-import i18n from '../../i18n';
+
 // the hoc
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import Alert from '@material-ui/lab/Alert';
 class RegisterModel extends Component {
     state = {
@@ -29,7 +27,7 @@ class RegisterModel extends Component {
         auth: PropTypes.object.isRequired,
     }
     componentDidUpdate(prevProps) {
-        console.log('state modal', this.state.modal)
+       
         const {error, isAuthenticated } = this.props;
         if(error !== prevProps.error){
             if(error.id === 'LOGIN_FAIL'){
@@ -49,7 +47,7 @@ class RegisterModel extends Component {
         this.props.clearErrors()
     }
     toggle = () => {
-        console.log('toggle')
+       
         this.setState({
             modal: !this.state.modal
         })
@@ -72,13 +70,13 @@ class RegisterModel extends Component {
                 email,
                 password_confirmation
             }
-            console.log(newUser);
+          
             this.props.clearErrors()
             
             // attempt login 
             this.props.register(newUser);
         }else{
-            console.log('something went wrong')
+            
             this.setState({
                 msg: 'Please make sure the passwords match!'
             })

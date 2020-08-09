@@ -11,7 +11,6 @@ const initialState = {
 export default function(state = initialState, action){
     switch(action.type){
         case GET_ERRORS:
-            console.log(action.payload, 'real payload')
             if(action.payload.status == 'REGISTER_FAIL'){
                 return{
                     message: action.payload.message.data.message,

@@ -1,5 +1,4 @@
-import { GET_RESERVATIONS, DELETE_RESERVATION,RESERVATION_CLEAR_DELETE_SUCCES, GET_FUTURE_RESERVATIONS, GET_PAST_RESERVATIONS, GET_TABLERESERVATIONS, GET_WEEKLYRESERVATIONS,ADD_RESERVATION, RESERVATIONS_LOADING,GET_RESERVATION, GET_CATEGORIES, GET_MATERIALS, FAILED_RESERVATIONS, GET_RANDOM } from '../actions/types'
-
+import { GET_RESERVATIONS,DELETE_TABLERESERVATIONS, DELETE_RESERVATION,RESERVATION_CLEAR_DELETE_SUCCES, GET_FUTURE_RESERVATIONS, GET_PAST_RESERVATIONS, GET_TABLERESERVATIONS, GET_WEEKLYRESERVATIONS,ADD_RESERVATION, RESERVATIONS_LOADING,GET_RESERVATION,  FAILED_RESERVATIONS, GET_RANDOM } from '../actions/types'
 
 const initialState = {
     reservations: [],
@@ -21,6 +20,7 @@ export default function(state = initialState, action){
                 ...state,
                 reservations: action.payload,
                 loadingReservation: false,
+                deleteSuccess: false,
             };
         case RESERVATION_CLEAR_DELETE_SUCCES:
             return {
@@ -60,10 +60,15 @@ export default function(state = initialState, action){
                 loadingReservation: false,
             }
         case GET_TABLERESERVATIONS:
-            console.log('tables', action.payload)
             return{
                 ...state,
                 tablereservations: action.payload,
+                loadingReservation: false
+            }
+        case DELETE_TABLERESERVATIONS:
+            return {
+                ...state,
+                tablereservations: [],
                 loadingReservation: false
             }
         case GET_WEEKLYRESERVATIONS:
@@ -73,7 +78,6 @@ export default function(state = initialState, action){
                 loadingReservation: false,
             }
         case DELETE_RESERVATION:
-            console.log(state.future.data , 'data')
             return {
                 ...state,
                 deleteSuccess: true,

@@ -6,7 +6,7 @@ import { GET_CATEGORIES, FAILED_CATEGORIES, CATEGORIES_LOADING } from "./types";
 export const getCategories = () => (dispatch) => {
     dispatch(setCategoriesLoading())
 
-    axios.get('http://127.0.0.1:8000/api/category/all')
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + "/category/all")
     .then(res => {
         dispatch({
             type:GET_CATEGORIES,

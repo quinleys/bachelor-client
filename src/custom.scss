@@ -1,17 +1,21 @@
 @import '~bootstrap/scss/bootstrap.scss';
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
-
-$font-family: 'Inter', sans-serif;
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+$font-family: 'Poppins', sans-serif;
 
 $primary: #1B3856;
 /* $bg: #F2F2F2; */
 $bg: white;
 $accent: #2369f6;
 $grey: #7d7c83;
+
+html {
+    font-family: $font-family !important;
+}
 body {
     background-color: $bg !important;
     font-family: $font-family !important;
-    margin-top: 60px;
+    margin-top: 70px;
 }
 h1 {
     font-size: 50px !important;
@@ -33,6 +37,13 @@ h1 {
     margin: 0;
     font-weight: 800;
     color: black;
+}
+
+.card-img-top {
+        width: 100%;
+        height: 25vh;
+        max-height: 250px;
+    object-fit: cover;
 }
 h1, h2,h3 {
     font-weight: 800 !important;
@@ -70,6 +81,22 @@ html, body {
     
 
 }
+.overflow-x-scroll {
+    overflow-x: scroll;
+}
+.reservationmodal {
+    .konvajs-content {
+    margin: 0 auto;
+    } 
+    canvas {
+    max-width: 1000px !important;
+    max-height: 1000px !important;
+    }
+    .konvajs-content {
+    max-width: 1000px !important;
+    max-height: 1000px !important;
+    } 
+}
 .noradius {
     border-radius: 0 !important;
 }
@@ -87,10 +114,12 @@ html, body {
 .MuiLinearProgress-barColorPrimary{
     background-color: $accent !important;
 }
-/* .nav-transparant {
-    /* background-color: transparent !important; 
-} */
 
+.MuiMobileStepper-root{
+  background-color: white !important;  
+  padding: 0 !important;
+  width: 100%;
+}
 .Toastify__toast-container
 {
     z-index: 100000 !important;
@@ -104,19 +133,18 @@ html, body {
     color : #FB3640!important;
 }
 .fullHeightBottomDrawer {
-    /* height: 95% !important; */
+   
     padding-top: 1rem;
-    padding-bottom: 3rem;
+     padding-bottom: 3rem; 
     border-radius: 20px 20px 0px 0px;
 }
 .over{
     z-index: 9999 !important;
 }
 .mobileStepper {
-    position: fixed;
+
     width: 100%;
-    left: 0;
-    bottom: 0;
+
 }
 .gridListroot {
     display: 'flex';
@@ -133,9 +161,7 @@ html, body {
     background:
       'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
   }
-/* .nav text {
-    mix-blend-mode: difference;
-} */
+
 body {
     position: relative;
 }
@@ -157,21 +183,6 @@ body {
 .MuiCheckbox-colorSecondary.Mui-checked {
     color: $accent !important;
 }
-/* .nav-item{
-    
-}
-.navlink-login{
-    border: 2px solid $primary;
-    border-radius: 20px;
-    margin: 0.5rem;
-    color: $primary;
-}
-.navlink-register{
-    background-color: $primary;
-    border-radius: 20px;
-    margin: 0.5rem;
-    color: white !important;
-} */
 a , .nav-link {
     text-decoration: none;
     color: black !important;
@@ -248,9 +259,7 @@ a , .nav-link {
     z-index: 9999999 !important;
     border-radius: 0 20px 20px 0;
 }
-/* a {
-    color: white !important;
-} */
+
 .home-picture {
     color: white;
 }
@@ -280,11 +289,6 @@ a , .nav-link {
      -webkit-box-shadow: 10px 10px 36px -26px rgba(0,0,0,0.43);
     -moz-box-shadow: 10px 10px 36px -26px rgba(0,0,0,0.43);
     box-shadow: 10px 10px 36px -26px rgba(0,0,0,0.43);
-    /*  box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12); */
-/*     border-radius: 20px;
-    -webkit-box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
-    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);  */
     border: none;
     border-radius: 0px;
     margin-top: 10px;
@@ -295,14 +299,9 @@ a , .nav-link {
 }
  .detail, .profile {
     margin-bottom: 100px;
-  /*   padding-top: 4rem;
-    padding-bottom: 4rem; */
 }
 .restaurants {
   margin-bottom: 80px;
- /*      margin-bottom: 100px;
-    padding-top: 5rem;
-    padding-bottom: 4rem; */
 }
 .filters {
     margin-top: 2rem;
@@ -382,33 +381,6 @@ Form .col-3 {
     background-color: white;
     z-index: 0;
     overflow: hidden;
-/*   
-    &:hover {
-      transition: all 0.2s ease-out;
-      box-shadow: 0px 4px 8px rgba(38, 38, 38, 0.2);
-      top: -4px;
-      border: 1px solid $primary;
-      background-color: white;
-    }
-  
-    &:before {
-      content: "";
-      position: absolute;
-      z-index: -1;
-      top: -16px;
-      right: -16px;
-      background: #ffffff;
-      height: 32px;
-      width: 32px;
-      border-radius: 32px;
-      transform: scale(2);
-      transform-origin: 50% 50%;
-      transition: transform 0.15s ease-out;
-    }
-  
-    &:hover:before {
-      transform: scale(2.15);
-    } */
   }
   
   .form-controll {
@@ -436,21 +408,15 @@ Form .col-3 {
      overflow: visible !important;
  }
 .bottomdrawer {
-    min-height: 100vh  !important;
+    max-height: 80vh  !important;
     border-radius: 20px 20px 0 0;
 }
 .listDrawer {
     width: 100%;
 }
-/* .navlink-user{
-    border: none !important;
-    background-color: transparent !important;
-    margin: 0.5rem !important;
-    border: none !important;
-    color: $primary;
- } */
-
-
+a:hover {
+    text-decoration: none !important;
+}
 .custommodal {
     position: fixed;
     top: 0;
@@ -495,10 +461,6 @@ Form .col-3 {
 }
 .section {
     height: 100vh;
-/*     margin-top: 100px;
-    margin-bottom: 100px; */
-    /* margin: auto; */
-    /* padding-top: 300px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -508,6 +470,7 @@ Form .col-3 {
 }
 .dashboard {
     margin-top: 2rem;
+    padding-top: 60px;
 }
 .dashboardcard {
     border-radius: 20px;
@@ -524,16 +487,7 @@ Form .col-3 {
 .ant-steps {
     padding: 20px !important;
 }
-/* .konvajs-content {
-    margin: 0 auto;
-} */
-/* canvas {
-       max-width: 1140px;
-}
-.konvajs-content {
-    max-width: 1000px !important;
-    max-height: 1000px !important;
-} */
+
 .hiddenCanvas {
     display: none;
 }
@@ -576,17 +530,17 @@ $breakpoint-tablet: 768px;
 input[type="date"]
 {
     display:block;
-  
-    /* Solution 1 */
+
      -webkit-appearance: textfield;
     -moz-appearance: textfield;
     min-height: 1.2em; 
-  
-    /* Solution 2 */
-    /* min-width: 96%; */
+
 }
 @media (max-width: $breakpoint-tablet) {
 
+.section {
+    height: 100%;
+}
 .background-image {
     background: url('/bgimg.jpg') no-repeat center center fixed;
     background-size: cover;
@@ -597,6 +551,7 @@ input[type="date"]
     -moz-box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
     box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
 }
+
 body {
     background-color: $bg !important;
     font-family: $font-family !important;
@@ -604,9 +559,8 @@ body {
     
 }
 .homepage{
-    margin-bottom: 100px;
-   /*  margin-top:4rem;
-    margin-bottom: 4rem; */
+    margin-bottom: 50px;
+    margin-top: 2rem;
 }
 .indekijker {
     display: none;
@@ -623,9 +577,8 @@ body {
 .padding-top {
     padding-top: 0;
 }
+.dashboard {
+    padding-top: 0px;
+}
 
-/* .col-lg-9 , .col-12 {
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-} */
 }

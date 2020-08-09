@@ -1,16 +1,15 @@
-import { ADD_FAVORITE , GET_COMMENTS, DELETE_FAVORITE, GET_USER_ALLFAVORITES, FAVORITES_LOADING, GET_USER_FAVORITES, FAILED_FAVORITES } from './types'
+import { ADD_FAVORITE , DELETE_FAVORITE, GET_USER_ALLFAVORITES, FAVORITES_LOADING, GET_USER_FAVORITES, FAILED_FAVORITES } from './types'
 import axios from 'axios';
 import { returnErrors } from './errorActions';
 
 export const addFavorite = item => (dispatch) => {
-    console.log(item)
     const config = {
         headers: {
             'Content-Type' : 'application/json',
             'Authorization' : "Bearer " + localStorage.getItem('token') }
     }
 
-    axios.post('http://127.0.0.1:8000/api/favorite/add', item, config)
+    axios.post("https://quinten.staging.7.web.codedor.online/api" + '/favorite/add', item, config)
     .then(res => 
         dispatch({
             type: ADD_FAVORITE,
@@ -19,7 +18,7 @@ export const addFavorite = item => (dispatch) => {
 }
 export const getFavorites = id => (dispatch) => {
     dispatch(setFavoritesLoading());
-    axios.get('http://127.0.0.1:8000/api/favorite/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/favorite/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         dispatch({
             type: GET_USER_FAVORITES,
@@ -34,7 +33,7 @@ export const getFavorites = id => (dispatch) => {
 }
 export const getAllFavorites = () => (dispatch) => {
     dispatch(setFavoritesLoading());
-    axios.get('http://127.0.0.1:8000/api/favorite/user/' + localStorage.getItem('id') + '/all', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get("https://quinten.staging.7.web.codedor.online/api" + '/favorite/user/' + localStorage.getItem('id') + '/all', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         dispatch({
             type: GET_USER_ALLFAVORITES,
@@ -54,7 +53,7 @@ export const deleteFavorite = id => (dispatch) => {
             'Content-Type' : 'application/json',
             'Authorization' : "Bearer " + localStorage.getItem('token') }
     }
-    axios.delete(`http://127.0.0.1:8000/api/favorite/${id}` , config)
+    axios.delete("https://quinten.staging.7.web.codedor.online/api" + `/favorite/${id}` , config)
     .then(res => 
         dispatch({
             type: DELETE_FAVORITE,
