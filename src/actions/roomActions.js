@@ -6,7 +6,7 @@ import { GET_ROOMS, ADD_ROOM, GET_ROOM, FAILED_ROOMS, ROOMS_LOADING } from "./ty
 export const getRooms = (id) => (dispatch) => {
     dispatch(setRoomsLoading())
 
-    axios.get('http://127.0.0.1:8000/api/room/' + id)
+    axios.get('/api/room/' + id)
     .then(res => {
         console.log(res.data)
         dispatch({
@@ -23,7 +23,7 @@ export const getRooms = (id) => (dispatch) => {
 export const getRoom = (id) => (dispatch) => {
     dispatch(setRoomsLoading())
 
-    axios.get('http://127.0.0.1:8000/api/room/id/' + id)
+    axios.get('/api/room/id/' + id)
     .then(res => {
         console.log(res.data)
         dispatch({
@@ -38,7 +38,7 @@ export const getRoom = (id) => (dispatch) => {
     })
 }
 export const addRoom = item => (dispatch) => {
-    axios.post('http://127.0.0.1:8000/api/room/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.post('/api/room/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         dispatch({
         type: ADD_ROOM,

@@ -6,7 +6,7 @@ import { BrowerRouter } from 'react-router'
 export const getLayouts = (id) => (dispatch) => {
     dispatch(setLayoutsLoading())
 
-    axios.get('http://127.0.0.1:8000/api/layout/' + id)
+    axios.get('/api/layout/' + id)
     .then(res => {
         console.log(res.data)
         dispatch({
@@ -25,7 +25,7 @@ export const getLayout = id => (dispatch) => {
     console.log('inside deze get')
     dispatch(setLayoutsLoading())
 
-    axios.get('http://127.0.0.1:8000/api/layout/id/' + id, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.get('/api/layout/id/' + id, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         console.log('res',res.data)
         dispatch({
@@ -45,7 +45,7 @@ export const forgetLayout = () => (dispatch) => {
     })
 }
 export const addLayout = item => (dispatch) => {
-    axios.post('http://127.0.0.1:8000/api/layout/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.post('/api/layout/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         dispatch({
         type: ADD_LAYOUT,

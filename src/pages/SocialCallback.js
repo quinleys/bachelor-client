@@ -17,6 +17,7 @@ class SocialCallback extends Component {
         error: PropTypes.object.isRequired,
         login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired,
+        loginSocial: PropTypes.func.isRequired,
     }
     componentDidMount(){
         this.getQuery();
@@ -26,20 +27,19 @@ class SocialCallback extends Component {
         this.props.loginSocial(id, token); */
     }
     getQuery = () => {
-        console.log('getquery')
         const query = new URLSearchParams(this.props.location.search);
         const token = query.get('token');
         const id = query.get('id')
         console.log('token', token, 'id', id)
-        this.props.loginSocial(query.get('id'), query.get('token'));
+        this.props.loginSocial(id, token);
     }
     render() {
         const { isLoading, isAuthenticated } = this.props.auth
         return (
             <div style={{'margin-top': "200px"}} className="dashboard">
-                { isLoading ? 
+                { isLoading ?
                    <div> Please wait ... <Spinner /> </div>
-                   : localStorage.getItem('authenticated') ? 
+                   : localStorage.getItem('authenticated') ?
                    <div className="detail">
                    <Container>
                    <div className="row align-items-center justify-content-center">
@@ -48,7 +48,7 @@ class SocialCallback extends Component {
                        <Trans i18nKey="loggedin">
                            </Trans>
                        </h1>
-                    
+
                        <Link to="/">
                        <Button><Trans i18nKey="backtohome">
                            </Trans></Button>
@@ -56,14 +56,14 @@ class SocialCallback extends Component {
                        </div>
                    </div>
                    </Container>
-                   
+
                </div>
            :
                    <p><Trans i18nKey="pageisnotavailable">
                    </Trans></p>
                 }
-                
-              
+
+
             </div>
         )
     }

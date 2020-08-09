@@ -7,7 +7,7 @@ import { Trans, useTranslation } from 'react-i18next'
 export const deleteReservation = (id) => (dispatch) => {
     dispatch(setReservationsLoading());
 
-    axios.delete('http://127.0.0.1:8000/api/reservation/'  + id +  '/delete',{ headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.delete('/api/reservation/'  + id +  '/delete',{ headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         console.log('delete reservation success' , res )
         dispatch(getFutureReservations());
@@ -29,7 +29,7 @@ export const getReservations = () => (dispatch) => {
 
     dispatch(setReservationsLoading());
 
-    axios.get('http://127.0.0.1:8000/api/reservation/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get('/api/reservation/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         console.log(res.data)
         dispatch({
@@ -46,7 +46,7 @@ export const getReservations = () => (dispatch) => {
 export const getPastReservations = () => (dispatch) => {
     dispatch(setReservationsLoading());
 
-    axios.get('http://127.0.0.1:8000/api/reservation/user/' + localStorage.getItem('id') + '/past', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get('/api/reservation/user/' + localStorage.getItem('id') + '/past', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         dispatch({
             type: GET_PAST_RESERVATIONS,
@@ -63,7 +63,7 @@ export const getPastReservations = () => (dispatch) => {
 export const getFutureReservations = () => (dispatch) => {
     dispatch(setReservationsLoading());
 
-    axios.get('http://127.0.0.1:8000/api/reservation/user/' + localStorage.getItem('id') + '/future', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get('/api/reservation/user/' + localStorage.getItem('id') + '/future', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         dispatch({
             type: GET_FUTURE_RESERVATIONS,
@@ -81,12 +81,12 @@ export const addReservation = item  => (dispatch) => {
     console.log('add reservation', item)
 
     dispatch(setReservationsLoading());
-    
+
     console.log(item);
-    axios.post('http://127.0.0.1:8000/api/reservation/add', item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
-    .then(res => 
-        dispatch({ 
-            type: ADD_RESERVATION, 
+    axios.post('/api/reservation/add', item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    .then(res =>
+        dispatch({
+            type: ADD_RESERVATION,
             payload: res.data
         })).catch(err => {
             dispatch(returnErrors(err.response, err.response, 'FAILED_RESERVATION'))
@@ -101,8 +101,8 @@ export const getReservation = id => (dispatch) => {
     console.log(id)
     dispatch(setReservationsLoading());
 
-    axios.get('http://127.0.0.1:8000/api/reservation/' + id)
-    .then(res => 
+    axios.get('/api/reservation/' + id)
+    .then(res =>
         dispatch({
             type: GET_RESERVATION,
             payload: res.data
@@ -122,14 +122,14 @@ export const clearDeleteSuccess = () => {
 export const getReservationTable = (id,url) => (dispatch) => {
     console.log(url)
     dispatch(setReservationsLoading());
-    axios.get('http://127.0.0.1:8000/api/restaurant/' + id + '/reservation' + url)
+    axios.get('/api/restaurant/' + id + '/reservation' + url)
     .then(res => dispatch ({
         type: GET_TABLERESERVATIONS,
         payload: res.data
     })).catch(err => dispatch(returnErrors(err.response, err.response)))
 }
 export const getWeeklyReservations = id => (dispatch) => {
-    axios.get('http://127.0.0.1:8000/api/reservation/1/weekly', id)
+    axios.get('/api/reservation/1/weekly', id)
     .then(res => dispatch ({
         type: GET_WEEKLYRESERVATIONS,
         payload: res.data

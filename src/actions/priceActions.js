@@ -4,10 +4,10 @@ import { returnErrors, tooManyRequest } from './errorActions';
 import { GET_PRICES, FAILED_PRICES, PRICES_LOADING } from "./types";
 
 export const getPrices = () => (dispatch) => {
-    
+
     dispatch(setPricesLooading())
 
-    axios.get('http://127.0.0.1:8000/api/price/all')
+    axios.get('/api/price/all')
     .then(res => {
         dispatch({
             type:GET_PRICES,

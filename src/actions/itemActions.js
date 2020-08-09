@@ -3,18 +3,18 @@ import axios from 'axios';
 import { returnErrors, tooManyRequest } from './errorActions';
 
 export const getItems = url => (dispatch) => {
-    
+
     dispatch(setItemsLoading());
     console.log(url)
-    axios.get('http://127.0.0.1:8000/api/restaurant/all' + url )
+    axios.get('/api/restaurant/all' + url )
     .then(res => {
         console.log(res)
-            dispatch({ 
-                type: GET_ITEMS, 
+            dispatch({
+                type: GET_ITEMS,
                 payload: res.data
             }) })
     .catch(err => {
-  
+
         if(typeof err.response == "object"){
         if(err.response.status && err.response.status == 429){
             dispatch(tooManyRequest(err.response.status))
@@ -31,7 +31,7 @@ export const getItems = url => (dispatch) => {
         dispatch({
             type: FAILED_ITEMS
         })
-        
+
     }
     })
 };
@@ -41,8 +41,8 @@ export const loadNext = page => (dispatch) => {
     axios.get(page)
     .then(res => {
         console.log(res)
-            dispatch({ 
-                type: LOAD_NEXT, 
+            dispatch({
+                type: LOAD_NEXT,
                 payload: res.data
             }) })
     .catch(err => {
@@ -50,13 +50,13 @@ export const loadNext = page => (dispatch) => {
         dispatch({
             type: FAILED_ITEMS
         })
-        
+
     })
 }
 export const getRandom = () => (dispatch) => {
     dispatch(setItemsLoading());
 
-    axios.get('http://127.0.0.1:8000/api/restaurant/random')
+    axios.get('/api/restaurant/random')
     .then(
         res => {
             dispatch({
@@ -69,15 +69,15 @@ export const getRandom = () => (dispatch) => {
         dispatch({
             type: FAILED_ITEMS
         })
-        
+
     })
 }
 export const addItem = item  => (dispatch) => {
     // console.log(item);
     axios.post('https://127.0.0.1:8000/api/restaurant', item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
-    .then(res => 
-        dispatch({ 
-            type: ADD_ITEM, 
+    .then(res =>
+        dispatch({
+            type: ADD_ITEM,
             payload: res.data
         })).catch(err => dispatch(returnErrors(err.response, err.response)))
 };
@@ -89,10 +89,10 @@ export const setItemsLoading = () => {
 }
 
 export const getItem = id => (dispatch) => {
-    
+
     dispatch(setItemsLoading());
     console.log('get item')
-    axios.get('http://127.0.0.1:8000/api/restaurant/' + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.get('/api/restaurant/' + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         console.log('get Item',res.data)
         dispatch({
@@ -103,16 +103,16 @@ export const getItem = id => (dispatch) => {
             console.log('error' , err.response)
             if(typeof err.response == "object"){
 
-           
+
              if(err && err.response && err.response.status && err.response.status == 429){
                 dispatch(tooManyRequest(err.response.status))
-                
-            }else{ 
+
+            }else{
             dispatch(returnErrors(err, err, err))}
-           
-        } }) 
+
+        } })
             /* dispatch({
                 type: FAILED_ITEMS
             }) */
-        
+
 }

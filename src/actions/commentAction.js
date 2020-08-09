@@ -13,8 +13,8 @@ export const addComment = item => (dispatch) => {
             'Content-Type' : 'application/json',
             'Authorization' : "Bearer " + localStorage.getItem('token') }
     }
-    
-    axios.post('http://127.0.0.1:8000/api/comment/add', item, config)
+
+    axios.post('/api/comment/add', item, config)
     .then(res => {
         toast.success(<Trans i18nKey="commentsuccess"></Trans>);
         dispatch({
@@ -27,13 +27,13 @@ export const addComment = item => (dispatch) => {
 export const getComments = (id) => (dispatch) => {
     dispatch(setCommentsLoading())
     console.log(id)
-    axios.get('http://127.0.0.1:8000/api/comment/' + id) 
-    .then(res => 
+    axios.get('/api/comment/' + id)
+    .then(res =>
         dispatch({
             type: GET_COMMENTS,
             payload: res.data
         })).catch(err => dispatch(returnErrors(err.response, err.response)))
-    
+
 }
 
 export const setCommentsLoading = () => {

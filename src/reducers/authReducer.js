@@ -44,8 +44,8 @@ export default function (state = initialState, action ){
             };
         case SOCIAL_LOGIN:
             console.log('social login',action.payload)
-            if(action.payload.restaurant != null || action.payload.restaurant != 'null'){
-                localStorage.setItem('restaurant_id', action.payload.restaurant.id)
+            if(action.payload.restaurant !== null || action.payload.restaurant !== 'null'){
+                //  localStorage.setItem('restaurant_id', action.payload.restaurant.id)
             }
             localStorage.setItem('user-email', action.payload.email);
             localStorage.setItem('username', action.payload.name);
@@ -60,17 +60,17 @@ export default function (state = initialState, action ){
         case LOGIN_SUCCES:
         case REGISTER_SUCCES:
             console.log('login succes')
-         
+
             localStorage.setItem('user-email', action.payload.user.email);
             localStorage.setItem('id', action.payload.user.id);
             localStorage.setItem('username', action.payload.user.name);
             localStorage.setItem('token', action.payload.access_token);
-            localStorage.setItem('authenticated', true); 
+            localStorage.setItem('authenticated', true);
             if(action.payload.user.restaurant){
                 localStorage.setItem('restaurant_id', action.payload.user.restaurant[0])
             }
             console.log('setting localstorage', action.payload)
-           
+
             return {
                 ...state,
                 ...action.payload,
@@ -101,9 +101,9 @@ export default function (state = initialState, action ){
                 token: null,
                 user: null,
                 isAuthenticated: false,
-                isLoading: false 
+                isLoading: false
             };
         default:
-            return state; 
+            return state;
     }
 }

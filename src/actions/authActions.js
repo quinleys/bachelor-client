@@ -13,7 +13,7 @@ export const loadUser = () => (dispatch) => {
     console.log('loaduser')
     console.log('id', localStorage.getItem('id'))
     dispatch({type: USER_LOADING});
-    axios.get('http://127.0.0.1:8000/api/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get('/api/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
         .then(res => dispatch({
             type: USER_LOADED,
             payload: res.data
@@ -32,7 +32,7 @@ export const loginSocial = (id, token) => (dispatch) => {
     localStorage.setItem('token', token);
     localStorage.setItem('id', id)
     dispatch({type: USER_LOADING});
-    axios.get('http://127.0.0.1:8000/api/user/' + id , { headers: { Authorization: "Bearer " + token } })
+    axios.get('/api/user/' + id , { headers: { Authorization: "Bearer " + token } })
         .then(res => dispatch({
             type: SOCIAL_LOGIN,
             payload: res.data
@@ -47,7 +47,7 @@ export const loginSocial = (id, token) => (dispatch) => {
 }
 // user login
 export const login = ({email, password}) => (dispatch) => {
-    
+
     // header
     const config = {
         headers: {
@@ -58,8 +58,8 @@ export const login = ({email, password}) => (dispatch) => {
     // Request body
     const body = JSON.stringify({email, password});
 
-    
-    axios.post('http://127.0.0.1:8000/api/user/login', body, config)
+
+    axios.post('/api/user/login', body, config)
     .then(res => {
         dispatch({
         type: LOGIN_SUCCES,
@@ -74,7 +74,7 @@ export const login = ({email, password}) => (dispatch) => {
             type: LOGIN_FAIL
         })
     })
-    
+
 }
 
 export const register = ({email, password, name, password_confirmation}) => dispatch => {
@@ -86,7 +86,7 @@ export const register = ({email, password, name, password_confirmation}) => disp
         }
     }
     const body = JSON.stringify({email, password, name, password_confirmation});
-    axios.post('http://127.0.0.1:8000/api/user/register',body, config)
+    axios.post('/api/user/register',body, config)
     .then(res => {
         dispatch({
             type: REGISTER_SUCCES,
@@ -101,7 +101,7 @@ export const register = ({email, password, name, password_confirmation}) => disp
         })
     })
 }
-//logout user 
+//logout user
 
 export const logout = () => {
     toast.success(<Trans i18nKey="loggedout"></Trans>);
@@ -112,7 +112,7 @@ export const logout = () => {
 
 // Setup config headers and token
 export const tokenConfig = () => (/* getState */) => {
-    
+
     // get token from localstorage
     /* const token = getState().auth.token; */
     const token = localStorage.getItem('token')
@@ -128,4 +128,4 @@ export const tokenConfig = () => (/* getState */) => {
     }
 
     return config;
-} 
+}

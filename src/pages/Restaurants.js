@@ -66,7 +66,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import TooManyRequests from './TooManyRequest'
-import { clearErrors } from '../actions/errorActions'; 
+import { clearErrors } from '../actions/errorActions';
 
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
@@ -154,12 +154,12 @@ class Restaurants extends Component {
         console.log(this.props.prices, 'prices')
         console.log(this.state.url)
         console.log(this.props.location.searchProps)
-        
+
         if(this.props.location.searchProps){
             console.log('category', this.props.location.searchProps.categories)
             console.log('availabilty', this.props.location.searchProps)
             if( this.props.location.searchProps.date && this.props.location.searchProps.time && this.props.location.searchProps.date != '' && this.props.location.searchProps.time != '' ){
-                
+
                 if(this.props.location.searchProps.persons != '' ){
                     this.setState({
                         date: this.props.location.searchProps.date,
@@ -168,10 +168,10 @@ class Restaurants extends Component {
                         categories: this.props.location.searchProps.categories,
                         title: this.props.location.searchProps.title,
                     }, this.props.getItems( this.state.filterTitle + this.props.location.searchProps.title +  this.state.filterAvailability + this.state.filterCategory + this.props.location.searchProps.categories.map(m => m.title) + this.state.filterDate + this.props.location.searchProps.date + ' ' + this.props.location.searchProps.time + this.state.filterPersons + this.props.location.searchProps.persons + this.state.sortText + this.state.sort)  );
-   
-                
+
+
                         let item = {"class" : "availability", "value" :  this.props.location.searchProps.date + ' ' + this.props.location.searchProps.time + ' ' + this.props.location.searchProps.persons };
-                        
+
                         this.setState(previousState => ({
                             filters: [...previousState.filters, item]
                         }));
@@ -188,9 +188,9 @@ class Restaurants extends Component {
                         persons: this.props.location.searchProps.persons,
                         categories: this.props.location.searchProps.categories,
                     }, this.props.getItems( this.state.filterTitle + this.props.location.searchProps.title + this.state.filterCategory + this.props.location.searchProps.categories.map(m => m.title) + this.state.filterDate + this.props.location.searchProps.date + ' ' + this.props.location.searchProps.time + this.state.filterPersons + this.props.location.searchProps.persons + this.state.sortText + this.state.sort)  );
-                
+
                     let item = {"class" : "day", "value" :  this.props.location.searchProps.date + ' ' + this.props.location.searchProps.time };
-                        
+
                     this.setState(previousState => ({
                         filters: [...previousState.filters, item]
                     }));
@@ -198,31 +198,31 @@ class Restaurants extends Component {
                     this.setState(previousState => ({
                         checkBoxfilters: [...previousState.checkBoxfilters, 'day' ]
                     }));
-                
+
                 }
-              
-                
-           
+
+
+
                 if(this.props.location.searchProps.title){
-                 
+
                     let item = {"class" : "title", "value" :  this.props.location.searchProps.title};
                     this.setState(previousState => ({
                         filters: [...previousState.filters, item]
                     }));
                 }
-                
+
 
                 if(this.props.location.searchProps.categories.length >= 1){
                     console.log('categories',this.props.location.searchProps.categories )
-                    
+
                     if(this.props.location.searchProps.categories.length > 1){
-                       
+
                         this.props.location.searchProps.categories.map(m => {
-                            
+
                             let checkbox = m.title;
-    
+
                             if(this.state.checkBoxfilters.includes(m.title)){
-                                this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+                                this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                                     return filter !== checkbox
                                 })});
                             }else{
@@ -233,7 +233,7 @@ class Restaurants extends Component {
                             console.log('cat',m.title)
                             let item = {"class" : "category.title", "value" :  m.title};
                             if(this.state.filters.includes(item)){
-                                this.setState({filters: this.state.filters.filter(function(filter) { 
+                                this.setState({filters: this.state.filters.filter(function(filter) {
                                     return filter !== item
                                 })});
                             }else{
@@ -246,9 +246,9 @@ class Restaurants extends Component {
                     }else {
                         let item = {"class" : "category.title", "value" :  this.props.location.searchProps.categories[0].title};
                         let checkbox = this.props.location.searchProps.categories[0].title;
-    
+
                             if(this.state.checkBoxfilters.includes(checkbox)){
-                                this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+                                this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                                     return filter !== checkbox
                                 })});
                             }else{
@@ -260,11 +260,11 @@ class Restaurants extends Component {
                             filters: [...previousState.filters, item]
                         }));
                     }
-    
+
                 }
             }else{
 
-          
+
             this.setState({
                 date: this.props.location.searchProps.date,
                 time: this.props.location.searchProps.time,
@@ -272,9 +272,9 @@ class Restaurants extends Component {
                 persons: this.props.location.searchProps.persons,
                 categories: this.props.location.searchProps.categories,
             }, this.props.getItems( this.state.filterTitle + this.props.location.searchProps.title + this.state.filterCategory + this.props.location.searchProps.categories.map(m => m.title) + this.state.filterDate + this.props.location.searchProps.date + this.state.filterPersons + this.props.location.searchProps.persons + this.state.sortText + this.state.sort)  );
-        
+
             if(this.props.location.searchProps.title){
-                 
+
                 let item = {"class" : "title", "value" :  this.props.location.searchProps.title};
                 this.setState(previousState => ({
                     filters: [...previousState.filters, item]
@@ -282,11 +282,11 @@ class Restaurants extends Component {
             }
 
             if(this.props.location.searchProps.persons){
-                
+
                     let checkbox = this.props.location.searchProps.persons;
 
                         if(this.state.checkBoxfilters.includes(checkbox)){
-                            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+                            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                                 return filter !== checkbox
                             })});
                         }else{
@@ -302,15 +302,15 @@ class Restaurants extends Component {
             }
             if(this.props.location.searchProps.categories.length >= 1){
                 console.log('categories',this.props.location.searchProps.categories )
-                
+
                 if(this.props.location.searchProps.categories.length > 1){
-                   
+
                     this.props.location.searchProps.categories.map(m => {
-                        
+
                         let checkbox = m.title;
 
                         if(this.state.checkBoxfilters.includes(m.title)){
-                            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+                            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                                 return filter !== checkbox
                             })});
                         }else{
@@ -321,7 +321,7 @@ class Restaurants extends Component {
                         console.log('cat',m.title)
                         let item = {"class" : "category.title", "value" :  m.title};
                         if(this.state.filters.includes(item)){
-                            this.setState({filters: this.state.filters.filter(function(filter) { 
+                            this.setState({filters: this.state.filters.filter(function(filter) {
                                 return filter !== item
                             })});
                         }else{
@@ -335,7 +335,7 @@ class Restaurants extends Component {
                     let checkbox = this.props.location.searchProps.categories[0].title;
 
                         if(this.state.checkBoxfilters.includes(checkbox)){
-                            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+                            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                                 return filter !== checkbox
                             })});
                         }else{
@@ -354,7 +354,7 @@ class Restaurants extends Component {
             this.props.getItems(this.state.filterTitle);
         }
 
-       
+
     }
     componentWillUnmount(){
         this.props.clearErrors()
@@ -363,21 +363,21 @@ class Restaurants extends Component {
         console.log(e.target.value)
         console.log(e.target.name)
         console.log('value',e.target.value)
-        
-        this.setState({ 
+
+        this.setState({
             [e.target.name] : e.target.value
-           
+
         })
-        
-        
-    } 
+
+
+    }
 
     toggle = e => {
-        
+
         let item = e.target.value;
         console.log(e.target.value)
         if(this.state.filters.includes(e)){
-            this.setState({filters: this.state.filters.filter(function(filter) { 
+            this.setState({filters: this.state.filters.filter(function(filter) {
                 return filter !== item
             })});
         }else{
@@ -385,22 +385,22 @@ class Restaurants extends Component {
                 filters: [...previousState.filters, item]
             }));
         }
-       
+
     }
     togglePersons = e => {
         let item = {"class" : "layouts.tables.people", "value" :  e.target.value};
-        
+
         let checkbox = e.target.value;
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
             /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
+
             this.setState({
                 checkBoxfilters: newList
             }); */
             console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                 return filter !== checkbox
             })}); */
         }else{
@@ -417,7 +417,7 @@ class Restaurants extends Component {
         }
 
 
-        
+
     }
 /*     toggleAvailabilty = e => {
         let item = {"class" : "availibility" , "value" : e.target.value};
@@ -437,18 +437,18 @@ class Restaurants extends Component {
     } */
     toggleCategories = e => {
         let item = {"class" : "category.title", "value" :  e.target.value};
-        
+
         let checkbox = e.target.value;
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
             /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
+
             this.setState({
                 checkBoxfilters: newList
             }); */
             console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                 return filter !== checkbox
             })}); */
         }else{
@@ -469,17 +469,17 @@ class Restaurants extends Component {
 
     toggleFacilities = e => {
         let item = {"class" : "facilities.title", "value" :  e.target.value};
-        
+
         let checkbox = e.target.value;
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
             /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
+
             this.setState({
                 checkBoxfilters: newList
             }); */
             console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                 return filter !== checkbox
             })}); */
         }else{
@@ -496,22 +496,22 @@ class Restaurants extends Component {
         }
 
 
-        
+
     }
     toggleRating = e => {
         let item = {"class" : "rating", "value" :  e.target.value};
-        
+
         let checkbox = e.target.value;
 
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
             /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
+
             this.setState({
                 checkBoxfilters: newList
             }); */
             console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                 return filter !== checkbox
             })}); */
         }else{
@@ -531,7 +531,7 @@ class Restaurants extends Component {
     }
     togglePrice = e => {
         let item = {"class" : "price", "value" :  e.target.value};
-        
+
         let checkbox = e.target.value;
 
         console.log(this.state.checkBoxfilters, 'filters')
@@ -540,12 +540,12 @@ class Restaurants extends Component {
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
             /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
+
             this.setState({
                 checkBoxfilters: newList
             }); */
             console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                 return filter !== checkbox
             })}); */
         }else{
@@ -566,7 +566,7 @@ class Restaurants extends Component {
     makeUrl = () => {
         console.log('make Url')
         console.log('make url with these filters', this.state.filters);
-        let paymentUrl = ''; 
+        let paymentUrl = '';
         let priceUrl = '';
         let facilitiesUrl = '';
         let categoriesUrl = '';
@@ -637,12 +637,12 @@ class Restaurants extends Component {
                     this.props.getItems(this.state.filterUrl + '&sort=' + this.state.sort);
                     console.log(this.state.filters , 'filters na uploading')
             })
-        
+
         }else{
             this.props.getItems('?sort=' + this.state.sort)
         }
-        
-        
+
+
     }
     togglePayments = e => {
 
@@ -653,12 +653,12 @@ class Restaurants extends Component {
         if(this.state.checkBoxfilters.includes(checkbox)){
             this.handleDelete(item)
             /* const newList = this.state.checkBoxfilters.filter((filter) => filter !== checkbox);
- 
+
             this.setState({
                 checkBoxfilters: newList
             }); */
             console.log('bestaat al')
-            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+            /* this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                 return filter !== checkbox
             })}); */
         }else{
@@ -681,7 +681,7 @@ class Restaurants extends Component {
         let item = {"class" : "title", "value" :  this.state.title};
         let checkbox = this.state.title;
         if(this.state.checkBoxfilters.includes(this.state.title)){
-            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) { 
+            this.setState({checkBoxfilters: this.state.checkBoxfilters.filter(function(filter) {
                 return filter !== checkbox
             })});
         }else{
@@ -694,7 +694,7 @@ class Restaurants extends Component {
         console.log('item', item);
         // make chip and add to filter array
         if(this.state.filters.includes(item)){
-            this.setState({filters: this.state.filters.filter(function(filter) { 
+            this.setState({filters: this.state.filters.filter(function(filter) {
                 return filter !== item
             })});
             console.log('bestaat al')
@@ -717,7 +717,7 @@ class Restaurants extends Component {
         },function(){
            this.makeUrl()
         })
-      
+
     }
 
 
@@ -735,14 +735,14 @@ class Restaurants extends Component {
             page: this.props.item.page.current_page + 1 ,
             amountOfpage : this.props.item.page.last_page,
         },
-        
+
         function() {this.props.loadNext(this.state.filterUrl + '?page=' + this.state.page)})  */
-        
+
     }
 
     handleDelete = m => {
 
-           
+
            console.log(m, this.state.filters, 'mmmm')
 
            if(m.class == "availability" || m.class == "day"){
@@ -750,11 +750,11 @@ class Restaurants extends Component {
                this.setState({
                 checkBoxfilters: this.state.checkBoxfilters.filter(item => item !== m.class),
                 filters: this.state.filters.filter(item => item !== m)
-               
+
           },function(){
             this.makeUrl()
           })
-          console.log('checkboxfilters', this.state.checkBoxfilters);    
+          console.log('checkboxfilters', this.state.checkBoxfilters);
         }else{
             this.setState({
                 checkBoxfilters: this.state.checkBoxfilters.filter(item => item !== m.value),
@@ -762,9 +762,9 @@ class Restaurants extends Component {
               },function(){
                 this.makeUrl()
               })
-              console.log('checkboxfilters', this.state.checkBoxfilters);  
+              console.log('checkboxfilters', this.state.checkBoxfilters);
         }
-      
+
     }
 
     handleToggle = () => {
@@ -807,7 +807,7 @@ class Restaurants extends Component {
         this.setState({
             openFilterSort : !this.state.openFilterSort
         })
-        
+
     }
     handleClickAvailability = () => {
         this.setState({
@@ -829,19 +829,19 @@ class Restaurants extends Component {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
           }
-      
+
           this.setState({ ...this.state, bottom: !this.state.bottom });
         };
 
       searchForm = e => {
-         
+
         e.preventDefault()
         console.log('search for form')
         console.log('form data',this.state.dateForm, this.state.timeForm, this.state.personsForm)
 
         if(this.state.personsData){
             let item = {"class" : "day", "value" :  this.state.date + ' ' + this.state.time };
-                        
+
             this.setState(previousState => ({
                 filters: [...previousState.filters, item]
             }));
@@ -854,7 +854,7 @@ class Restaurants extends Component {
 
         }else{
             let item = {"class" : "availability", "value" :  this.state.date + ' ' + this.state.time + ' ' + this.state.personsForm };
-                        
+
             this.setState(previousState => ({
                 filters: [...previousState.filters, item]
             }));
@@ -864,12 +864,12 @@ class Restaurants extends Component {
         }
 
         /* this.props.getItems() */
-        // make a filter chip 
+        // make a filter chip
 
         // filter with url
 
 /*         if(this.state.filters.includes(e)){
-            this.setState({filters: this.state.filters.filter(function(filter) { 
+            this.setState({filters: this.state.filters.filter(function(filter) {
                 return filter !== item
             })});
         }else{
@@ -894,11 +894,11 @@ class Restaurants extends Component {
         const { isAuthenticated, user } = this.props.auth;
         const { categories } = this.props.categories;
         const { payments } = this.props.payments;
-        const { facilities } = this.props.facilities; 
+        const { facilities } = this.props.facilities;
         return (
            <div className="padding-top">
                  {this.props.error.tooMany ? <TooManyRequests />
-                  : 
+                  :
             <Container className="my-3">
                 <Drawer type="permanent"
                     classes={{
@@ -912,7 +912,7 @@ class Restaurants extends Component {
                         <CancelIcon classes={{
                          root: 'floatright' }} onClick={this.toggleDrawer(false)} className="cancelbutton" fontSize="large"/>
                         </div>
-                        
+
                         </div>
                         <div className="row" style={{overflow: "scroll"}}>
                             <List classes={{
@@ -924,15 +924,15 @@ class Restaurants extends Component {
                             <SearchIcon />
                         </ListItemIcon>
                         <ListItemText>
-                        <Input 
+                        <Input
                                 type="input"
                                 name="title"
-                                onChange={this.onChange}                                                        
+                                onChange={this.onChange}
                                 value={this.state.title}
                                 id="title"
                                 className="form-controll"
                                 />
-                         
+
                         </ListItemText>
                     </ListItem>
                     <List>
@@ -944,7 +944,7 @@ class Restaurants extends Component {
                     </ListItem>
                     </List>
                     <Divider />
-                    
+
                     <ListItem button  onClick={this.handleClickAvailability}>
                     <ListItemIcon>
                             <EventAvailableIcon />
@@ -952,17 +952,17 @@ class Restaurants extends Component {
                             <ListItemText primary={
                                <Trans i18nKey="availability">
                                </Trans>}/>
-                             {this.state.openAvailability ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openAvailability ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openAvailability} timeout="auto" unmountOnExit>
                         <List>
                             <ListItem>
                         <Form onSubmit={this.searchForm} style={{ width: '100%'}}>
                         <FormGroup>
-                         
+
                         <Label for="date"><Trans i18nKey="date"></Trans></Label>
-                        
+
                                                 <Input
                                                 type="date"
                                                 placeholder="yyyy-mm-dd"
@@ -972,7 +972,7 @@ class Restaurants extends Component {
                                                 min= {moment().format("YYYY-MM-DD")}
                                                 value={this.state.date}
                                                 required
-                                                
+
                                                 />
                                                 <Label for="start"><Trans i18nKey="hour"></Trans></Label>
                                                 <Input
@@ -995,10 +995,10 @@ class Restaurants extends Component {
                                                 <option>5</option>
                                                 <option>6</option>
                                                 </Input>
-                                                <Button 
+                                                <Button
                                                 className="mb-2 mt-2"
                                                 color="dark"
-                                                block 
+                                                block
                                                 disabled={this.state.checkBoxfilters.includes('availability') || this.state.checkBoxfilters.includes('day') }
                                                 renderAs="button"
                                                 type="submit"
@@ -1007,13 +1007,13 @@ class Restaurants extends Component {
                                                 </Button>
                                         </FormGroup>
                                     </Form>
-                  
-                 
+
+
                                     </ListItem>
                             </List>
                         </Collapse>
-                      
-                   
+
+
                         <Divider />
 
                     <ListItem button  onClick={this.handleClickFilterSort} >
@@ -1023,9 +1023,9 @@ class Restaurants extends Component {
                             <ListItemText primary={
                                <Trans i18nKey="sortby">
                                </Trans>}/>
-                             {this.state.openFilterSort ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterSort ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterSort} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
 
@@ -1041,7 +1041,7 @@ class Restaurants extends Component {
                                     </ListItem>
                             </List>
                         </Collapse>
-                        
+
                         <Divider />
                         <ListItem button  onClick={this.handleClickFilterCategory} >
                             <ListItemIcon>
@@ -1049,9 +1049,9 @@ class Restaurants extends Component {
                             </ListItemIcon>
                             <ListItemText primary={
                                 <Trans i18nKey="kitchen"></Trans>} />
-                             {this.state.openFilterCategory ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterCategory ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterCategory} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {categories && categories.map((m,i) => {
@@ -1070,10 +1070,10 @@ class Restaurants extends Component {
                                         <ListItemText primary={m.title}  />
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         <Divider />
@@ -1083,9 +1083,9 @@ class Restaurants extends Component {
                             </ListItemIcon>
                             <ListItemText primary={
                                 <Trans i18nKey="facilities"></Trans>}/>
-                             {this.state.openFilterFacility ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterFacility ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterFacility} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {facilities && facilities.map((m,i) => {
@@ -1104,10 +1104,10 @@ class Restaurants extends Component {
                                         <ListItemText primary={m.title} value={m.title}  />
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         <Divider />
@@ -1117,9 +1117,9 @@ class Restaurants extends Component {
                             </ListItemIcon>
                         <ListItemText primary=
                         {<Trans i18nKey="payment"></Trans>}/>
-                             {this.state.openFilterPayment ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterPayment ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterPayment} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {payments && payments.map((m,i) => {
@@ -1138,10 +1138,10 @@ class Restaurants extends Component {
                                         <ListItemText primary={m.title} />
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         {/* <Divider />
@@ -1150,9 +1150,9 @@ class Restaurants extends Component {
                                 <PeopleIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="persons"></Trans>}/>
-                             {this.state.openFilterPersonen ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterPersonen ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterPersonen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {this.state.filterAantalPersons && this.state.filterAantalPersons.map((m,i) => {
@@ -1169,22 +1169,22 @@ class Restaurants extends Component {
                                         />
                                         </ListItemIcon>
                                         <ListItemText primary={m.title} />
-                                        
+
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse> */}
-                    
+
                     <Divider />
                     <ListItem button  onClick={this.handleClickFilterPrice} >
                             <ListItemIcon>
                                 <EuroIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="price"></Trans>}/>
-                             {this.state.openFilterPrijs ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterPrijs ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
                         {console.log('prijs',this.props.price )}
                         <Collapse  in={this.state.openFilterPrijs} timeout="auto" unmountOnExit>
@@ -1205,10 +1205,10 @@ class Restaurants extends Component {
                                         <ListItemText primary={m.title} />
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         <Divider />
@@ -1218,9 +1218,9 @@ class Restaurants extends Component {
                                 <GradeIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="rating"></Trans>}/>
-                             {this.state.openFilterRating ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterRating ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterRating} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {this.state.filterAantalRating && this.state.filterAantalRating.map((m,i) => {
@@ -1237,17 +1237,17 @@ class Restaurants extends Component {
                                         />
                                         </ListItemIcon>
                                         <ListItemText primary={m.title} />
-                                        
+
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                     </List>
                     <Divider />
-                    
+
                     </List>
                         </div>
                 </Drawer>
@@ -1261,11 +1261,11 @@ class Restaurants extends Component {
                             <h3><Trans i18nKey="restaurants"></Trans></h3>
                         </div>
                     </div>
-                    
+
                 <div className="row ">
                     <div className={this.state.ToggleViewFilters ? "ToggleViewFilters" : "col-lg-3 d-none d-lg-block "}>
-                    
-                    
+
+
                     <List component="nav" aria-label="main mailbox folders">
                         <Divider />
                     <ListItem className="pb-0">
@@ -1273,7 +1273,7 @@ class Restaurants extends Component {
                             <SearchIcon />
                         </ListItemIcon>
                         <ListItemText>
-                        <Input 
+                        <Input
                                 type="input"
                                 name="title"
                                 onChange={this.onChange}
@@ -1286,27 +1286,27 @@ class Restaurants extends Component {
                         </div>
                         </ListItemText>
                     </ListItem>
-                 
+
                     <ListItem className="pt-0 px-1 mb-2">
-                    <Button 
+                    <Button
                                                 className="mb-2 mt-2 noradius"
                                                 color="dark"
-                                                block 
+                                                block
                                                 renderAs="button"
                                                 onClick={this.searchTitle }
                                                 >
-                
+
                     <Trans i18nKey="search"></Trans>
                         </Button>
                     </ListItem>
-                    
+
                         <Divider />
                         <ListItem>
                         <Form onSubmit={this.searchForm} style={{ width: '100%'}}>
                         <FormGroup>
                             <h6><Trans i18nKey="availability"></Trans></h6>
                         <Label for="date"><Trans i18nKey="date"></Trans></Label>
-                        
+
                                                 <Input
                                                 type="date"
                                                 placeholder="yyyy-mm-dd"
@@ -1316,7 +1316,7 @@ class Restaurants extends Component {
                                                 min= {moment().format("YYYY-MM-DD")}
                                                 value={this.state.date}
                                                 required
-                                                
+
                                                 />
                                                 <Label for="start"><Trans i18nKey="hour"></Trans></Label>
                                                 <Input
@@ -1339,10 +1339,10 @@ class Restaurants extends Component {
                                                 <option>5</option>
                                                 <option>6</option>
                                                 </Input>
-                                                <Button 
+                                                <Button
                                                 className="mb-2 mt-2 noradius"
                                                 color="dark"
-                                                block 
+                                                block
                                                 disabled={this.state.checkBoxfilters.includes('availability') || this.state.checkBoxfilters.includes('day') }
                                                 renderAs="button"
                                                 type="submit"
@@ -1351,10 +1351,10 @@ class Restaurants extends Component {
                                                 </Button>
                                         </FormGroup>
                                     </Form>
-                  
-                 
-                    
-                      
+
+
+
+
                         </ListItem>
                         <Divider />
                         <ListItem button  onClick={this.handleClickFilterCategory} >
@@ -1362,9 +1362,9 @@ class Restaurants extends Component {
                             <InboxIcon />
                             </ListItemIcon>
                         <ListItemText primary={<Trans i18nKey="kitchen"></Trans>}/>
-                             {this.state.openFilterCategory ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterCategory ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterCategory} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {categories && categories.map((m,i) => {
@@ -1383,10 +1383,10 @@ class Restaurants extends Component {
                                         <ListItemText value={m.title} primary={m.title}/>
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         <Divider />
@@ -1395,9 +1395,9 @@ class Restaurants extends Component {
                             <StoreIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="facilities"></Trans>}/>
-                             {this.state.openFilterFacility ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterFacility ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterFacility} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {facilities && facilities.map((m,i) => {
@@ -1416,10 +1416,10 @@ class Restaurants extends Component {
                                         <ListItemText primary={m.title} value={m.title}  />
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         <Divider />
@@ -1428,9 +1428,9 @@ class Restaurants extends Component {
                             <PaymentIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="payments"></Trans>}/>
-                             {this.state.openFilterPayment ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterPayment ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterPayment} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {payments && payments.map((m,i) => {
@@ -1449,10 +1449,10 @@ class Restaurants extends Component {
                                         <ListItemText primary={m.title} />
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         <Divider />
@@ -1461,9 +1461,9 @@ class Restaurants extends Component {
                                 <PeopleIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="persons"></Trans>}/>
-                             {this.state.openFilterPersonen ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterPersonen ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterPersonen} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {this.state.filterAantalPersons && this.state.filterAantalPersons.map((m,i) => {
@@ -1481,24 +1481,24 @@ class Restaurants extends Component {
                                         />
                                         </ListItemIcon>
                                         <ListItemText primary={m.title} />
-                                        
+
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
-                    
+
                     <Divider /> */}
                     <ListItem button  onClick={this.handleClickFilterPrice} >
                             <ListItemIcon>
                                 <EuroIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="price"></Trans>}/>
-                             {this.state.openFilterPrijs ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterPrijs ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterPrijs} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {this.state.filterAantalPrijs && this.props.price.prices.map((m,i) => {
@@ -1517,10 +1517,10 @@ class Restaurants extends Component {
                                         <ListItemText primary={m.title} />
                                         <ListItemText style={{ textAlign: "end"}} edge="end" primary={`(${m.total})`} />
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                         <Divider />
@@ -1529,9 +1529,9 @@ class Restaurants extends Component {
                                 <GradeIcon />
                             </ListItemIcon>
                             <ListItemText primary={<Trans i18nKey="rating"></Trans>}/>
-                             {this.state.openFilterRating ? <ExpandLess /> : <ExpandMore />} 
+                             {this.state.openFilterRating ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
-                        
+
                         <Collapse  in={this.state.openFilterRating} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             {this.state.filterAantalRating && this.state.filterAantalRating.map((m,i) => {
@@ -1548,30 +1548,30 @@ class Restaurants extends Component {
                                         />
                                         </ListItemIcon>
                                         <ListItemText primary={m.title} />
-                                        
+
                                     </ListItem>
-                                      )  
+                                      )
                             })}
-                            
-                        
+
+
                             </List>
                         </Collapse>
                     </List>
                     <Divider />
-                    
+
                     </div>
-          
+
                     <div className={this.state.ToggleViewFilters ? 'col-lg-12' : 'col-lg-9'}>
                     {console.log(page)}
                     <div className='d-none d-lg-block'>
                     <div className="row  justify-content-end">
-             
+
 
                         {this.state.ToggleViewFilters ? <div className="mx-2 align-self-end"  onClick={this.ToggleViewFilters}>{<Trans i18nKey="showfilters"></Trans>}< FilterListIcon />  </div> : <div className="mx-2" onClick={this.ToggleViewFilters}>{<Trans i18nKey="hidefilters"></Trans>} < FilterListIcon />  </div>  }
-                      
+
                         <div  >
                     <div className="float-right mx-2" aria-controls="simple-menu"  aria-haspopup="true" onClick={this.handleClick}>
-                    <Trans i18nKey="sortby"></Trans> {this.state.sort} {this.state.anchorEl ? <ExpandLess /> : <ExpandMore />} 
+                    <Trans i18nKey="sortby"></Trans> {this.state.sort} {this.state.anchorEl ? <ExpandLess /> : <ExpandMore />}
                     </div>
                     <Menu
                     id="simple-menu"
@@ -1596,12 +1596,12 @@ class Restaurants extends Component {
                                 <option value="price_id">price</option>
                             </Input> */}
                       </div>
-                    
-                    
-                   
+
+
+
                     </div>
                     </div>
-                    { this.state.filters.length >= 1 ? 
+                    { this.state.filters.length >= 1 ?
 
                     <div className="row filterRow">
                         <div className="col-12">
@@ -1621,9 +1621,9 @@ class Restaurants extends Component {
                     </div>
                 </div>
                 : null }
-                    
-                    
-               
+
+
+
                 <div className="row p-x-0">
                 {console.log(items)}
                 {/*     { items && items.map((m, i) => {
@@ -1640,47 +1640,47 @@ class Restaurants extends Component {
                                         <CardTitle><strong>{m.title}</strong></CardTitle>
                                         <CardSubtitle><Badge>{m.category.title}</Badge></CardSubtitle>
                                         <CardText>{m.address}</CardText>
-                                       
+
                                         <Link to={{
                                                     pathname: `/restaurants:${m.id}`,
-                                                    
+
                                                     }}>
-                                                <Button 
+                                                <Button
                                                 className="mb-2 mt-2"
                                                 color="dark"
-                                                block 
+                                                block
                                                 renderAs="button">
                                                     <span>More info</span>
                                                 </Button>
                                                 </Link>
                                         </CardBody>
                                             </Card>
-                                            </FadeIn>  
+                                            </FadeIn>
                                             </div>
-                                           
+
                                     )})}  */}
-                                                {console.log(this.props.item)}                      
-                                    {  !loading && items   ? 
-                                    
+                                                {console.log(this.props.item)}
+                                    {  !loading && items   ?
+
                                     <div>
-                                        {items.length > 0  ? 
+                                        {items.length > 0  ?
                                     <div className="row">
-                                    
+
                                  {items && items.map((m, i) => {
                                     return(
-                                        
+
                                         <div className="col-md-6 my-2" key={i}>
-                                            
+
                                         <FadeIn
                                             transitionDuration="500"
                                             delay="100"
                                         >
                                              <Link to={{
                                                     pathname: `/restaurants:${m.id}`,
-                                                    
+
                                                     }}>
                                         <Card key={m.id}>
-                                        <CardImg top width="100%" src={`http://127.0.0.1:8000/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
+                                        <CardImg top width="100%" src={`/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
                                         <CardBody>
                                         <CardTitle><h5><strong>{m.title}</strong></h5></CardTitle>
                                         <CardText><Badge>{m.category.title}</Badge>
@@ -1688,22 +1688,22 @@ class Restaurants extends Component {
                                         {console.log('rating', m.ratings)}
                                         {m.ratings ? <div className="row"><Box><Rating name="rating" precision={0.5} defaultValue={m.average_rating} readOnly/></Box> <div> ( {m.totalrating} )</div> </div>: null }
                                         </CardText>
-                                   
+
                                         </CardBody>
                                             </Card>
                                             </Link>
-                                            </FadeIn>  
+                                            </FadeIn>
                                             </div>
-                                           
+
                                     )})}
-                    
+
                             </div>
                              : <div className="row ">
                                  <div className="col-12"> <p><Trans i18nKey="noitemsfound"></Trans></p></div></div>}
                                               <div className="row pt-3">
                                                   <div className="col">
                                               {this.props.item.page && items.length > 1?
-          
+
                                               <Pagination
                                               activePage={this.props.item.page.current_page}
                                               itemsCountPerPage={this.props.item.page.per_page}
@@ -1712,29 +1712,29 @@ class Restaurants extends Component {
                                               onChange={this.loadNextPage.bind(this)}
                                               itemClass="page-item"
                                               linkClass="page-link"
-                                            /> 
-                                          
+                                            />
+
                                           : null
-                                          
+
                                           }
                                           </div>
                                           </div>
-                                           
+
                                           </div>
-                            : 
+                            :
                                     <Spinner/>
                                }
                                      </div>
-                        
-                  
-              
+
+
+
                     </div>
                 </div>
-                
-                </div> 
-                
-                
-                
+
+                </div>
+
+
+
             </Container>
     }
            </div>

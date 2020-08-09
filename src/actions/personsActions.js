@@ -6,7 +6,7 @@ import { GET_PERSONS, FAILED_PERSONS, PERSONS_LOADING } from "./types";
 export const getPersons = () => (dispatch) => {
     dispatch(setCategoriesLoading())
 
-    axios.get('http://127.0.0.1:8000/api/persons/all')
+    axios.get('/api/persons/all')
     .then(res => {
         dispatch({
             type:GET_PERSONS,

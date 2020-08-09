@@ -7,17 +7,17 @@ export const getRoom = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
 
     console.log('id',id)
-    axios.get('http://127.0.0.1:8000/api/dashboard/room/' + id ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
+    axios.get('/api/dashboard/room/' + id ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
     .then(res => {
         console.log('res', res.data)
-      
-       
+
+
             dispatch({
                 type: GET_ROOMDASHBOARD,
                 payload: res.data
-            }) 
-        
-        
+            })
+
+
     }).catch(err => {
         dispatch(returnErrors(err.response, err.response))
         dispatch({
@@ -29,7 +29,7 @@ export const getActiveRooms = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
 
     console.log('id',id)
-    axios.get('http://127.0.0.1:8000/api/dashboard/'+ id +'/rooms/active',  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } } )
+    axios.get('/api/dashboard/'+ id +'/rooms/active',  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } } )
     .then(res => {
         console.log('res active rooms', res.data)
         dispatch({
@@ -51,7 +51,7 @@ export const getRecentReservations = (id,url ) => (dispatch) => {
     }else{
         newurl = ''
     }
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/reservations/'  + newurl ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get('/api/dashboard/' + id + '/reservations/'  + newurl ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         console.log('res', res.data)
         dispatch({
@@ -74,7 +74,7 @@ export const getRecentComments = (id , url) => (dispatch) => {
         newurl = ''
     }
     console.log(newurl, 'new url')
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/comments/' + newurl,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
+    axios.get('/api/dashboard/' + id + '/comments/' + newurl,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') }} )
     .then(res => {
         console.log('res', res.data)
         dispatch({
@@ -92,7 +92,7 @@ export const getPlattegrond = (id,url) => (dispatch) => {
 
     dispatch(setDashboardLoading())
 
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/plattegrond' + url)
+    axios.get('/api/dashboard/' + id + '/plattegrond' + url)
     .then(res => {
         console.log('res', res.data)
         dispatch({
@@ -112,7 +112,7 @@ export const updateRestaurant = (id, item) => (dispatch) => {
     dispatch(resetServerResponse())
     dispatch(setNotUpdated())
 
-    axios.post('http://127.0.0.1:8000/api/dashboard/' + id + '/restaurant/update', item , { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json"  }} )
+    axios.post('/api/dashboard/' + id + '/restaurant/update', item , { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json"  }} )
     .then(res => {
         console.log('update restaurant', res)
         dispatch({
@@ -133,7 +133,7 @@ export const updateRestaurant = (id, item) => (dispatch) => {
 export const updateRoom = (item) => (dispatch) => {
     console.log('item',item)
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
+    axios.put('/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
     .then(res => {
         console.log('update',res);
         dispatch({
@@ -152,7 +152,7 @@ export const updateRoom = (item) => (dispatch) => {
 export const makeRoomActive = (item) => (dispatch) => {
     console.log('item',item)
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
+    axios.put('/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
     .then(res => {
         console.log('update',res);
         dispatch({
@@ -170,7 +170,7 @@ export const makeRoomActive = (item) => (dispatch) => {
 export const makeRoomUnactive = (item) => (dispatch) => {
     console.log('item',item)
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
+    axios.put('/api/dashboard/room/update' , item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }} )
     .then(res => {
         console.log('update',res);
         dispatch({
@@ -186,11 +186,11 @@ export const makeRoomUnactive = (item) => (dispatch) => {
     })
 }
 export const getRestaurant = id => (dispatch) => {
-    
+
     dispatch(setDashboardLoading());
     dispatch(setImagesLoading());
     console.log('get item')
-    axios.get('http://127.0.0.1:8000/api/restaurant/' + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.get('/api/restaurant/' + id , { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         console.log('get Item',res.data)
         dispatch({
@@ -203,7 +203,7 @@ export const getRestaurant = id => (dispatch) => {
 
 export const postPrimaryImg = (item) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.post('http://127.0.0.1:8000/api/dashboard/14/restaurant/primaryimg' , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
+    axios.post('/api/dashboard/14/restaurant/primaryimg' , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
     .then( res => {
         console.log(res)
         dispatch({
@@ -222,7 +222,7 @@ export const postPrimaryImg = (item) => (dispatch) => {
 }
 export const postRestaurantImages = (item) => (dispatch) => {
     dispatch(setImagesLoading())
-    axios.post('http://127.0.0.1:8000/api/dashboard/14/restaurant/uploadimages' , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
+    axios.post('/api/dashboard/14/restaurant/uploadimages' , item,{ headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
     .then( res => {
         console.log('res upload', res)
         if(res.data[0] == 'menus'){
@@ -236,7 +236,7 @@ export const postRestaurantImages = (item) => (dispatch) => {
                 payload: res.data[1]
             })
         }
-       
+
         toast.success("De foto is succesful geupload.");
     }).catch(err => {
         console.log('all error', err)
@@ -250,7 +250,7 @@ export const postRestaurantImages = (item) => (dispatch) => {
 export const deleteRestaurantImage = (item) => (dispatch)=> {
     console.log('item', item)
     dispatch(setImagesLoading())
-    axios.post('http://127.0.0.1:8000/api/dashboard/14/restaurant/deleteimage' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
+    axios.post('/api/dashboard/14/restaurant/deleteimage' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token'), 'Content-Type': 'multipart/form-data', }} )
     .then(res => {
         console.log('delete',res )
         if(res.data[0] == "menus"){
@@ -264,7 +264,7 @@ export const deleteRestaurantImage = (item) => (dispatch)=> {
                 payload: res.data[1]
             })
         }
-       
+
         toast.success("De foto is succesful verwijderd.");
     }).catch(err => {
         console.log('all error', err)
@@ -278,7 +278,7 @@ export const deleteRestaurantImage = (item) => (dispatch)=> {
 export const updateLayout = (item) => (dispatch) => {
 
     dispatch(setDashboardLoading())
-    axios.put('http://127.0.0.1:8000/api/dashboard/layout/update', item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }}  )
+    axios.put('/api/dashboard/layout/update', item ,  { headers: { Authorization: "Bearer " + localStorage.getItem('token') , Accept :'application/json', Application : "application/json" }}  )
     .then(res => {
         console.log('update',res)
         dispatch({
@@ -298,7 +298,7 @@ export const updateLayout = (item) => (dispatch) => {
 
 export const getLayouts = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.get('http://127.0.0.1:8000/api/dashboard/' + id + '/layouts')
+    axios.get('/api/dashboard/' + id + '/layouts')
     .then(res => {
         dispatch({
             type: GET_LAYOUTSDASHBOARD,
@@ -313,7 +313,7 @@ export const getLayouts = (id) => (dispatch) => {
 }
 export const getDailyReservations = (id , date) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.get('http://127.0.0.1:8000/api/restaurant/dashboard/' + id + '/daily?date=' + date )
+    axios.get('/api/restaurant/dashboard/' + id + '/daily?date=' + date )
     .then(res => {
         console.log(res.data)
         dispatch({
@@ -332,7 +332,7 @@ export const getWeeklyReservations = (id , date) => (dispatch) => {
     dispatch(setLoadingNewData())
     dispatch(setDashboardLoading())
 
-    axios.get('http://127.0.0.1:8000/api/restaurant/dashboard/' + id + '/weekly?date=' + date )
+    axios.get('/api/restaurant/dashboard/' + id + '/weekly?date=' + date )
     .then(res => {
         console.log(res.data)
         dispatch({
@@ -350,7 +350,7 @@ export const deleteRoom = (id) => (dispatch) => {
 
     dispatch(setDashboardLoading())
 
-    axios.delete('http://127.0.0.1:8000/api/room/' + id + '/delete')
+    axios.delete('/api/room/' + id + '/delete')
     .then(res => {
         console.log('res', res)
         dispatch({
@@ -369,7 +369,7 @@ export const deleteRoom = (id) => (dispatch) => {
 export const addLayout = item => (dispatch) => {
     dispatch(setDashboardLoading())
     console.log(item);
-    axios.post('http://127.0.0.1:8000/api/layout/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
+    axios.post('/api/layout/store' , item, { headers: { Authorization: "Bearer " + localStorage.getItem('token') }})
     .then(res => {
         dispatch({
         type: ADD_LAYOUT,
@@ -384,7 +384,7 @@ export const addLayout = item => (dispatch) => {
 
 export const deleteLayout = (id) => (dispatch) => {
     dispatch(setDashboardLoading())
-    axios.delete('http://127.0.0.1:8000/api/layout/' + id + '/delete')
+    axios.delete('/api/layout/' + id + '/delete')
     .then(res => {
         dispatch({
             type: DELETE_LAYOUT,
@@ -405,7 +405,7 @@ export const deleteLayout = (id) => (dispatch) => {
     console.log(id, date)
     dispatch(setDashboardLoading())
 
-    axios.get('http://127.0.0.1:8000/api/restaurant/dashboard/' + id + '/monthly?date=' + date )
+    axios.get('/api/restaurant/dashboard/' + id + '/monthly?date=' + date )
     .then(res => {
         console.log(res.data)
         dispatch({

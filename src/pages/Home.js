@@ -35,11 +35,11 @@ export function MyComponent() {
 }
 
 class Home extends Component {
-    
+
     state = {
         title: '',
         date: '',
-        time:'',    
+        time:'',
         categories: [],
         persons: '',
         submit: false,
@@ -53,7 +53,7 @@ class Home extends Component {
         getRandom: PropTypes.func.isRequired,
     }
     componentDidMount(){
-        this.props.getRandom(); 
+        this.props.getRandom();
     }
     onChange = e => {
         console.log(e.target.value)
@@ -65,7 +65,7 @@ class Home extends Component {
         console.log(this.state.categories)
         console.log(this.state.categories.includes(item))
         if(this.state.categories.includes(m)){
-            this.setState({categories: this.state.categories.filter(function(category) { 
+            this.setState({categories: this.state.categories.filter(function(category) {
                 return category !== item
             })});
         }else{
@@ -89,7 +89,7 @@ class Home extends Component {
         this.setState({
             error: false,
         })
-        
+
     }
     render() {
         const { random , loading } = this.props.item;
@@ -97,19 +97,19 @@ class Home extends Component {
         const { t } = this.props;
         return (
             <div>
-                                <Grid 
+                                <Grid
                                 direction="row"
                                 justify="center"
                                 alignItems="center"
                                 className="full-height">
-                                    { !loading && !categoriesloading ? 
-                                    
+                                    { !loading && !categoriesloading ?
+
                                         <div>
-                              
+
                                 <div className="row">
                                 <div className="col-md-7 background-image"></div>
                                 </div>
-                               
+
                                 <FadeIn>
                                 <Container>
                             <div className="section homepage flex-column-reverse">
@@ -120,8 +120,8 @@ class Home extends Component {
                                     </Trans>
                                     </h1>
 
-                                   
-                                    
+
+
                                     <div className="indekijker d-sm-none d-lg-block ">
                                     <h1 className="whitetext"><Trans i18nKey="homesubtitle">
                                     </Trans></h1>
@@ -131,7 +131,7 @@ class Home extends Component {
                                         return(
                                             <div className="col-md-6 " key={i} >
                                                 <Card className="" >
-                                                    <CardImg top width="100%" src={`http://127.0.0.1:8000/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
+                                                    <CardImg top width="100%" src={`/storage/primary_imgs/${m.primary_img}`} alt="Card image cap" />
                                                     <CardBody>
                                                     <CardTitle><h5><strong>{m.title}</strong></h5></CardTitle>
                                                     <CardText><Badge>{m.category.title}</Badge>
@@ -140,25 +140,25 @@ class Home extends Component {
                                                         {m.ratings ? <p>Rating {m.average_rating} <br/> <Rating name="rating" defaultValue={m.average_rating} readOnly/></p> : null }
                                                         </CardText>
                                                     <Link to={`/restaurants:${m.id}`}>
-                                                    <Button 
+                                                    <Button
                                                 className="mb-2 mt-2 noradius"
                                                 color="dark"
-                                                block 
+                                                block
                                                 renderAs="button">
                                                     <span> <Trans i18nKey="more info"></Trans></span>
                                                 </Button>
                                                     </Link>
                                                     </CardBody>
                                                 </Card>
-                                            </div> 
-                                        
-                                        )})} 
-                                    </div> 
+                                            </div>
+
+                                        )})}
                                     </div>
-                                </div>     
-                            
+                                    </div>
+                                </div>
+
                                 <div className="col-md offset-md-1">
-                                    <Card className="homecard">                                
+                                    <Card className="homecard">
                                     <CardBody>
                                     <h3><Trans i18nKey="homecardtitle">
                                     </Trans></h3>
@@ -169,19 +169,19 @@ class Home extends Component {
                                     <HorizontalScroll>
                                    { categories.length > 1 && categories.map((m,i) => {
                                         return (
-                                          
-                                               <Chip key={i} label={m.title} value={m.title} color={this.state.categories.includes(m) ? 'primary' : 'default'} onClick={() => this.toggle(m)} />   
-                                                
+
+                                               <Chip key={i} label={m.title} value={m.title} color={this.state.categories.includes(m) ? 'primary' : 'default'} onClick={() => this.toggle(m)} />
+
                                         )
                                     })}
                                     </HorizontalScroll>
-                              
+
                                     </div>
                                     <Form onSubmit={this.onSubmit}>
                                         <FormGroup>
                                         <Label for="title"><Trans i18nKey="name">
                                     </Trans></Label>
-                                        <Input 
+                                        <Input
                                                 type="input"
                                                 name="title"
                                                 onChange={this.onChange}
@@ -199,7 +199,7 @@ class Home extends Component {
                                                 id="date"
                                                 placeholder="date placeholder"
                                                 />
-                                            
+
                                                 <Label for="start"><Trans i18nKey="hour">
                                     </Trans></Label>
                                                 <Input
@@ -210,15 +210,15 @@ class Home extends Component {
                                                 id="time"
                                                 placeholder="time placeholder"
                                                 />
-                                            
+
                                             {/* <GooglePlacesAutocomplete
                                                 onSelect={console.log}
                                                 />
-                                            
+
                                                 <Label for="straal">Straal</Label>
                                                 <Input type="number" name="straal" id="straal" /> */}
-                                               
-                                        
+
+
                                                 <Label for="persons"><Trans i18nKey="persons">
                                     </Trans></Label>
                                                 <Input type="select" name="persons" id="persons" onChange={this.onChange}>
@@ -243,17 +243,17 @@ class Home extends Component {
                                                     }
                                                     }}>
                                                         { this.state.error ? this.closeAlert() : null }
-                                                <Button 
+                                                <Button
                                                 className="mb-2 mt-2 buttonstyle noradius"
                                                 color="dark"
-                                                block 
+                                                block
                                                 renderAs="button">
                                                 <span><Trans i18nKey="search">
                                                     </Trans></span>
                                                 </Button>
                                                 </Link>
-                                                :  
-                                                
+                                                :
+
                                                 <Link to={{
                                                     pathname: "/restaurants",
                                                     searchProps: {
@@ -265,16 +265,16 @@ class Home extends Component {
                                                     }
                                                     }}>
                                                        { this.state.error ? null : this.setError() }
-                                                <Button 
+                                                <Button
                                                 className="mb-2 mt-2 buttonstyle noradius"
                                                 color="dark"
                                                 disabled
-                                                block 
+                                                block
                                                 renderAs="button">
                                                 <span><Trans i18nKey="search">
                                                     </Trans></span>
                                                 </Button>
-                                                </Link> 
+                                                </Link>
                                             : <Link to={{
                                                 pathname: "/restaurants",
                                                 searchProps: {
@@ -285,10 +285,10 @@ class Home extends Component {
                                                     time: this.state.time,
                                                 }
                                                 }}>
-                                            <Button 
+                                            <Button
                                             className="mb-2 mt-2 buttonstyle noradius"
                                             color="dark"
-                                            block 
+                                            block
                                             renderAs="button">
                                             <span><Trans i18nKey="search">
                                                 </Trans></span>
@@ -297,18 +297,18 @@ class Home extends Component {
                                         </FormGroup>
                                     </Form>
                                     </CardBody>
-                                    </Card> 
-                                </div> 
-                                
+                                    </Card>
+                                </div>
+
                             </div>
-                              
+
                             </div>
                             </Container>
                             </FadeIn>
                             </div>
                              : null }
                             </Grid>
-                            
+
                             </div>
         )
     }

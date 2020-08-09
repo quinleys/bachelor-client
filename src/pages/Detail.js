@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Badge, Button, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup, NavLink, Alert, Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle,Media, 
+    CardTitle, CardSubtitle,Media,
     } from 'reactstrap';
     import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -49,7 +49,7 @@ import AnimationStyles from 'react-awesome-slider/src/styled/fold-out-animation/
 /* import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css"; */
 import Lightbox from 'react-image-lightbox';
-import 'react-image-lightbox/style.css'; 
+import 'react-image-lightbox/style.css';
 import AddToCalendar from 'react-add-to-calendar';
 import PhoneIcon from '@material-ui/icons/Phone';
 import HouseIcon from '@material-ui/icons/House';
@@ -68,7 +68,7 @@ class Detail extends Component {
     constructor(props){
         super(props)
         this.state = {
-            dateNow: moment().format("YYYY-MM-DD"), 
+            dateNow: moment().format("YYYY-MM-DD"),
             item: [],
             comments: [],
             rating: 0,
@@ -107,13 +107,13 @@ class Detail extends Component {
     componentDidUpdate(){
         if( !this.state.loaded && !this.props.item.loading){
             console.log('item',this.props.item)
-            
+
                 this.setState({
                     loaded: true,
                     openinghours: JSON.parse(this.props.item.item.openinghours)
                 })
 
-            
+
         }
     }
     componentWillUnmount(){
@@ -143,7 +143,7 @@ class Detail extends Component {
     onSubmitRating = e => {
         e.preventDefault();
         this.setState({ rating : e.target.value}, function(){
-        
+
         console.log(this.state.rating)
         const { rating } = this.state;
 
@@ -160,7 +160,7 @@ class Detail extends Component {
         this.props.addRating(newComment);
         console.log('rating')
         })
-        
+
     }
     onChange = value => this.setState({ value });
 
@@ -197,7 +197,7 @@ class Detail extends Component {
     loadNextPageComments = e => {
         let page = this.props.comments.current_p;
         this.props.getComments(this.state.restaurant_id + '?page=' + e)
-        
+
     }
     loadImages = () => {
         console.log('images', this.props.item.images)
@@ -214,7 +214,7 @@ class Detail extends Component {
     }
     render() {
         const { item, loading, images ,menus , } = this.props.item;
-         const { comments, commentsloading } = this.props.comments; 
+         const { comments, commentsloading } = this.props.comments;
          const { ratings } = this.props.ratings;
          const { isAuthenticated } = this.props.auth;
          var settings = {
@@ -227,13 +227,13 @@ class Detail extends Component {
           const AutoplaySlider = withAutoplay(AwesomeSlider);
 
         return (
-            
+
            <div>
                 {this.props.error.tooMany ? <TooManyRequests />
-                  : 
+                  :
                         <div className="padding-top">
                             {images && !this.state.loadImages ? this.loadImages() : null }
-                        { !loading && item && ratings && comments  ? 
+                        { !loading && item && ratings && comments  ?
                         <div>
                             {console.log(images, 'images')}
                             { item && images && !loading && this.state.loadImages ?
@@ -248,18 +248,18 @@ class Detail extends Component {
                                     infinite={true}
                                     bullets={false}
                               >
-                               
-                              <div> {slides} </div>
-                       
 
-                        <div data-src={ this.state.loadedImages.map(m => "http://127.0.0.1:8000/storage/primary_imgs/bgimg.jpg") }/>   
-                        <div data-src="http://127.0.0.1:8000/storage/primary_imgs/bgimg.jpg" />            
+                              <div> {slides} </div>
+
+
+                        <div data-src={ this.state.loadedImages.map(m => "/storage/primary_imgs/bgimg.jpg") }/>
+                        <div data-src="/storage/primary_imgs/bgimg.jpg" />
                     </AwesomeSlider> */}
-                      
+
                         </div>
                     : null }
             <div className="fabButton d-sm-block d-md-none" >
-                { isAuthenticated ? 
+                { isAuthenticated ?
             <ReservationModal key={item.id} item={item}  customClasses={'fullLengthButton'} />
             : <LoginModal custom='fullLengthButton' type="reserveerbutton" />}
            {/*  <Button className="fullLengthButton" onClick={}>  Reserveer </Button> */}
@@ -278,23 +278,23 @@ class Detail extends Component {
                                     infinite={true}
                                     bullets={false}
                               >
-                               
-                              <div> {slides} </div>
-                       
 
-                        <div data-src={ this.state.loadedImages.map(m => "http://127.0.0.1:8000/storage/primary_imgs/bgimg.jpg") }/>   
-                        <div data-src="http://127.0.0.1:8000/storage/primary_imgs/bgimg.jpg" />            
+                              <div> {slides} </div>
+
+
+                        <div data-src={ this.state.loadedImages.map(m => "/storage/primary_imgs/bgimg.jpg") }/>
+                        <div data-src="/storage/primary_imgs/bgimg.jpg" />
                     </AwesomeSlider> */}
-                      
+
                         </div>
                     : null }
                     <div className="row pt-4">
                         <div className="col-lg-8">
-                            
-                            
+
+
                                 <h1>{item.title}</h1>
 
-                                {item.category ? 
+                                {item.category ?
                                 <Chip
                                         label={item.category.title}
                                         value={item.category.id}
@@ -307,23 +307,23 @@ class Detail extends Component {
                                 <p className="color-primary mt-3"><RoomIcon /> {item.address} </p>
                                 </a>
                                 <p>{item.description}</p>
-                          
+
                     </div>
-                
+
                 <div className="col-lg-4">
                     <CardTitle>  <strong><Trans i18nKey="intrested">
-                               </Trans></strong> </CardTitle>    
+                               </Trans></strong> </CardTitle>
                     { isAuthenticated ? <ReservationModal item={item} key={item.id} favorite={false} /> : <LoginModal custom='fullLengthButton' type="reserveerbutton" /> }
-                    
-                     <FavoriteButton favorite={item.favorited ? true : false} /> 
-                    
+
+                     <FavoriteButton favorite={item.favorited ? true : false} />
+
                     { item.reservation && item.reservation[item.reservation.length - 1].date > this.state.dateNow ?
                    <Button className="button blueButton mt-2 ">
                     <AddToCalendar event={{
                         'title' :   item.title,
                         description: 'Gaan eten met ' + item.reservation[0].persons + ' personen.',
                         location: item.address ,
-                        // fix timme                                     
+                        // fix timme
                     }} />
                 </Button>
                 : null }
@@ -342,9 +342,9 @@ class Detail extends Component {
                     <Collapse in={this.state.openinghoursCollapse} timeout="auto" unmountOnExit>
                     <List>
             <ListItem>
-                                
+
                                 <ListItemText>
-                                    {this.state.openinghours ? 
+                                    {this.state.openinghours ?
                                      <div>
                                     <div> <Trans i18nKey="monday"> </Trans>: {this.state.openinghours[0].monday.length >= 1 ? this.state.openinghours[0].monday.map(m =>{ return ( <div className="col"> {m} </div> )} ) : <Trans i18nKey="closed"> </Trans>} </div>
                                     <div> <Trans i18nKey="tuesday"> </Trans>: {this.state.openinghours[0].tuesday.length >= 1 ? this.state.openinghours[0].tuesday.map(m => { return ( <div className="col"> {m} </div> )}) : <Trans i18nKey="closed"> </Trans>} </div>
@@ -355,11 +355,11 @@ class Detail extends Component {
                                     <div><Trans i18nKey="sunday"> </Trans>: {this.state.openinghours[0].sunday.length >= 1 ? this.state.openinghours[0].sunday.map(m => { return ( <div className="col"> {m} </div> )}): <Trans i18nKey="closed"> </Trans>} </div>
                                     </div> : null }
                                 </ListItemText>
-                            </ListItem>   
+                            </ListItem>
                             </List>
                               </Collapse>
                               </List>
-                  
+
                     </div>
                     </div>
             <div className="row">
@@ -382,7 +382,7 @@ class Detail extends Component {
                                     {item.telephone ? item.telephone : <Trans i18nKey="nonumber"> </Trans>}
                                 </ListItemText>
                             </ListItem>
-                            { item.address ? 
+                            { item.address ?
                             <a target="_blank" href={`https://www.google.com/maps/place/${item.address}`}>
                             <ListItem>
                                 <ListItemIcon>
@@ -420,7 +420,7 @@ class Detail extends Component {
                                 </ListItemText>
                             </ListItem>
                             </a>
-                            : 
+                            :
                             <ListItem>
                                 <ListItemIcon>
                                     <PublicIcon />
@@ -429,7 +429,7 @@ class Detail extends Component {
                                 <Trans i18nKey="nowebsite"></Trans>
                                 </ListItemText>
                             </ListItem>
-                            
+
                             }
                         </List>
                         </Collapse>
@@ -443,18 +443,18 @@ class Detail extends Component {
                         <List className="nested">
                             {item && menus ?<Trans i18nKey="clickonpicture"></Trans> : <Trans i18nKey="nomenus"></Trans> }
                         </List>
-                        {item && menus ? 
+                        {item && menus ?
                         <div>
-                            {menus.map(m => 
-                             <img class="img-thumbnail" style={{maxWidth: "150px" }} src={`http://127.0.0.1:8000/storage/menus/${m.src}`} onClick={() => this.setState({ isOpen: true })}/>
+                            {menus.map(m =>
+                             <img class="img-thumbnail" style={{maxWidth: "150px" }} src={`/storage/menus/${m.src}`} onClick={() => this.setState({ isOpen: true })}/>
                             )}
-                           
- 
+
+
         {this.state.isOpen && (
           <Lightbox
-            mainSrc={'http://127.0.0.1:8000/storage/menus/' + menus[0].src}
-            nextSrc={'http://127.0.0.1:8000/storage/menus/' + menus[(this.state.photoIndex + 1) % menus.length].src}
-            prevSrc={'http://127.0.0.1:8000/storage/menus/' + menus[(this.state.photoIndex + menus.length - 1) % menus.length].src}
+            mainSrc={'/storage/menus/' + menus[0].src}
+            nextSrc={'/storage/menus/' + menus[(this.state.photoIndex + 1) % menus.length].src}
+            prevSrc={'/storage/menus/' + menus[(this.state.photoIndex + menus.length - 1) % menus.length].src}
             onCloseRequest={() => this.setState({ isOpen: false })}
             onMovePrevRequest={() =>
               this.setState({
@@ -470,8 +470,8 @@ class Detail extends Component {
         )}
              </div>
            : null  }
- 
-                  
+
+
                     </Collapse>
                     <Divider />
                     <ListItem button  onClick={this.extraInformation}>
@@ -480,7 +480,7 @@ class Detail extends Component {
                     </ListItem>
                     <Collapse in={this.state.extraInformation} timeout="auto" unmountOnExit>
                         <List className="nested">
-                        {<Trans i18nKey="extrainformation"></Trans>} <PriceComponent price={item.price} /> 
+                        {<Trans i18nKey="extrainformation"></Trans>} <PriceComponent price={item.price} />
                         </List>
                   {console.log(item.payments, item.facilities, 'payments en facilities')}
                     <List className="nested">
@@ -489,35 +489,35 @@ class Detail extends Component {
                      item.payments.length > 0 ?
                      item.payments.map((m , i) => {
                         return(
-                            
+
                             <ListItemText
                                     primary={m.title}
-                                   
+
                                 />
-                            
+
                         )
                     } ) : <ListItemText
-                    primary={  <Trans i18nKey="nopayment"></Trans>} /> : 
+                    primary={  <Trans i18nKey="nopayment"></Trans>} /> :
                     <ListItemText
-                    primary={<Trans i18nKey="nopayment"></Trans>} /> 
+                    primary={<Trans i18nKey="nopayment"></Trans>} />
                     }
                     </List>
                     <List className="nested">
                     <Trans i18nKey="facilities"></Trans>
-                    {item && item.facilities ? 
+                    {item && item.facilities ?
                     item.facilities.length > 0 ?
                     item.facilities.map((m , i) => {
                         return(
-                            
+
                             <ListItemText
                                     primary={m.title}
-                                   
+
                                 />
-                            
+
                         )
                     } ) :  <ListItemText
                     primary={<Trans i18nKey="nofacilities"></Trans>}
-                   /> : 
+                   /> :
                    <ListItemText
                    primary={<Trans i18nKey="nofacilities"></Trans>}
                   />
@@ -527,29 +527,29 @@ class Detail extends Component {
                     <Divider />
 
                     <ListItem button onClick={this.extraRating}>
-                    
+
                         <ListItemText primary={
                             <React.Fragment>
                             <Typography
-                              
+
                             >
-                         
-                            
+
+
                                 <div className='row'> <div> <Trans i18nKey="rating"></Trans> ( {item.totalrating} ) </div> <div className="col"> <Rating className="floatright" name="rating" fontSize={"inherit"} defaultValue={item.average_rating}readOnly />  </div> </div>
-                  
-                           
-                           
-                                        
-                                       
-                                    
-                                    
+
+
+
+
+
+
+
                             </Typography>
-         
-                        </React.Fragment> }/> 
+
+                        </React.Fragment> }/>
                         {this.state.extraRating ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={this.state.extraRating} timeout="auto" unmountOnExit>
-                     
+
                     <List >
                    <div>
                     <h6> <Trans i18nKey="amountratings"></Trans> {item.totalrating}</h6>
@@ -579,10 +579,10 @@ class Detail extends Component {
                                     <div className="col float-right px-0">  <strong className="floatright">totaal: {this.state.rating && this.state.rating == 1 ? item.onestar + 1 : item.onestar}</strong></div>
                                     </div>
                                     <CustomizedProgressBars variant="determinate" value={this.state.rating && this.state.rating == 1 ? item.onestar !== 0 ? (item.onestar + 1/ item.totalrating + 1)*100 : (1/ item.totalrating + 1)*100 : item.onestar !== 0 ? (item.onestar / item.totalrating )*100 : 0 }/>
-                   
+
                                     </div>
                                     {console.log(item)}
-                                   { isAuthenticated ? 
+                                   { isAuthenticated ?
                                  item.rated ?
                                  <div style={{textAlign: "center"}}> <div className="row my-3" style={{justifyContent: "center"}}><h6><Trans i18nKey="myrating"></Trans> </h6></div><Rating name="rating" defaultValue={item.rated} readOnly /> </div>
                                     : <div style={{textAlign: "center"}}> <div className="row my-3" style={{justifyContent: "center"}}><h6><Trans i18nKey="givearating"></Trans> </h6> </div> <Rating name="rating" defaultValue={0} onChange={this.onSubmitRating} /> </div>
@@ -592,22 +592,22 @@ class Detail extends Component {
                     <Divider />
                     <ListItem button  onClick={this.handleComments}>
                                 {comments.data ?  <ListItemText primary={ <Trans i18nKey="comments" values={{ number: comments.total}} > Total comments {comments.total} </Trans> }/>: <ListItemText primary={<Trans i18nKey="nocomments"></Trans> }/> }
-                               
+
                         {this.state.openComments ? <ExpandLess /> : <ExpandMore />}
                     </ListItem>
                     <Collapse in={this.state.openComments} timeout="auto" unmountOnExit>
                         {console.log(comments)}
-                      
+
                     { !commentsloading && comments.data && comments.data.map((m , i) => {
                         return(
                             <div>
-                            
+
                             <List >
                             <ListItem alignItems="flex-start">
                               <ListItemAvatar>
                               <Avatar>{m.user.name.charAt(0)}</Avatar>
                               </ListItemAvatar>
-                              
+
                               <ListItemText
                               style={{'overflow': 'hidden'}}
                                 primary={m.user.name}
@@ -618,7 +618,7 @@ class Detail extends Component {
                                       color="textPrimary"
                                     >
                                       {m.comment}
-                                     
+
                                     </Typography>
                                   </React.Fragment>
                                 }
@@ -628,7 +628,7 @@ class Detail extends Component {
                             </List>
                             </div>
                         )
-                    })} 
+                    })}
                       {comments.data && comments.total > 5 ?
                       <div className='row my-2'>
                      <Pagination
@@ -640,14 +640,14 @@ class Detail extends Component {
                             onChange={this.loadNextPageComments.bind(this)}
                             itemClass="page-item"
                             linkClass="page-link"
-                          /> 
+                          />
                           </div>
                        : null  }
                        <div className="row my-2">
                            <div className='col-12'>
                     <h6><Trans i18nKey="writecomment"></Trans>:</h6>
                     {console.log(comments)}
-                    
+
                     <Form onSubmit={this.onSubmitComment}>
                         <Input
                         type='textarea'
@@ -669,10 +669,10 @@ class Detail extends Component {
                     </Collapse>
                     <Divider />
                     </List>
-                    
+
                 </div>
             </div>
-            </Container> 
+            </Container>
             </div>
             : <Spinner /> }
             </div>
@@ -688,7 +688,7 @@ Detail.propTypes = {
     getComments: PropTypes.func.isRequired,
     getRatings: PropTypes.func.isRequired,
     item: PropTypes.object.isRequired,
-    comments: PropTypes.object.isRequired, 
+    comments: PropTypes.object.isRequired,
     auth: PropTypes.object.isRequired,
     error: PropTypes.object.isRequired,
     clearErrors: PropTypes.func.isRequired

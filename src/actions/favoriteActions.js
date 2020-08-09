@@ -10,8 +10,8 @@ export const addFavorite = item => (dispatch) => {
             'Authorization' : "Bearer " + localStorage.getItem('token') }
     }
 
-    axios.post('http://127.0.0.1:8000/api/favorite/add', item, config)
-    .then(res => 
+    axios.post('/api/favorite/add', item, config)
+    .then(res =>
         dispatch({
             type: ADD_FAVORITE,
             payload: res.data
@@ -19,7 +19,7 @@ export const addFavorite = item => (dispatch) => {
 }
 export const getFavorites = id => (dispatch) => {
     dispatch(setFavoritesLoading());
-    axios.get('http://127.0.0.1:8000/api/favorite/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get('/api/favorite/user/' + localStorage.getItem('id'), { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         dispatch({
             type: GET_USER_FAVORITES,
@@ -34,7 +34,7 @@ export const getFavorites = id => (dispatch) => {
 }
 export const getAllFavorites = () => (dispatch) => {
     dispatch(setFavoritesLoading());
-    axios.get('http://127.0.0.1:8000/api/favorite/user/' + localStorage.getItem('id') + '/all', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
+    axios.get('/api/favorite/user/' + localStorage.getItem('id') + '/all', { headers: { Authorization: "Bearer " + localStorage.getItem('token') } })
     .then(res => {
         dispatch({
             type: GET_USER_ALLFAVORITES,
@@ -54,8 +54,8 @@ export const deleteFavorite = id => (dispatch) => {
             'Content-Type' : 'application/json',
             'Authorization' : "Bearer " + localStorage.getItem('token') }
     }
-    axios.delete(`http://127.0.0.1:8000/api/favorite/${id}` , config)
-    .then(res => 
+    axios.delete(`/api/favorite/${id}` , config)
+    .then(res =>
         dispatch({
             type: DELETE_FAVORITE,
             payload: id
