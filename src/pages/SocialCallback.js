@@ -35,7 +35,7 @@ class SocialCallback extends Component {
     render() {
         const { isLoading, isAuthenticated } = this.props.auth
         return (
-            <div style={{'margin-top': "200px"}} className="dashboard">
+            <div className="padding-top">
                 { isLoading ? 
                    <div> Please wait ... <Spinner /> </div>
                    : localStorage.getItem('authenticated') ? 

@@ -80,7 +80,7 @@ componentWillUnmount(){
 
     }
     googleLogin = () => {
-        window.location.assign('https://quinten.staging.7.web.codedor.online/api/user/login/google')
+        window.location.assign('/api/user/login/google')
        /*  window.location.replace =  */
        /*  window.location.href =  */
     }
