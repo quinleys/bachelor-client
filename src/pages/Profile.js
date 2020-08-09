@@ -100,10 +100,13 @@ class Profile extends Component {
                                 </a>
                                 </CardText>
                                 <Button className="my-2 fullLengthButton blueButton">
+                                    
                                     <AddToCalendar event={{
                                         title : m.restaurant.title,
                                         description: 'Gaan eten met ' + m.persons + ' personen',
                                         location: m.restaurant.address ,
+                                        startTime: m.date + 'T' + m.time,
+                                        endTime: m.date + 'T' + m.time
                                         // fix timme                                     
                                     }} />
                                 </Button >
