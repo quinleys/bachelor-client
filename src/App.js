@@ -91,9 +91,9 @@ class App extends Component {
         <Route  path="/restaurants:id" component={Detail}/>
         <Route exact path="/" component={Home} />
         
-        {/* <Route path="*">
+         <Route path="*">
             <NoMatch />
-          </Route> */}  
+          </Route> *
       </Switch>
       <Switch>
 
