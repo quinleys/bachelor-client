@@ -2,16 +2,19 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Container, Modal, ModalBody, ModalHeader, Form, Input, Label, FormGroup,   } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { login } from '../../actions/authActions';
+import { login , socialLogin } from '../../actions/authActions';
 import { clearErrors } from '../../actions/errorActions'; 
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import RegisterModal from '../Auth/RegisterModal';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-
 import { Trans } from 'react-i18next'
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
+import {
+Link
+  } from "react-router-dom";
 class LoginModal extends Component {
+    
     state = {
         modal: false,
         username: '',
@@ -79,10 +82,12 @@ componentWillUnmount(){
       
 
     }
-    googleLogin = () => {
-        window.location.assign('/api/user/login/google')
-       /*  window.location.replace =  */
-       /*  window.location.href =  */
+    googleLogin = (event) => {
+        console.log('google login')
+        event.preventDefault()
+       /*   this.props.socialLogin();  */
+       
+        window.location.href = '/api/user/login/google'  
     }
     closeAlert = () => {
         this.setState({
@@ -91,6 +96,7 @@ componentWillUnmount(){
         this.props.clearErrors();
     }
     render() {
+        
         const { error } = this.props.error
         return (
            <div>
@@ -155,16 +161,18 @@ componentWillUnmount(){
                                     disabled
         > <Trans i18nKey="loading"></Trans> 
                                 </Button> 
-                               <a href="https://quinten.staging.7.web.codedor.online/api/user/login/google">
+                              
+                        
                                  <Button 
                                  className="mb-2 mt-2"
                                  color="dark"
                                  block
                                  disabled
+                                  onClick={this.googleLogin} 
                                /*   onClick={this.googleLogin}  */
                              > <Trans i18nKey="logingoogle"></Trans>
                              </Button> 
-                             </a>
+                   
                              </div>:
        
                                 <div> 
@@ -175,15 +183,15 @@ componentWillUnmount(){
                                     type='submit'
                                 > <Trans i18nKey="login"></Trans>
                                 </Button>
-                                <a href="https://quinten.staging.7.web.codedor.online/api/user/login/google">
+                   
                                 <Button 
                                     className="mb-2 fullLengthButton mt-2"
                                     color="dark"
                                     block
-                                 /*    onClick={this.googleLogin} */
+                                  onClick={this.googleLogin}  
                                 > <Trans i18nKey="logingoogle"></Trans>
                                 </Button>
-                                </a>
+                          
                                 </div>
                                   }
                                 <p> <RegisterModal onClick={this.toggle}/> </p>
@@ -203,4 +211,4 @@ const mapStateToProps = state => ({
     auth: state.auth,
 });
 
-export default connect(mapStateToProps,{login, clearErrors })(LoginModal)
+export default connect(mapStateToProps,{login, clearErrors, socialLogin })(LoginModal)

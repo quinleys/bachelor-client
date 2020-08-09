@@ -21,6 +21,7 @@ import Table from './pages/Owners/Layout'
 import {
   BrowserRouter as Router,
   Switch,
+  Redirect,
   Route,
 } from "react-router-dom";
 import { getPayments } from './actions/paymentsActions';
@@ -41,7 +42,9 @@ import { getPrices } from './actions/priceActions';
 import './App.css';
 
 
-class App extends Component {
+
+  export default class App extends Component {
+    
   componentDidMount(){
     store.dispatch(loadUser()); 
     store.dispatch(getCategories());
@@ -52,7 +55,8 @@ class App extends Component {
   }
 
   render(){
-  
+
+
   return (
     <Suspense fallback="loading">
       <I18nextProvider i18n={i18n}>
@@ -74,6 +78,7 @@ class App extends Component {
 
       <Switch>
         {/* <Route exact path="/api/user/login/google"/>  */}
+       {/* <Redirect from="/api/user/login/google" to="/api/user/login/google" /> */}
          <ProtectedRoute exact path="/profile" component={Profile} />
          <ProtectedRoute exact path="/profile/favorites" component={Favorites} />
          <ProtectedRoute exact path="/profile/reservations" component={Reservations} />
@@ -90,10 +95,10 @@ class App extends Component {
          <Route  path="/restaurants" component={Restaurants}/>
         <Route  path="/restaurants:id" component={Detail}/>
         <Route exact path="/" component={Home} />
-        
-         <Route path="*">
+      
+          <Route path="*">
             <NoMatch />
-          </Route> *
+          </Route>  
       </Switch>
       <Switch>
 
@@ -110,6 +115,7 @@ class App extends Component {
   </Suspense>
   );
 }
-}
+  }
 
-export default App;
+
+

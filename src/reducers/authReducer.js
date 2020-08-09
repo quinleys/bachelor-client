@@ -14,10 +14,10 @@ import {
 } from '../actions/types';
 
 const initialState = {
-    token: false,
+    token: null,
     isAuthenticated: false,
     isLoading: false,
-    user: false,
+    user: null,
 }
 
 export default function (state = initialState, action ){
@@ -84,6 +84,8 @@ export default function (state = initialState, action ){
                 ...state,
                 isAuthenticated:false,
                 isLoading:false,
+                token: null,
+                user: null,
             };
         case AUTH_ERROR:
         case LOGIN_FAIL:

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { returnErrors, } from './errorActions';
 import React from 'react';
-
+/* import { withRouter } from 'react-router-dom'; */
+import { withRouter } from 'react-router'
 // the hoc
 import { Trans } from 'react-i18next'
 import { USER_LOADED, USER_LOADING, LOGIN_FAIL, LOGOUT_SUCCESS , LOGIN_SUCCES, LOGIN_TOKEN, NOT_LOGGEDIN, REGISTER_SUCCES, REGISTER_FAIL, SOCIAL_LOGIN } from "./types";
@@ -31,10 +32,15 @@ export const loadUser = () => (dispatch) => {
     }
 }
 export const socialLogin = () => (dispatch) => {
-    axios.get('https://quinten.staging.7.web.codedor.online/api/user/login/google', {headers: {"Access-Control-Allow-Origin": "*"}})
-    .then(res => {
-        this.props.history.push(res);
-    })
+   /*  browserHistory.push('/registrationStep2') */
+   /*  dispatch(window.location.href('/api/user/login/google')) */
+   /*  browserHistory.push('/pathToRedirect') */
+     /* dispatch(push('/api/user/login/google'))  */
+    /* axios.get('https://quinten.staging.7.web.codedor.onlinee') */
+    /*  .then(res => {
+          console.log('res', res); 
+        /* this.props.history.push(res); 
+    })  */
 }
 // check token & load user
 export const loginSocial = (id, token) => (dispatch) => {
