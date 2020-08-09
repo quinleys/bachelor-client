@@ -1553,10 +1553,10 @@ class Restaurants extends Component {
                                     )})}
                     
                             </div>
-                             : <div className="row ">
+                             : <div className="row mt-3">
                                  <div className="col-12"> <p><Trans i18nKey="noitemsfound"></Trans></p></div></div>}
-                                              <div className="row pt-3">
-                                                  <div className="col">
+                                              <div className="row mt-5">
+                                                  <div className="mx-auto">
                                               {this.props.item.page && items.length > 1?
           
                                               <Pagination

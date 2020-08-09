@@ -521,6 +521,12 @@ a:hover {
     width: 2rem;
     background-color: #031D44;   
 }
+.page-link {
+    color: $accent !important;
+}
+.page-item.active .page-link {
+    color: white !important;
+}
 .pagination {
     margin: 0 auto;
 }

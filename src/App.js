@@ -39,6 +39,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import { getPrices } from './actions/priceActions';
+import About from './pages/About'
 import './App.css';
 
 
@@ -93,6 +94,7 @@ import './App.css';
          <RestaurantOwner exact path="/dashboard/calendar" component={Calendar} />
          <Route path="/google/callback"  component={SocialCallback} />
          <Route  path="/restaurants" component={Restaurants}/>
+         <Route  path="/about" component={About}/>
         <Route  path="/restaurants:id" component={Detail}/>
         <Route exact path="/" component={Home} />
       
