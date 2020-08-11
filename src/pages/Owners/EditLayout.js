@@ -80,7 +80,7 @@ class URLImage extends React.Component {
             onTransform={this.props.onTransform}
             onDragStart={this.props.onDragStart}
            onDragEnd={this.props.onDragEnd}   
-           /*  onDragMove={this.props.onDragMove} */
+            onDragMove={this.props.onDragMove} 
           />
           );
         }
@@ -804,7 +804,7 @@ onChangeRect = e =>{
                                         onTransform={this.onChangeRect}
                                         onDragStart={this.handleDragStart}
                                         onDragEnd={this.handleDragEnd}
-                                        /* onDragMove={this.handleDragEnd} */
+                                        onDragMove={this.handleDragEnd} 
                                         
                                    />
                                    
@@ -829,8 +829,12 @@ onChangeRect = e =>{
                                       />  */}
 
                                     <Circle 
+                                     id={m}
                                     x={m.x + (m.width / 2)}
                                     y={m.y + (m.height / 2)}
+                                    /* onTransform={this.onChangeRect}
+                                        onDragStart={this.handleDragStart}
+                                        onDragEnd={this.handleDragEnd} */
                                     width={15}
                                     height={15}
                                    fill={m.fill}
