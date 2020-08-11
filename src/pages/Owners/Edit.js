@@ -350,12 +350,9 @@ class Edit extends Component {
         let string = e.target.name.split('-')
       
         let newopeninghours = JSON.parse(JSON.stringify(this.state.openinghours));
-        
-        console.log(string, string[2], e.target.value)
         if(string[2] == 0){
            if(e.target.value < newopeninghours[0][string[0]][string[1]].split('-')[1] ){
             let newvalue = e.target.value + '-' + newopeninghours[0][string[0]][string[1]].split('-')[1];
-            console.log(newvalue, newopeninghours[0][string[0]][string[1]])
             newopeninghours[0][string[0]][string[1]] = newvalue;
                 this.setState({
                     errormsg: ''
