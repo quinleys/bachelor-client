@@ -900,7 +900,13 @@ calcScale = () => {
                          </ListItem>
                        <ListItem button onClick={this.listOpen}>
                     
-                          <ListItemText primary="Restaurant informatie:" />
+                          <ListItemText primary={
+                             <React.Fragment>
+                               <Typography>
+                               <Trans i18nKey="restaurantinformation"></Trans>
+                               </Typography>
+                             </React.Fragment>
+                           } />
                           {this.state.listOpen ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
                         <Collapse in={this.state.listOpen} timeout="auto" unmountOnExit>

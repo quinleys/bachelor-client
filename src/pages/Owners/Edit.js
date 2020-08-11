@@ -351,15 +351,31 @@ class Edit extends Component {
       
         let newopeninghours = JSON.parse(JSON.stringify(this.state.openinghours));
         
-      
+        console.log(string, string[2], e.target.value)
         if(string[2] == 0){
-           
+           if(e.target.value < newopeninghours[0][string[0]][string[1]].split('-')[1] ){
             let newvalue = e.target.value + '-' + newopeninghours[0][string[0]][string[1]].split('-')[1];
+            console.log(newvalue, newopeninghours[0][string[0]][string[1]])
             newopeninghours[0][string[0]][string[1]] = newvalue;
+                this.setState({
+                    errormsg: ''
+                })
+            
+        }else{
+            this.setState({
+                errormsg: 'Uur moet vroeger zijn dan het laatste tijdstip'
+            })
+        }
         }
         if(string[2] == 1){
+            if(e.target.value > newopeninghours[0][string[0]][string[1]].split('-')[0]  ){
             let newvalue = newopeninghours[0][string[0]][string[1]].split('-')[0]  + '-' +  e.target.value;
             newopeninghours[0][string[0]][string[1]] = newvalue;
+            }else{
+                this.setState({
+                    errormsg: 'Uur moet later zijn dan het eerste tijdstip'
+                })
+            }
         }
        
          this.setState({
@@ -755,6 +771,7 @@ class Edit extends Component {
                             onChange={this.onChangeOpeninghours} 
                             value={this.state.openinghours[0].monday[i].split('-')[0]}
                             id="time"
+                            max={this.state.openinghours[0].monday[i].split('-')[1]}
                             required
                             placeholder="time placeholder"
                             />
@@ -765,6 +782,7 @@ class Edit extends Component {
                             name={`monday-${i}-1`}
                             onChange={this.onChangeOpeninghours} 
                             value={this.state.openinghours[0].monday[i].split('-')[1]}
+                            min={this.state.openinghours[0].monday[i].split('-')[1]}
                             id="time"
                             required
                             placeholder="time placeholder"
