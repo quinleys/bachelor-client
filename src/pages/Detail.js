@@ -399,25 +399,34 @@ class Detail extends Component {
                         {item && menus ? 
                         <div className="col-12 m-2">
                             {menus.map(m => 
-                             <img key={'img' + m.id} className="img-thumbnail m-2" alt={`menu picture ${m.id}`} style={{maxWidth: "150px" }} src={`https://quinten.staging.7.web.codedor.online/storage/menus/${m.src}`} onClick={() => this.setState({ isOpen: true })}/>
+                             <img key={'img' + m.src} className="img-thumbnail m-2" alt={`menu picture ${m.id}`} style={{maxWidth: "150px" }} src={`https://quinten.staging.7.web.codedor.online/storage/menus/${m.src}`} onClick={() => this.setState({ isOpen: true })}/>
                             )}
                            
  
         {this.state.isOpen && (
           <Lightbox
-            mainSrc={'https://quinten.staging.7.web.codedor.online/storage/menus/' + menus[0].src}
-            nextSrc={'https://quinten.staging.7.web.codedor.online/storage/menus/' + menus[(this.state.photoIndex + 1) % menus.length].src}
+            mainSrc={'https://quinten.staging.7.web.codedor.online/storage/menus/' +menus[this.state.photoIndex].src }
+            nextSrc={'https://quinten.staging.7.web.codedor.online/storage/menus/' + menus[(this.state.photoIndex + 1) % menus.length].src }
             prevSrc={'https://quinten.staging.7.web.codedor.online/storage/menus/' + menus[(this.state.photoIndex + menus.length - 1) % menus.length].src}
             onCloseRequest={() => this.setState({ isOpen: false })}
-            onMovePrevRequest={() =>
+            onMovePrevRequest={() =>{
+
+            
               this.setState({
                 photoIndex: (this.state.photoIndex + menus.length - 1) % menus.length,
               })
+          
+            }
             }
             onMoveNextRequest={() =>
+                {
+
+                
               this.setState({
                 photoIndex: (this.state.photoIndex + 1) % menus.length,
               })
+           
+            }
             }
           />
         )}
