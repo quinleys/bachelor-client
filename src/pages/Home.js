@@ -195,7 +195,7 @@ class Home extends Component {
                                                 <Label for="persons"><Trans i18nKey="persons">
                                     </Trans></Label>
                                                 <Input type="select" name="persons" id="persons" onChange={this.onChange}>
-                                                    <option value="">Kies ...</option>
+                                                    <option value="">Choose ...</option>
                                                 <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
