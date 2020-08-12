@@ -377,7 +377,7 @@ class Plattegrond extends Component {
                             </div>
                             : null }
                         {activeRooms.map((room, i) => 
-                       <div className={ this.state.showCanvas == i ? 'hiddenCanvas' : null} > 
+                       <div className={ this.state.showCanvas !== i ? 'hiddenCanvas' : null} > 
                        <h6>{room.title}</h6>
                     <Stage   width={1000 * this.state.scale < 1140 ? 1000 * this.state.scale : 1140 } height={1000 * this.state.scale < 1140 ? 1000 * this.state.scale : 1140 } scaleX={this.state.scale} scaleY={this.state.scale}>
                         

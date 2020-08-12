@@ -48,6 +48,7 @@ class Layout extends Component {
         this.props.deleteLayout(id)
     }
     deleteRoom = (id) => {
+        
         this.props.deleteRoom(id)
     }
     makeActive = () => {

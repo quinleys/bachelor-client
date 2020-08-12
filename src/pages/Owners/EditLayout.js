@@ -254,7 +254,7 @@ class EditLayout extends Component {
             tables: this.state.tables.concat(newTable),
             tafelerror: '',
             
-      })
+      }, console.log(newTable, this.state.tables))
     }
 
     _onMouseMove = e => {
@@ -382,11 +382,11 @@ class EditLayout extends Component {
               return {
                   tables,
               };
-            });
+            }, console.log(this.state.tables));
       };
 
     saveLayout = () => {
-       
+       console.log(this.state.tables)
         if(this.state.title == ''){
             this.setState({
                 errormsg: 'Layout moet een titel hebben.'
@@ -421,7 +421,9 @@ class EditLayout extends Component {
                     })
                 }
             }
-        )})
+        )
+            console.log(this.state.selectedTable)
+    })
     }
     onSelect = (e) => {
   
@@ -447,6 +449,8 @@ class EditLayout extends Component {
                 }));
             })
         }
+        }, function(){
+            console.log(this.state.tables)
         })
   
     }

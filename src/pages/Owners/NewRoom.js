@@ -504,7 +504,7 @@ class NewRoom extends Component {
                         <h1>Maak een nieuwe kamer!</h1>
                         </div>
                         <div className="col">
-                        <Button className="floatright" disabled={this.state.errormsg} onClick={this.saveRoom}>Opslaan</Button>
+                        <Button className="floatright" disabled={this.state.errormsg || this.state.title == ""} onClick={this.saveRoom}>Opslaan</Button>
                         </div>
                     </div>
                     <div className="row justify-content-between my-2">

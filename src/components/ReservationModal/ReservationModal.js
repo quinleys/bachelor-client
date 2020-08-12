@@ -668,7 +668,7 @@ calcScale = () => {
                              { !loading && rooms ? 
                              rooms.map(( room,i ) => {
                                return (
-                                 <div className={ this.state.showCanvas == i ? 'hiddenCanvas' : 'reservationmodal'}>
+                                 <div className={ this.state.showCanvas !== i ? 'hiddenCanvas' : 'reservationmodal'}>
                                    <div className="row">
                                  
                                     <h6>{room.title}</h6>

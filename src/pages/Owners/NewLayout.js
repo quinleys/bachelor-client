@@ -229,13 +229,15 @@ class NewLayout extends Component {
     }
     addTable = () => {
       
+    
         let newTable = { "id": this.state.tables.length + 1 ,/*  title: this.state.selected, */ "x": 0, "y":0, "height": 100, "width": 100, "title": this.state.selectedTableTitle , "realId" : this.state.selectedTable , fill:Konva.Util.getRandomColor()  }
-     
+       
         this.setState({
             tables: this.state.tables.concat(newTable),
-            tafelerror: ''
+            tafelerror: '',
             
-      })
+      }, 
+      console.log(newTable, this.state.tables))
     }
 
     _onMouseMove = e => {
@@ -343,7 +345,7 @@ class NewLayout extends Component {
             const tables = state.tables.map((i) => {
               
               if ( e.target.attrs.id.id == i.id) {
-            
+                 
                 return {
                     "id": e.target.attrs.id.id , "title": e.target.attrs.id.title , "x": e.target.attrs.x, "y": e.target.attrs.y , "height": e.target.attrs.height, "width": e.target.attrs.width,"realId" : e.target.attrs.id.realId, 'fill': i.fill 
                 };
@@ -355,11 +357,11 @@ class NewLayout extends Component {
             return {
                 tables,
             };
-          });
+          }, console.log(this.state.tables));
     };
 
     saveLayout = () => {
-      
+      console.log(this.state.tables)
         if(this.state.title == ''){
             this.setState({
                 errormsg: 'Layout moet een titel hebben.'
@@ -379,7 +381,7 @@ class NewLayout extends Component {
         } 
     }
     onChangeTable = (e) => {
-      
+        console.log(this.state.table)
         let titel;
         this.setState({
             selectedTable: e.target.value,
@@ -394,6 +396,7 @@ class NewLayout extends Component {
                 }
             }
         )})
+        console.log(this.state.table, e.target.value)
     }
     onSelect = (e) => {
       
@@ -420,8 +423,10 @@ class NewLayout extends Component {
                 }));
             })
         }
+        }, function(){
+            console.log(this.state.tables)
         })
-       
+      
     }
 }
 onChangeRect = e =>{
@@ -607,7 +612,7 @@ onChangeRect = e =>{
                                     </div>
                                     <div className="row">
                                     <div className="col-10">
-                                        <Input type="select" name="title" id="title" onChange={this.onChangeTable}>
+                                        <Input type="select" name="tafel" id="tafel" onChange={this.onChangeTable}>
                                         <option value=''>Kies een tafel</option>
                                         {this.props.table && this.props.table.tables ? 
                                         

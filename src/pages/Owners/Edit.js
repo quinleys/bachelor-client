@@ -615,9 +615,9 @@ class Edit extends Component {
                         { restaurant && categories.length > 0 && !this.state.madeCategoryData ? this.makeCategoryData() : null  }
            
             <div className="dashboard">
-                { this.state.loaded && !dashboardloading && this.state.madeCategoryData  && this.state.madeFacilityData &&  this.state.madePaymentData && restaurant.openinghours[0] ?
+                { this.state.loaded && !dashboardloading && this.state.madeCategoryData  && this.state.madeFacilityData &&  this.state.madePaymentData && restaurant.openinghours[0].length >= 1 ?
                 <Container>
-
+                    {console.log(restaurant)}
                     <Form onSubmit={this.onSubmit}> 
                     <div className="row justify-content-center">
                         <div className="col">   
@@ -773,7 +773,8 @@ class Edit extends Component {
                         </div>
                         </AccordionDetails>
                         </Accordion>
-                        { restaurant.openinghours && !this.state.loaded  && dashboardloading ? null : 
+                        {console.log(restaurant.openinghours && this.state.openinghours[0] )}
+                        { !restaurant.openinghours && !this.state.loaded  && !this.state.openinghours[0] && dashboardloading ? null : 
                         <Accordion className="my-2">
                         <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
@@ -798,7 +799,7 @@ class Edit extends Component {
                             <Button className="floatright" onClick={() => this.addOpeninghours('monday')}>< AddCircleIcon/> </Button>
                             </div>
                             </div>
-                            {this.state.openinghours[0].monday.length >= 1 ?
+                            { this.state.openinghours[0] && this.state.openinghours[0].monday.length >= 1 ?
                             this.state.openinghours[0].monday.map((m,i) => 
                             <div key={i} className="row my-2 w-100" >
                                
