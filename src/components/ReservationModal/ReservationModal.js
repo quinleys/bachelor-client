@@ -405,14 +405,11 @@ class ReservationModal extends Component {
 
 checkProblems = () => {
 
-console.log('checking')
   let vrijTafels = 0;
 
   if(this.state.prevState !== this.props.reservation.tablereservations){
-  console.log( this.props.reservation.tablereservations)
   if(this.props.reservation.tablereservations[0])
   {
-    console.log( 'stap 1')
     if(this.props.reservation.tablereservations[0] == 'closed')
     {
       if(this.props.reservation.tablereservations[1] !== 'nothing found' ){
@@ -429,7 +426,6 @@ console.log('checking')
       }
       
     }else{ 
-      console.log( !this.props.room.loading , !this.props.reservation.loadingReservation , this.props.room.rooms.length > 0)
       if(!this.props.room.loading && !this.props.reservation.loadingReservation && this.props.room.rooms.length > 0 )
       {
        
@@ -440,7 +436,7 @@ console.log('checking')
             let length = parseInt(this.props.reservation.tablereservations.rooms[i].freetables.length,10)
             vrijTafels = vrijTafels + length
             
-            console.log('tafels vrij')
+       
             this.setState(prevState =>{
               return{
                    ...prevState,
@@ -450,12 +446,12 @@ console.log('checking')
                    gevonden: 'Er zijn ' + vrijTafels  + " tafel(s) vrij. Ga verder indien u een tafel wilt kiezen. ",
               }
            }, function(){
-            console.log(this.state.gevonden)
+
              return
            })
           }else{
             if( !this.state.freetables > 0 && !vrijTafels > 0  ){
-              console.log('geen tafels vrij')
+        
               this.setState(prevState =>{
                 return {
                 ...prevState,
@@ -528,11 +524,11 @@ closeAlert = () => {
 }
 calcScale = () => {
   const CANVAS_VIRTUAL_WIDTH = 1000;
-      const CANVAS_VIRTUAL_HEIGHT = 1000;
+  const CANVAS_VIRTUAL_HEIGHT = 1000;
  if( window.innerWidth < 1140){
       let scaleCalc = Math.min(
           window.innerWidth / CANVAS_VIRTUAL_WIDTH,
-          ) - 0.1;
+          ) - 0.03;
           this.setState({
               scale: scaleCalc
           })
@@ -540,7 +536,7 @@ calcScale = () => {
  else {
       let scaleCalc = Math.min(
           1140 / CANVAS_VIRTUAL_WIDTH,
-          ) - 0.1;
+          ) - 0.03 ;
           this.setState({
               scale: scaleCalc
           })
@@ -559,8 +555,8 @@ calcScale = () => {
     // we can just scale it
     const scale = Math.min(
       window.innerWidth / CANVAS_VIRTUAL_WIDTH,
-    
-    )-0.03;
+      window.innerHeight / CANVAS_VIRTUAL_HEIGHT,
+    )-0.1;
 
     const defaultOptions = {
       loop: false,
@@ -678,7 +674,7 @@ calcScale = () => {
                                     <h6>{room.title}</h6>
                                   </div>
                                {/* <Stage  width={window.innerWidth} height={window.innerWidth} scaleX={scale} scaleY={scale}>  */}
-                              <Stage  width={1000 * this.state.scale > 1000 ?  1140 : window.innerWidth  } height={1000 * this.state.scale > 1000 ? 1140 : window.innerWidth  } scaleX={1000 * this.state.scale > 1000 ?  this.state.scale : scale } scaleY={1000 * this.state.scale > 1000 ?  this.state.scale : scale }> 
+                              <Stage  width={ 1000 * this.state.scale > 1000 ?  1000 :  window.innerWidth  } height={1000 * this.state.scale > 1000 ? 1000: window.innerWidth   } scaleX={1000 * this.state.scale > 1000 ?  1 : this.state.scale  } scaleY={1000 * this.state.scale > 1000 ? 1: this.state.scale }   /*  scaleX={1000 * this.state.scale > 1000 ?  this.state.scale : this.state.scale  } scaleY={1000 * this.state.scale > 1000 ?  this.state.scale : this.state.scale  } */> 
                            
                              { !loading && room.walls ?  
                              <Layer>

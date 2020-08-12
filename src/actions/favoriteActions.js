@@ -10,11 +10,13 @@ export const addFavorite = item => (dispatch) => {
     }
 
     axios.post("https://quinten.staging.7.web.codedor.online/api" + '/favorite/add', item, config)
-    .then(res => 
+    .then(res => {
+
+        console.log(res)
         dispatch({
             type: ADD_FAVORITE,
-            payload: res.data
-        })).catch(err => dispatch(returnErrors(err.response, err.response)))
+            payload: res.data.favorite
+        })}).catch(err => dispatch(returnErrors(err.response, err.response)))
 }
 export const getFavorites = id => (dispatch) => {
     dispatch(setFavoritesLoading());

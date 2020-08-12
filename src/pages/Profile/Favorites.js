@@ -23,12 +23,12 @@ class Favorites extends Component {
 
     }
     render() {
-        const { loading, favorites } = this.props.favorite;
+        const { loading, favorites, setFavoritesLoading } = this.props.favorite;
         return (
             <div className="profile mt-3 padding-top">
                 <Container>
                  <h3>  <Trans i18nKey="allfavorites"></Trans></h3>
-                {loading && favorites ? 
+                { loading && !favorites && setFavoritesLoading ? 
                 <Spinner />
                 : 
                 <div className="row">

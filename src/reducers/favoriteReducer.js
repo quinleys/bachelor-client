@@ -13,7 +13,7 @@ export default function(state = initialState, action){
         case ADD_FAVORITE:
             return {
                 ...state,
-                favorites: [...state.favorites, action.payload],
+               /*  favorites: [...state.favorites, action.payload], */
                 loading: false,
             };
         case GET_USER_FAVORITES:

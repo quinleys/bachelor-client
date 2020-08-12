@@ -160,9 +160,9 @@ class Profile extends Component {
                 </div>
                 </div>
                 : null }
-                <div className="row my-2">
+                <div className="row mt-4">
                     <div className="row">
-                    <h3><Trans i18nKey="myfavorites"></Trans>{userfavs.data && userfavs.data.length > 0 ? ` ( ${userfavs.total} )` : null }</h3>
+                    <h3><Trans i18nKey="myfavorites"></Trans>{userfavs.data && userfavs.data.length > 0 ? ` (${userfavs.total})` : null }</h3>
                     </div>
                     { userfavs.total > 3 ? <Link to="/profile/favorites"> |  <Trans i18nKey="viewall"></Trans> </Link>: null}
                     </div>
