@@ -54,7 +54,7 @@ class Favorites extends Component {
                                         <CardTitle><h5><strong>{m.restaurant.title}</strong></h5></CardTitle>
                                         <CardSubtitle><Badge>{m.restaurant.category.title}</Badge></CardSubtitle> 
                                         <CardText><p><RoomIcon /> {m.restaurant.address} </p>
-                                        {m.restaurant.average_rating ? <div className="row"><div><Rating  name="rating" defaultValue={m.restaurant.average_rating}  emptyIcon={<StarBorderIcon fontSize="14px" />} readOnly/> </div><div className="col v-centerText"> ({m.restaurant.totalrating})</div></div> : null }
+                                        {m.restaurant.average_rating ? <div className="row"><div><Rating  name="rating" precision={0.5}  defaultValue={m.restaurant.average_rating}   readOnly/> </div><div > ({m.restaurant.totalrating})</div></div> : null }
                                         </CardText>
                                         </CardBody>
                                             </Card>
