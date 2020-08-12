@@ -136,10 +136,11 @@ class NewRoom extends Component {
             error: ''
         })
       }
-      deleteWall = e => {
+      deleteWall = id => {
           if(this.state.walls.length > 4){
             let filteredArray = this.state.walls.filter(item => 
-                item.id != e.target.value )
+                item.id != id )
+                console.log(filteredArray)
                 this.setState({
                     walls: filteredArray,
                     error: ''
@@ -593,8 +594,8 @@ class NewRoom extends Component {
                                    <Input type="number" name={ m.id + ".point-2"} id="walls" onChange={this.onAddItem} value={m.point2} min={0} max={1000}>
                                     </Input>
                                    </div>
-                                   <Button >
-                                   <DeleteIcon value={m.id} onClick={this.deleteWall}/>
+                                   <Button value={m.id} onClick={() => this.deleteWall(m.id)} >
+                                   <DeleteIcon value={m.id}/>
                                    </Button>
                                     
                                     </div>

@@ -328,7 +328,7 @@ class Restaurants extends Component {
             this.props.getItems(this.state.filterTitle);
         }
 
-       
+       console.log(this.state.filters, this.state.filterUrl, this.state.checkBoxfilters)
     }
     componentWillUnmount(){
         this.props.clearErrors()
@@ -641,8 +641,8 @@ class Restaurants extends Component {
             pageUrl: e
         })
         console.log(this.state.filterUrl + '?&page=' + e)
-        if(this.state.checkBoxfilters.length == 0 ){
-            this.props.getItems(this.state.filterUrl + '?&page=' + e )
+        if(this.state.filterUrl == '' ){
+            this.props.getItems(this.state.filterUrl + '?page=' + e )
         }else {
             this.props.getItems(this.state.filterUrl + '&page=' + e )
         }

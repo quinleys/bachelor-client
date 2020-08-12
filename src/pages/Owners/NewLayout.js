@@ -465,6 +465,7 @@ onChangeRect = e =>{
     }
     render() {
         const { rooms } = this.props.room
+        const { allRooms } = this.props.dashboard
         const CANVAS_VIRTUAL_WIDTH = 1000;
         const CANVAS_VIRTUAL_HEIGHT = 1000;
 
@@ -475,7 +476,7 @@ onChangeRect = e =>{
         ) - 0.2;
         return (
             <div className="dashboard">
-            { rooms  ? 
+            { allRooms  ? 
             <Container>
              { this.props.layout.madeNew  ? <Redirect  to={`/dashboard/layout`} /> : null  }
                 <div className="row">
@@ -558,8 +559,8 @@ onChangeRect = e =>{
                         <Label for="persons">Welke kamer?</Label>
                                             <Input type="select" name="selectedRoom" id="selectedRoom" onChange={this.onChangeSelectedRoom}>
                                               <option value=""> Kies een kamer </option>
-                                              { rooms ?
-                                                rooms.map(m => {
+                                              { allRooms ?
+                                                allRooms.map(m => {
                                                     return(
                                                         
                                                         <option value={m.id}>{m.title}</option>
@@ -808,12 +809,14 @@ NewLayout.propTypes = {
     addLayout: PropTypes.func.isRequired,
     extra: PropTypes.object.isRequired,
     layout: PropTypes.object.isRequired,
-    forgetLayout: PropTypes.func.isRequired
+    forgetLayout: PropTypes.func.isRequired,
+    dashboard: PropTypes.object.isRequired
 }
 const mapStateToProps = state => ({
     table: state.table,
     room: state.room,
     extra: state.extra,
-    layout: state.layout
+    layout: state.layout,
+    dashboard: state.dashboard
 })
 export default connect(mapStateToProps, { getTables, getExtras, getRooms, getRoom, forgetLayout, addLayout})(NewLayout)

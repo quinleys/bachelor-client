@@ -28,12 +28,12 @@ class Favorites extends Component {
             <div className="profile mt-3 padding-top">
                 <Container>
                  <h3>  <Trans i18nKey="allfavorites"></Trans></h3>
-                {loading ? 
+                {loading && favorites ? 
                 <Spinner />
                 : 
                 <div className="row">
-                    {console.log(this.props.favorite)}
-                    {favorites && favorites.map((m,i) => {
+                    {console.log(this.props.favorite.favorites)}
+                    {favorites && favorites.length > 0 && favorites.map((m,i) => {
                         return (
                             <div className="col-md-6 my-2 d-flex align-items-stretch" key={i}>
                                             

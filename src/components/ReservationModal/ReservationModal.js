@@ -669,7 +669,7 @@ calcScale = () => {
                             : null }
                           
                           
-                             {rooms ? 
+                             { !loading && rooms ? 
                              rooms.map(( room,i ) => {
                                return (
                                  <div className={ this.state.showCanvas == i ? 'hiddenCanvas' : 'reservationmodal'}>
@@ -680,7 +680,7 @@ calcScale = () => {
                                {/* <Stage  width={window.innerWidth} height={window.innerWidth} scaleX={scale} scaleY={scale}>  */}
                               <Stage  width={1000 * this.state.scale > 1000 ?  1140 : window.innerWidth  } height={1000 * this.state.scale > 1000 ? 1140 : window.innerWidth  } scaleX={1000 * this.state.scale > 1000 ?  this.state.scale : scale } scaleY={1000 * this.state.scale > 1000 ?  this.state.scale : scale }> 
                            
-                             {  room.walls ?  
+                             { !loading && room.walls ?  
                              <Layer>
                                  <Shape
                                      sceneFunc={(context, shape) => {
@@ -737,7 +737,7 @@ calcScale = () => {
                             : null
                             }
 
-                            {room.layout.tables ? 
+                            { !loading && room.layout.tables ? 
                             room.layout.tables.map(m => {
                              return(
                              <Layer>
@@ -769,7 +769,7 @@ calcScale = () => {
                        
                                       />  */}   
                                    
-                                      {tablereservations.rooms[i].reservations !== 'no reservations' ? 
+                                      { !loading && tablereservations.rooms[i].reservations !== 'no reservations' ? 
                                                         
                                                    tablereservations.rooms[i].reservations &&  tablereservations.rooms[i].reservations.map(res => {
                                                         
@@ -803,7 +803,7 @@ calcScale = () => {
                                                             }  
                                                         }) : null } 
                                                  
-                                                        {tablereservations.rooms[i].freetables && tablereservations.rooms[i].freetables[0] ? 
+                                                        { !loading && tablereservations.rooms[i].freetables && tablereservations.rooms[i].freetables[0] ? 
                                                         tablereservations.rooms[i].freetables && tablereservations.rooms[i].freetables.length >= 1 ? 
                                                         tablereservations.rooms[i].freetables && tablereservations.rooms[i].freetables.map(res => {
                                                       

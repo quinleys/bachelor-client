@@ -26,12 +26,14 @@ import Spinner from '../../components/Components/Spinner/Spinner'
 import Alert from '@material-ui/lab/Alert';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Link } from 'react-router-dom';
+import { getLayouts} from '../../actions/dashboardActions'
 class URLImage extends React.Component {
     state = {
       image: null
     };
     componentDidMount() {
       this.loadImage();
+
     }
     componentDidUpdate(oldProps) {
       if (oldProps.src !== this.props.src) {
@@ -183,7 +185,7 @@ class EditLayout extends Component {
     componentDidMount(){
         this.props.getTables()
         this.props.getExtras()
-
+        this.props.getLayouts(localStorage.getItem('restaurant_id'));
         this.props.getRooms(localStorage.getItem('restaurant_id'))
        
         let id = this.props.match.params.id
@@ -514,6 +516,7 @@ onChangeRect = e =>{
     }
     render() {
         const { layout, loading } = this.props.layout
+        const { allRooms, dashboardLoading } = this.props.dashboard
         const { rooms } = this.props.room
         const CANVAS_VIRTUAL_WIDTH = 1000;
         const CANVAS_VIRTUAL_HEIGHT = 1000;
@@ -526,11 +529,11 @@ onChangeRect = e =>{
           ) - 0.2;
         return (
             <div className="dashboard">
-                {layout && rooms && !loading ? 
+                {layout && allRooms && !loading && !dashboardLoading ? 
                 <Container>
                      { layout == 'Not allowed' ? <NotAllowed /> : 
                     <div>
-                   
+                   {console.log(this.props.dashboard)}
                     { layout.title && !loading && this.state.setStateCorrect ? this.setStateCorrect() : null}
                     <div className="row">
                        
@@ -614,9 +617,10 @@ onChangeRect = e =>{
                             <h5>Kamer</h5> 
                             <Label for="persons">Welke kamer?</Label>
                                                 <Input type="select" name="selectedRoom" id="selectedRoom" onChange={this.onChangeSelectedRoom}>
+                                                {console.log(this.props.dashboard.allRooms)}
                                                   <option value=''> Kies een kamer </option>
-                                                  { rooms ?
-                                                    rooms.map(m => {
+                                                  { this.props.dashboard.allRooms ?
+                                                    this.props.dashboard.allRooms.map(m => {
                                                         return(
                                                             
                                                             <option value={m.id}>{m.title}</option>
@@ -870,7 +874,8 @@ EditLayout.propTypes = {
     addLayout: PropTypes.func.isRequired,
     extra: PropTypes.object.isRequired,
     updateLayout : PropTypes.func.isRequired,
-    dashboard: PropTypes.func.isRequired,
+    dashboard: PropTypes.object.isRequired,
+    getLayouts: PropTypes.func.isRequired,
 }
 const mapStateToProps = state => ({
     table: state.table,
@@ -879,4 +884,4 @@ const mapStateToProps = state => ({
     extra: state.extra,
     layout: state.layout
 })
-export default connect(mapStateToProps, { getTables, getExtras, getRooms, getRoom, getLayout,forgetLayout, addLayout, updateLayout })( EditLayout )
+export default connect(mapStateToProps, { getTables, getExtras, getLayouts, getRooms, getRoom, getLayout,forgetLayout, addLayout, updateLayout })( EditLayout )
