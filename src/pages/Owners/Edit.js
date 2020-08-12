@@ -1271,8 +1271,8 @@ class Edit extends Component {
                         <div className="row my-2" style={{width:'100%'}}>
                             <div className="col-12">
                         <FormGroup>
-                        <form onSubmit={this.onFormSubmitMenus} accept="image/*">
-                            <input required type="file" required onChange={this.onChangeMenuImages}
+                        <form onSubmit={this.onFormSubmitCarousel} accept="image/*">
+                            <input required type="file" required onChange={this.onChangeCarouselImages}
                             />
                             <Button type="submit" >Upload </Button>
                         </form>

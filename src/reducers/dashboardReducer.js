@@ -80,7 +80,7 @@ export default function(state = initialState, action){
         case UPLOADRESTAURANTIMAGES:
             return {
                 ...state,
-                menus: action.payload,
+                images: action.payload,
                 imagesloading:false
             }
         case DELETERESTAURANTCAROUSELIMAGE:
