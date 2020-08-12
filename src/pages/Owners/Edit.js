@@ -15,7 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Divider from '@material-ui/core/Divider';
 import {postPrimaryImg , postRestaurantImages, deleteRestaurantImage} from '../../actions/dashboardActions';
-import { getRestaurant } from '../../actions/dashboardActions'
+import { getRestaurant, clearRestaurant } from '../../actions/dashboardActions'
 import Alert from '@material-ui/lab/Alert';
 import { clearErrors } from '../../actions/errorActions'; 
 
@@ -86,7 +86,54 @@ class Edit extends Component {
         this.props.clearErrors();
 
     }
-
+    componentWillUnmount(){
+        this.props.clearRestaurant()
+        this.props.clearErrors();
+        console.log('unmounted')
+        this.setState({
+            id: 0,
+            title: '',
+            description: '',
+            category: '',
+            address: '',
+            telephone: '',
+            contactemail: '',
+            website: '',
+            payments: [],
+            facilities: [],
+            price: '',
+            primary_img: '',
+            images: [],
+            selectedFacilities: [],
+            menus: [],
+            priceData: [{"id": 1 , "label": 'Goedkoop' , "value": 1},
+            {"id": 2 , "label": 'Normaal' , "value": 2},
+            {"id": 3 , "label": 'Duur' , "value": 3}],
+            paymentData: [],
+            facilityData: [],
+            loaded: false,
+            madePaymentData: false,
+            madeFacilityData: false,
+            categoryData: [],
+            madeCategoryData: false,
+            primary_img: '',
+            openinghours: null,
+            file: null,
+            fileObject: null,
+            image: null,
+            imageFile: null,
+            deleteMenu: false,
+            menusimg: [],
+            newCarousel: null,
+            addMenuState: false,
+            addCarousel: false,
+            deleteCarousel: false,
+            addProfile: false,
+            alert: false,
+            hasError: false,
+            openinghourserrors: '',
+        })
+    }
     loaded = () => {
         if(this.props.dashboard.updated){
             this.setState({
@@ -98,7 +145,7 @@ class Edit extends Component {
                 contactemail: this.props.dashboard.restaurant.contactemail,
                 website: this.props.dashboard.restaurant.website,
                 category: this.props.dashboard.restaurant.category.id,
-                openinghours: this.props.dashboard.restaurant.openinghours,
+                openinghours: JSON.parse(this.props.dashboard.restaurant.openinghours),
                 price: this.props.dashboard.restaurant.price.id,
                 primary_img: this.props.dashboard.restaurant.primary_img,
 
@@ -1311,6 +1358,7 @@ Edit.propTypes = {
     deleteRestaurantImage: PropTypes.func.isRequired,
     getRestaurant: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
+    clearRestaurant: PropTypes.func.isRequired,
 }
 const mapStateToProps = state => ({
     item: state.item,
@@ -1320,4 +1368,4 @@ const mapStateToProps = state => ({
     error : state.error,
     dashboard : state.dashboard
 })
-export default connect(mapStateToProps, { updateRestaurant, postPrimaryImg ,getRestaurant,clearErrors, deleteRestaurantImage, postRestaurantImages})(Edit)
+export default connect(mapStateToProps, { updateRestaurant, postPrimaryImg ,getRestaurant,clearErrors, clearRestaurant, deleteRestaurantImage, postRestaurantImages})(Edit)
