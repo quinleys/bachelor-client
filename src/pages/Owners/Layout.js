@@ -85,7 +85,7 @@ class Layout extends Component {
     }
     onChangeSelectedRoom = ( e, id ) => {
       
-        if(e.target.value !== 'please select a room'){
+        if(e.target.value !== 'please select a layout'){
             this.setState({
                 errormsg: '',
                 update:false
@@ -283,7 +283,7 @@ class Layout extends Component {
                                                 <React.Fragment>
                                                 <Label for="persons">Welke layout?</Label>
                                                 <Input type="select" name="selectedRoom" id="selectedRoom" defaultValue={room.layout_id} onChange={(e) => this.onChangeSelectedRoom(e,room.id)}>
-                                                  <option > please select a room </option>
+                                                  <option > please select a layout </option>
                                                   { allLayouts ?
                                                     allLayouts.map(m => {
                                                         return(
@@ -383,7 +383,7 @@ class Layout extends Component {
                                                 
                                                 <SaveIcon />
                                               
-                                            </Button> :   <Button onClick={() => this.makeActiveNow(m.id)}> <DeleteIcon /></Button>}
+                                            </Button> :   <Button onClick={() => this.makeActiveNow(m.id)}> <VisibilityIcon /></Button>}
                                             
                                             <Button className="mx-2 buttoneditpencil">
                                                 <Link to={`/dashboard/layout/room/edit:${m.id}`}>
