@@ -36,7 +36,7 @@ export default function (state = initialState, action ){
             };
         case LOGIN_TOKEN:
             localStorage.setItem('token', action.payload.token);
-            
+            console.log('token', action.payload.token)
             return {
                 ...state,
                 ...action.payload,
@@ -59,7 +59,7 @@ export default function (state = initialState, action ){
             };
         case LOGIN_SUCCES:
         case REGISTER_SUCCES:
-           
+            console.log('token', action.payload.access_token)
          
             localStorage.setItem('user-email', action.payload.user.email);
             localStorage.setItem('id', action.payload.user.id);

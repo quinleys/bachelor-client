@@ -63,7 +63,8 @@ class Edit extends Component {
             deleteCarousel: false,
             addProfile: false,
             alert: false,
-            hasError: false
+            hasError: false,
+            openinghourserrors: '',
 
         }
         this.onFormSubmitPrimaryImg = this.onFormSubmitPrimaryImg.bind(this)
@@ -352,25 +353,64 @@ class Edit extends Component {
         let newopeninghours = JSON.parse(JSON.stringify(this.state.openinghours));
         if(string[2] == 0){
            if(e.target.value < newopeninghours[0][string[0]][string[1]].split('-')[1] ){
-            let newvalue = e.target.value + '-' + newopeninghours[0][string[0]][string[1]].split('-')[1];
+               if(string[1] > 0){
+                   let minus = string[1] - 1;
+                   if(e.target.value > newopeninghours[0][string[0]][minus].split('-')[1]){
+                    let newvalue = e.target.value + '-' + newopeninghours[0][string[0]][string[1]].split('-')[1];
             newopeninghours[0][string[0]][string[1]] = newvalue;
+            this.setState({
+                openinghourserrors: ''
+            })
+                   }else{
+                    this.setState({
+                        openinghourserrors: 'Shifts mogen niet overlapen'
+                    })
+                   }
+                  
+               }else {
+                let newvalue = e.target.value + '-' + newopeninghours[0][string[0]][string[1]].split('-')[1];
+                newopeninghours[0][string[0]][string[1]] = newvalue;
+
                 this.setState({
-                    errormsg: ''
+                    openinghourserrors: ''
                 })
+               }
+          
+                
             
         }else{
             this.setState({
-                errormsg: 'Uur moet vroeger zijn dan het laatste tijdstip'
+                openinghourserrors: 'Uur moet vroeger zijn dan het laatste tijdstip'
             })
         }
         }
         if(string[2] == 1){
             if(e.target.value > newopeninghours[0][string[0]][string[1]].split('-')[0]  ){
-            let newvalue = newopeninghours[0][string[0]][string[1]].split('-')[0]  + '-' +  e.target.value;
-            newopeninghours[0][string[0]][string[1]] = newvalue;
+                if(newopeninghours[0][string[0]].length > 0 && string[1] < newopeninghours[0][string[0]].length - 1 ){
+                    
+                    let minus = parseInt(string[1] );
+                    if(e.target.value < newopeninghours[0][string[0]][minus + 1].split('-')[0]){
+                        let newvalue = newopeninghours[0][string[0]][string[1]].split('-')[0]  + '-' +  e.target.value;
+                        newopeninghours[0][string[0]][string[1]] = newvalue;
+                        this.setState({
+                            openinghourserrors: ''
+                        })
+                    }else{
+                        this.setState({
+                            openinghourserrors: 'Shifts mogen niet overlapen'
+                        })
+                    }
+                }else{
+                    let newvalue = newopeninghours[0][string[0]][string[1]].split('-')[0]  + '-' +  e.target.value;
+                    newopeninghours[0][string[0]][string[1]] = newvalue;
+                    this.setState({
+                        openinghourserrors: ''
+                    })
+                }
+
             }else{
                 this.setState({
-                    errormsg: 'Uur moet later zijn dan het eerste tijdstip'
+                    openinghourserrors: 'Uur moet later zijn dan het eerste tijdstip'
                 })
             }
         }
@@ -741,12 +781,16 @@ class Edit extends Component {
                                 id="panel1a-header"
                                 >
                                 <Typography >Openingsuren</Typography>
+
                                 </AccordionSummary>
                                 <AccordionDetails>
-                                    
+                               
                                 <FormGroup style={{width: '100%'}}>
-                               <div className="row my-3" style={{width: "100%"}}>
-                                    <div className="row" style={{width: "100%"}}>
+                                <div className="row w-100">
+                                {this.state.openinghourserrors ? <Alert className="my-2 w-100" severity="error">{this.state.openinghourserrors}</Alert>  : null }
+                                </div> 
+                               <div className="row my-3 w-100" >
+                                    <div className="row w-100" >
                                         <div className="col">
                             <Label for="monday">Maandag</Label>
                             </div>
@@ -756,7 +800,7 @@ class Edit extends Component {
                             </div>
                             {this.state.openinghours[0].monday.length >= 1 ?
                             this.state.openinghours[0].monday.map((m,i) => 
-                            <div key={i} className="row my-2" style={{width: "100%"}}>
+                            <div key={i} className="row my-2 w-100" >
                                
                                 Shift {i + 1}
                                 

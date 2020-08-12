@@ -14,6 +14,7 @@ class Logout extends Component {
     render() {
         return (
             <Fragment>
+                
                 <div onClick={this.props.logout} >
                 <Trans i18nKey="logout"></Trans>
                 </div>
