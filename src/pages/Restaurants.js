@@ -112,6 +112,7 @@ class Restaurants extends Component {
                 {"id" : 5 , "value" : 5 , "title": "5 personen"},
                 {"id" : 6 , "value" : 6 , "title": "6 personen"},
                 {"id" : 7 , "value" : 7 , "title": "7 personen"},
+                {"id" : 8 , "value" : 8, "title": "8 personen"},
             ],
             filterAantalPrijs: [
                 {"id":1 , "value" : 1 , "title": "Goedkoop"},
@@ -634,13 +635,18 @@ class Restaurants extends Component {
 
 
     loadNextPage = e => {
-    
+        console.log(e);
         let page = this.props.item.page.current_page + 1;
         this.setState({
             pageUrl: e
         })
+        console.log(this.state.filterUrl + '?&page=' + e)
+        if(this.state.checkBoxfilters.length == 0 ){
+            this.props.getItems(this.state.filterUrl + '?&page=' + e )
+        }else {
+            this.props.getItems(this.state.filterUrl + '&page=' + e )
+        }
 
-        this.props.getItems(this.state.filterUrl + '?&page=' + e )
 
         
     }
@@ -884,6 +890,8 @@ class Restaurants extends Component {
                                                 <option>4</option>
                                                 <option>5</option>
                                                 <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
                                                 </Input>
                                                 <Button 
                                                 className="mb-2 mt-2"
@@ -1228,6 +1236,8 @@ class Restaurants extends Component {
                                                 <option>4</option>
                                                 <option>5</option>
                                                 <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
                                                 </Input>
                                                 <Button 
                                                 className="mb-2 mt-2 noradius"
@@ -1557,7 +1567,8 @@ class Restaurants extends Component {
                                  <div className="col-12"> <p><Trans i18nKey="noitemsfound"></Trans></p></div></div>}
                                               <div className="row mt-5">
                                                   <div className="mx-auto">
-                                              {this.props.item.page && items.length > 1?
+                                                  {console.log(this.props.item.page.total)}
+                                              {this.props.item.page && items.length > 1 && this.props.item.page.total > 10 ?
           
                                               <Pagination
                                               activePage={this.props.item.page.current_page}

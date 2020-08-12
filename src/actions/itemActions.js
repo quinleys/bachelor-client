@@ -9,6 +9,7 @@ export const getItems = url => (dispatch) => {
     dispatch(setItemsLoading());
     axios.get( "https://quinten.staging.7.web.codedor.online/api"+ '/restaurant/all' + url )
     .then(res => {
+        console.log(res)
             dispatch({ 
                 type: GET_ITEMS, 
                 payload: res.data
