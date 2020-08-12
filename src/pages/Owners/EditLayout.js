@@ -535,7 +535,7 @@ onChangeRect = e =>{
                 <Container>
                      { layout == 'Not allowed' ? <NotAllowed /> : 
                     <div>
-                   {console.log(this.props.dashboard)}
+               
                     { layout.title && !loading && this.state.setStateCorrect ? this.setStateCorrect() : null}
                     <div className="row">
                        
@@ -619,7 +619,7 @@ onChangeRect = e =>{
                             <h5>Kamer</h5> 
                             <Label for="persons">Welke kamer?</Label>
                                                 <Input type="select" name="selectedRoom" id="selectedRoom" onChange={this.onChangeSelectedRoom}>
-                                                {console.log(this.props.dashboard.allRooms)}
+                               
                                                   <option value=''> Kies een kamer </option>
                                                   { this.props.dashboard.allRooms ?
                                                     this.props.dashboard.allRooms.map(m => {

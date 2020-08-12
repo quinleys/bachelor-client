@@ -490,7 +490,7 @@ onChangeRect = e =>{
                     <h1>Maak een nieuwe layout!</h1>
                     </div>
                     <div className="col">
-                        {console.log(this.state.tables.length, this.state.tables)}
+                    
                     <Button className="floatright" disabled={this.state.errormsg || this.state.title == '' || this.state.tables.length == 0 } onClick={this.saveLayout}>Opslaan!</Button>
                     </div>
                 </div>

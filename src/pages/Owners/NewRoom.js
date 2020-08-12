@@ -140,7 +140,7 @@ class NewRoom extends Component {
           if(this.state.walls.length > 4){
             let filteredArray = this.state.walls.filter(item => 
                 item.id != id )
-                console.log(filteredArray)
+          
                 this.setState({
                     walls: filteredArray,
                     error: ''
