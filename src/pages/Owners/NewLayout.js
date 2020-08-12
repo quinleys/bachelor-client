@@ -21,6 +21,7 @@ import { Redirect } from 'react-router-dom';
 import Alert from '@material-ui/lab/Alert';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { Link } from 'react-router-dom';
+import { getLayouts} from '../../actions/dashboardActions'
 class URLImage extends React.Component {
     state = {
       image: null
@@ -107,6 +108,8 @@ class TransformerComponent extends React.Component {
           ref={node => {
             this.transformer = node;
           }}
+          enabledAnchors= {['top-left', 'top-right', 'bottom-left', 'bottom-right']}
+          rotateEnabled={false}
         />
       );
     }
@@ -142,6 +145,7 @@ class NewLayout extends Component {
             selectedShapeName: "",
             selectedRect: [],
             errormsg:'',
+            tafelerror: '',
             selectedRoom: []
                 /* { id: 1, walls:[
                     [{"id": 1, "point1": 0, "point2": 0}, {"id": 2, "point1": 800, "point2": 0}, {"id": 3, "point1": 800, "point2": 800}, {"id": 4, "point1": 0, "point2": 800}]
@@ -182,6 +186,7 @@ class NewLayout extends Component {
         this.props.getTables()
         this.props.getExtras()
         this.props.getRooms(localStorage.getItem('restaurant_id'))
+        this.props.getLayouts(localStorage.getItem('restaurant_id'));
     }
     componentWillUnmount(){
         this.props.forgetLayout()
@@ -228,6 +233,7 @@ class NewLayout extends Component {
      
         this.setState({
             tables: this.state.tables.concat(newTable),
+            tafelerror: ''
             
       })
     }
@@ -303,13 +309,13 @@ class NewLayout extends Component {
                 item.id != e.target.value )
                 this.setState({
                     tables: filteredArray,
-                    errorTables: ''
+                    tafelerror: ''
                 });
                
                 
           }else{
               this.setState({
-                errorTables: 'you need to have atleast 1 table'
+                tafelerror: 'you need to have atleast 1 table'
               })
           }
     }
@@ -476,7 +482,7 @@ onChangeRect = e =>{
         ) - 0.2;
         return (
             <div className="dashboard">
-            { allRooms  ? 
+            { allRooms && !this.props.dashboard.dashboardloading ? 
             <Container>
              { this.props.layout.madeNew  ? <Redirect  to={`/dashboard/layout`} /> : null  }
                 <div className="row">
@@ -484,7 +490,8 @@ onChangeRect = e =>{
                     <h1>Maak een nieuwe layout!</h1>
                     </div>
                     <div className="col">
-                    <Button className="floatright" disabled={this.state.errormsg || this.state.title == ''} onClick={this.saveLayout}>Opslaan!</Button>
+                        {console.log(this.state.tables.length, this.state.tables)}
+                    <Button className="floatright" disabled={this.state.errormsg || this.state.title == '' || this.state.tables.length == 0 } onClick={this.saveLayout}>Opslaan!</Button>
                     </div>
                 </div>
                 <div className="row justify-content-between my-2">
@@ -593,6 +600,7 @@ onChangeRect = e =>{
                             >
                             <Typography >Voeg tafels toe</Typography>
                             </AccordionSummary>
+                            { this.state.tafelerror ? <Alert severity="error"> {this.state.tafelerror}</Alert> : null }
                             <div className="row">
                                
                                     <Label for="persons">Welke tafel?</Label>
@@ -810,7 +818,8 @@ NewLayout.propTypes = {
     extra: PropTypes.object.isRequired,
     layout: PropTypes.object.isRequired,
     forgetLayout: PropTypes.func.isRequired,
-    dashboard: PropTypes.object.isRequired
+    dashboard: PropTypes.object.isRequired,
+    getLayouts: PropTypes.func.isRequired
 }
 const mapStateToProps = state => ({
     table: state.table,
@@ -819,4 +828,4 @@ const mapStateToProps = state => ({
     layout: state.layout,
     dashboard: state.dashboard
 })
-export default connect(mapStateToProps, { getTables, getExtras, getRooms, getRoom, forgetLayout, addLayout})(NewLayout)
+export default connect(mapStateToProps, { getTables, getExtras, getRooms, getRoom, forgetLayout, getLayouts, addLayout})(NewLayout)

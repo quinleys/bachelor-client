@@ -153,6 +153,7 @@ class EditLayout extends Component {
             selectedRect: [],
             errormsg:'',
             selectedRoom: [],
+            tafelerror: '',
             scale: 1
       
           
@@ -251,6 +252,7 @@ class EditLayout extends Component {
        
         this.setState({
             tables: this.state.tables.concat(newTable),
+            tafelerror: '',
             
       })
     }
@@ -330,13 +332,13 @@ class EditLayout extends Component {
                 item.id != id )
                 this.setState({
                     tables: filteredArray,
-                    errorTables: ''
+                    tafelerror: ''
                 });
                
                 
           }else{
               this.setState({
-                errorTables: 'you need to have atleast 1 table'
+                tafelerror: 'you need to have atleast 1 table'
               })
           }
     }
@@ -650,6 +652,7 @@ onChangeRect = e =>{
                                 >
                                 <Typography >Voeg tafels toe</Typography>
                                 </AccordionSummary>
+                                { this.state.tafelerror ? <Alert severity="error"> {this.state.tafelerror}</Alert> : null }
                                 <div className="row">
                                 <Label for="tafel">Welke tafel?</Label>
                                 </div>
