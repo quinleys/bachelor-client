@@ -543,7 +543,7 @@ onChangeRect = e =>{
                         <h1>Bewerk uw tafel-layout!</h1>
                         </div>
                         <div className="col">
-                        <Button className="floatright" disabled={this.state.errormsg || this.state.title == ''} onClick={this.saveLayout}>Opslaan!</Button>
+                        <Button className="floatright" disabled={this.state.errormsg || this.state.title == '' || this.state.tables.length == 0 } onClick={this.saveLayout}>Opslaan!</Button>
                         </div>
                     </div>
                     <div className="row justify-content-between my-2">
